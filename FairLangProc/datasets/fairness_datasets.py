@@ -130,7 +130,8 @@ def defaultReader(path: str) -> pd.DataFrame:
     return data
 
 
-readers = {ext:  globals()[ext + 'Reader'] for ext in extensions} 
+this_module = sys.modules[__name__]
+readers = {ext: getattr(this_module, ext + 'Reader') for ext in extensions}
 
 
 #=======================================================================
@@ -597,7 +598,7 @@ def BiasDataLoader(
         dataset: str = None,
         config = None,
         format: str = 'hf'
-    ) -> dict[str, Union[pd.DataFrame, List[str], pt_Dataset, hf_Dataset]]:
+    ) -> dict[str, Union[pd.DataFrame, list[str], pt_Dataset, hf_Dataset]]:
     """
     Function that loads the specified data set
 
@@ -611,7 +612,10 @@ def BiasDataLoader(
 
     """
 
-    _handlers = {name: globals()[re.sub('[^a-zA-Z]', '', name) + 'Handler'] for name in getDatasets()}
+    _handlers = {
+        name: getattr(this_module, re.sub('[^a-zA-Z]', '', name) + 'Handler')
+        for name in getDatasets()
+    }
     _too_big = ['RealToxicityPrompts']
     _not_implemented = ['Bias-NLI', 'Equity-Evaluation-Corpus', 'Grep-BiasIR', 'HONEST', 'PANDA', 'RealToxicityPrompts', 'RedditBias', 'TrustGPT', 'UnQover' 'WinoGender', 'WinoQueer']
     _need_config = ['BBQ', 'BEC', 'BOLD', 'BUG', 'HolisticBias', 'StereoSet', 'WinoBias']

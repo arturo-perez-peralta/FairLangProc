@@ -9,11 +9,11 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-lm.tokenizer = TypeVar("lm.tokenizer", bound="PreTrainedTokenizer")
+lm_tokenizer = TypeVar("lm_tokenizer", bound="PreTrainedTokenizer")
 
 def MaskProbability(
     model: nn.Module,
-    tokenizer: lm.tokenizer,
+    tokenizer: lm_tokenizer,
     sentences: list[str],
     target_words: list[str],
     mask_indices: list[int],
@@ -67,7 +67,7 @@ def MaskProbability(
 
 def MaskProbabilityQuotient(
     model: nn.Module,
-    tokenizer: tokenizer,
+    tokenizer: lm_tokenizer,
     sentences: list[str],
     target_words: list[tuple[str]],
     fill_words: list[str],
@@ -118,7 +118,7 @@ def MaskProbabilityQuotient(
 
 def LPBS(
     model: nn.Module,
-    tokenizer: lm.tokenizer,
+    tokenizer: lm_tokenizer,
     sentences: list[str],
     target_words: list[tuple[str]],
     fill_words: list[str],
@@ -151,7 +151,7 @@ def LPBS(
 
 def CBS(
     model: nn.Module,
-    tokenizer: lm.tokenizer,
+    tokenizer: lm_tokenizer,
     sentences: list[str],
     target_words: list[tuple[str]],
     fill_words: list[str],
@@ -268,7 +268,7 @@ def MaskedPseudoLogLikelihood(
 
 def CPS(
     model: nn.Module,
-    tokenizer: lm.tokenizer,
+    tokenizer: lm_tokenizer,
     sentences: list[str],
     target_words: list[str]
     ) -> list[float]:
@@ -365,7 +365,7 @@ def UnMaskedPseudoLogLikelihood(
 
 def AUL(
     model: nn.Module,
-    tokenizer: lm.tokenizer,
+    tokenizer: lm_tokenizer,
     sentences: list[str]
     ) -> list[float]:
 

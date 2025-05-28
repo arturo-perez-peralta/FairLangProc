@@ -7,7 +7,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-lm.tokenizer = TypeVar("lm.tokenizer", bound="PreTrainedTokenizer")
+lm_tokenizer = TypeVar("lm_tokenizer", bound="PreTrainedTokenizer")
 
 #===================================================================================
 #              Embedding based Regularizer
@@ -20,7 +20,7 @@ class EmbeddingBasedRegularizer(nn.Module, ABC):
 
     Args:
         model (nn.Module):              A language model
-        tokenizer (lm.tokenizer):       tokenizer of the model
+        tokenizer (lm_tokenizer):       tokenizer of the model
         word_pairs (list[tuple[str]]):  List of tuples of counterfactual pairs whose embeddings should be close together
                                         (e.g. daughter and son, he and she,...)
         ear_reg_strength (float):       hyper-parameter containing the strength of the regularization term
@@ -29,7 +29,7 @@ class EmbeddingBasedRegularizer(nn.Module, ABC):
     def __init__(
         self,
         model: nn.Module,
-        tokenizer: lm.tokenizer,
+        tokenizer: lm_tokenizer,
         word_pairs: list[tuple[str]],
         ear_reg_strength: float = 0.01
         ):

@@ -1,4 +1,3 @@
-from FairnessProcessors.utils import *
-from FairnessProcessors.Preprocessors import *
-from FairnessProcessors.Inprocessors import *
-from FairnessProcessors.Intraprocessors import *
+from FairLangProc.algorithms.inprocessors import *
+from FairLangProc.algorithms.intraprocessors import *
+from FairLangProc.algorithms.preprocessors import *

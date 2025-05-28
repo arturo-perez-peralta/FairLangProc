@@ -1,1 +1,1 @@
-from FairnessDatasets import *
+from FairLangProc.datasets.fairness_datasets import *

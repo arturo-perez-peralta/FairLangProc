@@ -11,10 +11,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-# hugging face
-from transformers import Tokenizer
-
-lm.tokenizer = TypeVar("lm.tokenizer", bound = "PreTrainedTokenizer")
+lm_tokenizer = TypeVar("lm_tokenizer", bound = "PreTrainedTokenizer")
 
 
 class WEAT(ABC):
@@ -30,7 +27,7 @@ class WEAT(ABC):
     def __init__(
         self,
         model: nn.Module,
-        tokenizer: lm.tokenizer,
+        tokenizer: lm_tokenizer,
         device: str='cuda'
         ):
         self.model = model

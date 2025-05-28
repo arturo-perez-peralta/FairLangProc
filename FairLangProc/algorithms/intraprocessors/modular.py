@@ -22,7 +22,7 @@ class DiffPrunedDebiasing(nn.Module, ABC):
         input_ids_B (torch.Tensor): Tensor with ids of text with demographic information of group B
         lambda_sparse (float):      Weight for sparsity loss
         lambda_bias (float):        Weight for bias mitigation loss
-        bias_kernel (float):        Kernel for the embeddings of the bias loss. If None, defaults to the identity
+        bias_kernel (Callable):     Kernel for the embeddings of the bias loss. If None, defaults to the identity
         zeta (float):               Temperature for concrete relaxation
         gamma (float):              Parameter for concrete relaxation
         beta (float):               Parameter for concrete relaxation
@@ -34,7 +34,7 @@ class DiffPrunedDebiasing(nn.Module, ABC):
         input_ids_B: torch.Tensor,
         lambda_sparse: float = 1.0,
         lambda_bias: float = 1.0,
-        bias_kernel:  = None,
+        bias_kernel: Callable = None,
         zeta=1.1,
         gamma=-0.1,
         beta=1.0

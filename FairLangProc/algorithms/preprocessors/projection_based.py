@@ -5,7 +5,7 @@ from typing import TypeVar, Optional, Union
 from abc import abstractmethod, ABC
 
 # External dependencies
-from numpy import np
+import numpy as np
 from sklearn.decomposition import PCA
 
 # Pytorch
@@ -15,7 +15,7 @@ import torch.nn as nn
 # Hugging Face
 from transformers import AutoModel, AutoModelForSequenceClassification, AutoTokenizer
 
-lm.tokenizer = TypeVar("lm.tokenizer", bound = "PreTrainedTokenizer")
+lm_tokenizer = TypeVar("lm_tokenizer", bound = "PreTrainedTokenizer")
 
 
 class SentDebiasModel(nn.Module, ABC):
@@ -25,7 +25,7 @@ class SentDebiasModel(nn.Module, ABC):
     Args:
         model (nn.Module):              language model used
         config (str):                   Optional, configuration to use when using AutoModel
-        tokenizer (lm.tokenizer):       Tokenizer associated with the model
+        tokenizer (lm_tokenizer):       Tokenizer associated with the model
         word_pairs (list[tuple[str]]):  list of counterfactual tuples (might be words, sentences,...)
         n_components (int):             number of components of the bias subspace
         device (str):                   device to run the model on
@@ -35,7 +35,7 @@ class SentDebiasModel(nn.Module, ABC):
         self,
         model: Union[nn.Module, str],
         config: Optional[str] = None,
-        tokenizer: Optional[lm.tokenizer] = None,
+        tokenizer: Optional[lm_tokenizer] = None,
         word_pairs: list[tuple] = None,
         n_components: int = 1,
         device: str = None
