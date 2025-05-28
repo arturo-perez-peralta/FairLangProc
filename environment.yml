@@ -1,0 +1,11 @@
+name: FairLLM
+
+dependencies:
+  - datasets
+  - matplotlib
+  - numpy
+  - pandas
+  - scikit-learn
+  - pip:
+      - adapters
+      - transformers
