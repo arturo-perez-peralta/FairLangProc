@@ -44,12 +44,12 @@ We have developed the package with extensibility in mind. This library is still 
 
 ## Supported bias mitigation algorithms
 
-* Counterfactual Data Augmentation (CDA) ([Webster et al. 2020](https://arxiv.org/abs/2010.06032)))
+* Counterfactual Data Augmentation (CDA) ([Webster et al. 2020](https://arxiv.org/abs/2010.06032))
 * Projection based debiasing ([Bolukbasi et al., 2023](https://arxiv.org/abs/1607.06520))
-* Bias removaL wIth No Demographics (BLIND) ([Orgad et al., 2023](https://aclanthology.org/2023.acl-long.490/)))
-* Adapter-based DEbiasing of LanguagE models ([Lauscher et al., 2021](https://arxiv.org/abs/2109.03646)))
+* Bias removaL wIth No Demographics (BLIND) ([Orgad et al., 2023](https://aclanthology.org/2023.acl-long.490/))
+* Adapter-based DEbiasing of LanguagE models ([Lauscher et al., 2021](https://arxiv.org/abs/2109.03646))
 * Modular Debiasing with Diff Subnetworks ([Hauzenberger et al., 2023](https://aclanthology.org/2023.findings-acl.386/))
-* Entropy Attention Temperature (EAT) scaling ([Zayed et al., 2023](https://arxiv.org/abs/2305.13088)
+* Entropy Attention Temperature (EAT) scaling ([Zayed et al., 2023](https://arxiv.org/abs/2305.13088))
 * Entropy Attention Regularizer (EAR) ([Attanasio et al., 2022](https://arxiv.org/abs/2203.09192))
 * Embedding based regularizer ([Liu et al., 2020](https://arxiv.org/abs/1910.10486))
 * Selective unfreezing ([Gira et al., 2024](https://aclanthology.org/2022.ltedi-1.8/))
