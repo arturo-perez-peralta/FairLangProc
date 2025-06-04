@@ -11,7 +11,11 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-lm_tokenizer = TypeVar("lm_tokenizer", bound = "PreTrainedTokenizer")
+# hugging face
+from transformers import PreTrainedTokenizer
+
+# Fixed TypeVar definition
+TokenizerType = TypeVar("TokenizerType", bound=PreTrainedTokenizer)
 
 
 class WEAT(ABC):
@@ -20,15 +24,15 @@ class WEAT(ABC):
     
     Args:
         model (nn.Module):     PyTorch model (e.g., BERT, GPT from HuggingFace)
-        tokenizer (tokenizer): Corresponding tokenizer
+        tokenizer (TokenizerType): Corresponding tokenizer
         device (str):          Device to run computations on
     """
 
     def __init__(
         self,
         model: nn.Module,
-        tokenizer: lm_tokenizer,
-        device: str='cuda'
+        tokenizer: TokenizerType,
+        device: str = 'cuda'
         ):
         self.model = model
         self.tokenizer = tokenizer
@@ -86,24 +90,35 @@ class WEAT(ABC):
         Returns:
             Effect size (float)
         """
-        # Compute similarities
-        x_a = self.cosine_similarity(X, A).mean()
-        x_b = self.cosine_similarity(X, B).mean()
-        y_a = self.cosine_similarity(Y, A).mean()
-        y_b = self.cosine_similarity(Y, B).mean()
+        # Compute similarities for each target word with all attribute words
+        x_a_sims = self.cosine_similarity(X, A)  # (n_X, n_A)
+        x_b_sims = self.cosine_similarity(X, B)  # (n_X, n_B)
+        y_a_sims = self.cosine_similarity(Y, A)  # (n_Y, n_A)
+        y_b_sims = self.cosine_similarity(Y, B)  # (n_Y, n_B)
         
-        # Difference in mean similarities
-        diff_x = x_a - x_b
-        diff_y = y_a - y_b
+        # Mean similarity for each target word with each attribute set
+        x_a_mean = x_a_sims.mean(dim=1)  # (n_X,)
+        x_b_mean = x_b_sims.mean(dim=1)  # (n_X,)
+        y_a_mean = y_a_sims.mean(dim=1)  # (n_Y,)
+        y_b_mean = y_b_sims.mean(dim=1)  # (n_Y,)
+        
+        # Difference for each target word
+        x_diffs = x_a_mean - x_b_mean  # (n_X,)
+        y_diffs = y_a_mean - y_b_mean  # (n_Y,)
+        
+        # Mean differences
+        mean_x_diff = x_diffs.mean()
+        mean_y_diff = y_diffs.mean()
         
         # Pooled standard deviation
-        x_diffs = self.cosine_similarity(X, A) - self.cosine_similarity(X, B)
-        y_diffs = self.cosine_similarity(Y, A) - self.cosine_similarity(Y, B)
-        std_x = x_diffs.std(unbiased=False)
-        std_y = y_diffs.std(unbiased=False)
-        pooled_std = torch.sqrt((std_x**2 + std_y**2) / 2)
+        all_diffs = torch.cat([x_diffs, y_diffs])
+        pooled_std = all_diffs.std(unbiased=False)
         
-        return ((diff_x - diff_y) / pooled_std).item()
+        # Avoid division by zero
+        if pooled_std == 0:
+            return 0.0
+            
+        return ((mean_x_diff - mean_y_diff) / pooled_std).item()
 
     def p_value(self, X: torch.Tensor, Y: torch.Tensor, 
                A: torch.Tensor, B: torch.Tensor, 
@@ -131,7 +146,7 @@ class WEAT(ABC):
             
             # Compute effect for this permutation
             effect = self.effect_size(X_perm, Y_perm, A, B)
-            if effect > observed_effect:
+            if abs(effect) > abs(observed_effect):  # Two-tailed test
                 count += 1
                 
         return (count + 1) / (n_perm + 1)  # Add 1 for smoothing
@@ -187,13 +202,14 @@ class WEAT(ABC):
         results['effect_size'] = effect
         if pval:
             p_val = self.p_value(X, Y, A, B, n_perm)
-            results['p_value']= p_val
+            results['p_value'] = p_val
         return results
 
 
 class BertWEAT(WEAT):
     """
-    class with implementation of _get_embedding for bidirectional transformers
+    Class with implementation of _get_embedding for bidirectional transformers
     """
     def _get_embedding(self, outputs):
-        return outputs.last_hidden_state[:, 0, :]
+        # Extract [CLS] token embedding and squeeze batch dimension
+        return outputs.last_hidden_state[:, 0, :].squeeze(0)

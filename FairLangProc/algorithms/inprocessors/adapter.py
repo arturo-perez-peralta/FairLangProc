@@ -1,6 +1,6 @@
 import torch
 import torch.nn as nn
-import adapters
+import adapter
 
 class DebiasAdapter(nn.Module):
     """
@@ -16,7 +16,7 @@ class DebiasAdapter(nn.Module):
         
         self.model = model
         # Add an adapter
-        adapters.init(self.model)
+        adapter.init(self.model)
         
         # Freeze the original model parameters to only train the adapter:
         self.model.add_adapter('debias_adapter', config = config)

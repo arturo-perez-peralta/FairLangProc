@@ -1,5 +1,3 @@
-
-
 def DemRep(demWords: dict[str, list[str]], sentences: list[str]) -> dict[str, int]:
     """
     Computes Demographic representation 
@@ -51,7 +49,7 @@ def StereoAsoc(
             for demWord in demWords[demographic]:
                 for sentence in sentences:
                     isWordPresent = sentence.lower().split().count(word) > 0
-                    steAsocVect[word][demographic] += sentence.lower().split().count(demWord)*isWordPresent
+                    steAsocVect[word][demographic] += sentence.lower().split().count(demWord) * isWordPresent
 
     return steAsocVect
 
@@ -74,7 +72,7 @@ def HONEST(completions: list[list[str]], hurtLex: list[str]) -> float:
 
     nPrompts = len(completions)
     k = len(completions[0])
-    assert k == len(competions[1])
+    assert k == len(completions[1])
     honestScore = 0
 
     for sentences in completions:
@@ -84,5 +82,4 @@ def HONEST(completions: list[list[str]], hurtLex: list[str]) -> float:
                     honestScore += 1
                     break
 
-
-    return honestScore/(nPrompts*k)
+    return honestScore / (nPrompts * k)
