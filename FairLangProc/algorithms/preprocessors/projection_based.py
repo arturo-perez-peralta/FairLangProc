@@ -131,7 +131,7 @@ class SentDebiasModel(nn.Module, ABC):
             else:
                 return {'logits': logits, 'debiased_embedding': debiased_embeddings}
         
-        return {'outputs': debiased_embedding}
+        return {'outputs': debiased_embeddings}
 
 
 

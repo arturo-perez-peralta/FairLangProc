@@ -1,3 +1,3 @@
-from FairLangProc.algorithms.inprocessors.adapter import *
-from FairLangProc.algorithms.inprocessors.selective_updating import *
-from FairLangProc.algorithms.inprocessors.regularizers import *
+from FairLangProc.algorithms.inprocessors.adapter import DebiasAdapter
+from FairLangProc.algorithms.inprocessors.regularizers import EmbeddingBasedRegularizer, EARModel
+from FairLangProc.algorithms.inprocessors.selective_updating import selective_unfreezing

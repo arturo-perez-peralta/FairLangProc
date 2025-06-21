@@ -1,1 +1,1 @@
-from FairLangProc.datasets.fairness_datasets import *
+from FairLangProc.datasets.fairness_datasets import BiasDataLoader
