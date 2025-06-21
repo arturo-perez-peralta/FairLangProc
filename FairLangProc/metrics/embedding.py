@@ -12,9 +12,6 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 
-__all__ = ['WEAT', 'BertWEAT']
-
-
 lm_tokenizer = TypeVar("lm_tokenizer", bound = "PreTrainedTokenizer")
 
 
