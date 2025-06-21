@@ -13,6 +13,15 @@ classifiers = [
   "License :: OSI Approved :: MIT License",
   "Operating System :: OS Independent",
 ]
+dependencies = [
+  "transformers",
+  "torch",
+  "numpy",
+  "datasets",
+  "pandas",
+  "scikit-learn",
+  "adapter-transformers"
+]
 
 [project.urls]
 "Homepage" = "https://github.com/arturo-perez-peralta/FairLangProc"
@@ -25,4 +34,3 @@ build-backend = "setuptools.build_meta"
 packages = ["FairLangProc"]
 
 [tool.setuptools.packages.find]
-where = ["."]
