@@ -7,7 +7,10 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-lm_tokenizer = TypeVar("lm_tokenizer", bound="PreTrainedTokenizer")
+# Custom
+from FairLangProc.algorithms.output import CustomOutput
+
+TokenizerType = TypeVar("TokenizerType", bound="PreTrainedTokenizer")
 
 #===================================================================================
 #              Embedding based Regularizer
@@ -20,7 +23,7 @@ class EmbeddingBasedRegularizer(nn.Module, ABC):
 
     Args:
         model (nn.Module):              A language model
-        tokenizer (lm_tokenizer):       tokenizer of the model
+        tokenizer (TokenizerType):       tokenizer of the model
         word_pairs (list[tuple[str]]):  List of tuples of counterfactual pairs whose embeddings should be close together
                                         (e.g. daughter and son, he and she,...)
         ear_reg_strength (float):       hyper-parameter containing the strength of the regularization term
@@ -29,13 +32,14 @@ class EmbeddingBasedRegularizer(nn.Module, ABC):
     def __init__(
         self,
         model: nn.Module,
-        tokenizer: lm_tokenizer,
+        tokenizer: TokenizerType,
         word_pairs: list[tuple[str]],
         ear_reg_strength: float = 0.01
         ):
         super().__init__()
         self.model = model
         self.ear_reg_strength = ear_reg_strength
+        self.word_pairs = word_pairs
 
         self.male_ids = tokenizer(
             [male for male, _ in self.word_pairs], return_tensors="pt", padding = True
@@ -62,14 +66,25 @@ class EmbeddingBasedRegularizer(nn.Module, ABC):
             labels = labels
         )
 
-        male_embeddings = self._get_embedding(self.male_ids)
-        female_embeddings = self._get_embedding(self.female_ids)
+        if labels is not None:
+            male_embeddings = self._get_embedding(self.male_ids)
+            female_embeddings = self._get_embedding(self.female_ids)
 
-        reg_loss = torch.sum(torch.pow(torch.sum(male_embeddings - female_embeddings, dim = 1), 2), dim = 0)
-        reg_loss *= self.ear_reg_strength
+            reg_loss = torch.sum(torch.pow(torch.sum(male_embeddings - female_embeddings, dim = 1), 2), dim = 0)
+            reg_loss *= self.ear_reg_strength
 
-        loss = reg_loss + output.loss
-        return {"output": output, "loss": loss}
+            loss = reg_loss + output.loss
+
+            return CustomOutput(
+                loss = loss,
+                logits = output.logits,
+                last_hidden_state = output.last_hidden_state
+            )
+        
+        return CustomOutput(
+            logits = output.logits,
+            last_hidden_state = output.last_hidden_state
+        )
 
     @abstractmethod
     def _get_embedding(self, inputs):
@@ -163,8 +178,18 @@ class EARModel(torch.nn.Module):
         negative_entropy = EntropyAttentionRegularizer(
             output.attentions, attention_mask
         )
-        reg_loss = self.ear_reg_strength * negative_entropy
-        loss = reg_loss + output.loss
 
-        return {"output": output, "loss": loss}
+        if labels is not None:
+            reg_loss = self.ear_reg_strength * negative_entropy
+            loss = reg_loss + output.loss
+            return CustomOutput(
+                loss = loss,
+                logits = output.logits,
+                last_hidden_state = output.last_hidden_state
+            )
+
+        return CustomOutput(
+                logits = output.logits,
+                last_hidden_state = output.last_hidden_state
+            )
 

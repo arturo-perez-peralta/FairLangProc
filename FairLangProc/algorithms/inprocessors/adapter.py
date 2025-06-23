@@ -26,7 +26,6 @@ class DebiasAdapter(nn.Module):
         """
         forward pass
         """
-
         # Forward pass is as usual; the adapters will be automatically applied
         outputs = self.model.forward(
             input_ids=input_ids,

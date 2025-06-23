@@ -10,6 +10,9 @@ import torch.nn.functional as F
 # Hugging Face
 from transformers import AutoModel, AutoTokenizer
 
+# Custom imports
+from FairLangProc.algorithms.output import CustomOutput
+
 
 
 class DiffPrunedDebiasing(nn.Module, ABC):
@@ -193,13 +196,11 @@ class DiffPrunedDebiasing(nn.Module, ABC):
                self.lambda_sparse * total_sparse_loss + \
                self.lambda_bias * bias_loss
         
-        return {
-            'loss': loss,
-            'original_loss': outputs.loss,
-            'sparse_loss': total_sparse_loss,
-            'bias_loss': bias_loss,
-            'logits': outputs.logits
-        }
+        return CustomOutput(
+            loss = loss,
+            logits = outputs.logits,
+            last_hidden_state = outputs.last_hidden_state
+        )
 
     def compute_sparse_loss(self):
         """

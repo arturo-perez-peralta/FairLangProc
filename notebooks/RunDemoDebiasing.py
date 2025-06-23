@@ -39,6 +39,11 @@ param_grid = [
 ]
 
 for i, params in enumerate(param_grid, 1):
+    print('='*50)
+    print(params["MODEL_NAME"])
+    print(params["TASK"])
+    print(params["DEBIAS"])
+    print('='*50)
     try:
         pm.execute_notebook(
             "notebooks/DemoDebiasing.ipynb",

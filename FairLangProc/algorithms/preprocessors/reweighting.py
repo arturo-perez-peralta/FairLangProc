@@ -13,7 +13,7 @@ import torch.nn.functional as F
 from transformers import AutoModel, AutoModelForSequenceClassification, AutoTokenizer
 
 # Custom imports
-sys.path.append('..')
+from FairLangProc.algorithms.output import CustomOutput
 
 
 
@@ -116,9 +116,16 @@ class BLINDModel(nn.Module, ABC):
             loss = None
         
         if loss is None:
-            return {"logits": logits, "logits BLIND": logits_BLIND}
+            return CustomOutput(
+                logits = logits,
+                last_hidden_state = embedding
+                )
         else:
-            return {"loss": loss, "logits BLIND": logits_BLIND, "logits": logits}
+            return CustomOutput(
+                loss = loss,
+                logits = logits,
+                last_hidden_state = embedding
+                )
 
 
 

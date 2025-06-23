@@ -1,4 +1,3 @@
-
 # Standard libraries
 import sys
 from typing import TypeVar, Optional, Union
@@ -15,7 +14,10 @@ import torch.nn as nn
 # Hugging Face
 from transformers import AutoModel, AutoModelForSequenceClassification, AutoTokenizer
 
-lm_tokenizer = TypeVar("lm_tokenizer", bound = "PreTrainedTokenizer")
+# Custom
+from FairLangProc.algorithms.output import CustomOutput
+
+TokenizerType = TypeVar("TokenizerType", bound = "PreTrainedTokenizer")
 
 
 class SentDebiasModel(nn.Module, ABC):
@@ -25,7 +27,7 @@ class SentDebiasModel(nn.Module, ABC):
     Args:
         model (nn.Module):              language model used
         config (str):                   Optional, configuration to use when using AutoModel
-        tokenizer (lm_tokenizer):       Tokenizer associated with the model
+        tokenizer (TokenizerType):       Tokenizer associated with the model
         word_pairs (list[tuple[str]]):  list of counterfactual tuples (might be words, sentences,...)
         n_components (int):             number of components of the bias subspace
         device (str):                   device to run the model on
@@ -35,7 +37,7 @@ class SentDebiasModel(nn.Module, ABC):
         self,
         model: Union[nn.Module, str],
         config: Optional[str] = None,
-        tokenizer: Optional[lm_tokenizer] = None,
+        tokenizer: Optional[TokenizerType] = None,
         word_pairs: list[tuple] = None,
         n_components: int = 1,
         device: str = None
@@ -127,11 +129,18 @@ class SentDebiasModel(nn.Module, ABC):
             
             if labels is not None:
                 loss = self._loss(logits, labels)
-                return {'logits': logits, 'debiased_embedding': debiased_embeddings, 'loss': loss}
+                return CustomOutput(
+                    logits = logits,
+                    loss = loss,
+                    last_hidden_state = debiased_embeddings
+                    )
             else:
-                return {'logits': logits, 'debiased_embedding': debiased_embeddings}
+                return CustomOutput(
+                    logits = logits,
+                    last_hidden_state = debiased_embeddings
+                    )
         
-        return {'outputs': debiased_embeddings}
+        return CustomOutput(last_hidden_state = debiased_embeddings)
 
 
 
