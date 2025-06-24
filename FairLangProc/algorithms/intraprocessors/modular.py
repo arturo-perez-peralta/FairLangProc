@@ -204,7 +204,7 @@ class DiffPrunedDebiasing(nn.Module, ABC):
 
     def compute_sparse_loss(self):
         """
-        Computation of sparse loss (\mathcal{L}^0) through the relaxed concrete distribution
+        Computation of sparse loss (mathcal{L}^0) through the relaxed concrete distribution
         """
         
         total_sparse_loss = 0.0

@@ -4,7 +4,6 @@ from typing import Optional
 from transformers.utils import ModelOutput
 import torch
 
-
 @dataclass
 class CustomOutput(ModelOutput):
     loss: Optional[torch.FloatTensor] = None

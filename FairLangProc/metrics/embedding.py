@@ -12,7 +12,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 
-lm_tokenizer = TypeVar("lm_tokenizer", bound = "PreTrainedTokenizer")
+TokenizerType = TypeVar("TokenizerType", bound = "PreTrainedTokenizer")
 
 
 class WEAT(ABC):
@@ -28,7 +28,7 @@ class WEAT(ABC):
     def __init__(
         self,
         model: nn.Module,
-        tokenizer: lm_tokenizer,
+        tokenizer: TokenizerType,
         device: str='cuda'
         ):
         self.model = model
