@@ -198,8 +198,7 @@ class DiffPrunedDebiasing(nn.Module, ABC):
         
         return CustomOutput(
             loss = loss,
-            logits = outputs.logits,
-            last_hidden_state = outputs.last_hidden_state
+            logits = outputs.logits
         )
 
     def compute_sparse_loss(self):

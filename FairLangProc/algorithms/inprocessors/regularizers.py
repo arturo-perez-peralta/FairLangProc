@@ -184,12 +184,10 @@ class EARModel(torch.nn.Module):
             loss = reg_loss + output.loss
             return CustomOutput(
                 loss = loss,
-                logits = output.logits,
-                last_hidden_state = output.last_hidden_state
+                logits = output.logits
             )
 
         return CustomOutput(
-                logits = output.logits,
-                last_hidden_state = output.last_hidden_state
+                logits = output.logits
             )
 
