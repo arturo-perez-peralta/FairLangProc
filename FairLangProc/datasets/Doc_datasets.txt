@@ -1,0 +1,96 @@
+## DOCUMENTACIÓN DE `FairnessDatasets.py`
+
+---
+
+### 1. USO
+
+Este script facilita la carga, procesamiento y conversión de múltiples conjuntos de datos relacionados con sesgos y equidad en modelos de lenguaje.
+
+#### Ejecución básica
+
+```python
+from FairnessDatasets import BiasDataLoader
+
+data = BiasDataLoader(dataset='BBQ', config='Race_ethnicity', format='hf')
+```
+
+#### Argumentos de `BiasDataLoader`
+
+* `dataset` (str): nombre del conjunto. Usa `getDatasets()` para ver opciones disponibles.
+* `config` (str): subconjunto específico del dataset (si aplica).
+* `format` (str): `'hf'` (Dataset de Hugging Face), `'pt'` (Dataset de PyTorch), o `'raw'`.
+
+#### Visualizar datasets disponibles
+
+```python
+from FairnessDatasets import getDatasets
+print(getDatasets())
+```
+
+---
+
+### 2. DESARROLLO
+
+#### Estructura General
+
+* Usa una **arquitectura modular** basada en funciones `Handler` específicas por dataset.
+* Los datos pueden leerse desde archivos `.csv`, `.tsv`, `.json`, `.jsonl`, `.zip`, `.py`, etc.
+* Compatible con **formato raw**, **HuggingFace Datasets** y **PyTorch Datasets**.
+
+#### Componentes clave
+
+| Componente         | Función                                                      |
+| ------------------ | ------------------------------------------------------------ |
+| `dataReader()`     | Lector universal por tipo de archivo                         |
+| `readFolder()`     | Lector recursivo de carpetas                                 |
+| `downloadData()`   | Descarga y lee datos de un conjunto dado                     |
+| `runProcess()`     | Ejecuta scripts `.py` de procesamiento asociado a un dataset |
+| `BiasDataLoader()` | Función principal para carga y normalización de datasets     |
+| `CustomDataset`    | Wrapper de PyTorch Dataset para `DataFrame`s                 |
+
+#### Nuevos datasets
+
+Para agregar un nuevo dataset:
+
+1. Añadir carpeta a `Fair-LLM-Benchmark/[nombre_dataset]/data`
+2. Incluir extensión permitida en `extensions`
+3. Crear una función `Handler`, por ejemplo:
+
+```python
+def NuevoDatasetHandler(data: str = '') -> pd.DataFrame:
+    path = obtainPath('NuevoDataset')
+    return csvReader(path + '/archivo.csv')
+```
+
+4. El `BiasDataLoader` lo detectará automáticamente si la función se llama `[DatasetName]Handler`.
+
+---
+
+### 3. EXPLORACIÓN
+
+#### Datasets disponibles
+
+Se reconocen automáticamente las carpetas dentro de `Fair-LLM-Benchmark`, con excepciones:
+
+* `not_redirect`: datasets que **no están disponibles**
+* `need_python`: necesitan correr un script `.py` para obtener datos
+
+#### Configuraciones especiales (`config`)
+
+Algunos datasets permiten especificar subconjuntos. Por ejemplo:
+
+```python
+BiasDataLoader(dataset='BOLD', config='prompts')
+```
+
+Ejemplos de datasets con `config`: `BBQ`, `BEC`, `BOLD`, `BUG`, `HolisticBias`, `StereoSet`, `WinoBias`.
+
+#### Conversión de formato
+
+Puedes cargar los datos en tres formatos:
+
+| Formato | Descripción                                    |
+| ------- | ---------------------------------------------- |
+| `'raw'` | Estructura original (dict o DataFrame)         |
+| `'hf'`  | Convertido a HuggingFace Dataset               |
+| `'pt'`  | Convertido a PyTorch Dataset (`CustomDataset`) |

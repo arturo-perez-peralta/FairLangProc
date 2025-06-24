@@ -1,2 +1,2 @@
-from FairLangProc.algorithms.intraprocessors.modular import *
-from FairLangProc.algorithms.intraprocessors.redistribution import *
+from FairnessProcessors.IntraProcessors.ModularDebiasing import *
+from FairnessProcessors.IntraProcessors.WeightRedistribution import *

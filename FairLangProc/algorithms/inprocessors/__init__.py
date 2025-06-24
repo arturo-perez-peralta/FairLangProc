@@ -1,3 +1,4 @@
-from FairLangProc.algorithms.inprocessors.adapter import *
-from FairLangProc.algorithms.inprocessors.selective_updating import *
-from FairLangProc.algorithms.inprocessors.regularizers import *
+from FairnessProcessors.Inprocessors.AdapterBased import *
+from FairnessProcessors.Inprocessors.ParameterFilter import *
+from FairnessProcessors.Inprocessors.Regularizers import *
+from FairnessProcessors.Inprocessors.SelectiveUpdating import *
