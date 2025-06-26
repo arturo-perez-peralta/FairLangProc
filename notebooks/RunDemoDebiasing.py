@@ -2,15 +2,15 @@ import papermill as pm
 
 MODELS = [
     'bert-base-uncased',
-    'deepseek-ai/deepseek-llm-7b-base',
-    'huggyllama/llama-7b'
+#    'deepseek-ai/deepseek-llm-7b-base',
+#    'huggyllama/llama-7b'
 ]
 
 TASKS = [
-    "cola",
-    "sst2",
-    "mrpc",
-    "stsb",
+#    "cola",
+#    "sst2",
+#    "mrpc",
+#    "stsb",
     "qqp",
     "mnli",
     "qnli",
