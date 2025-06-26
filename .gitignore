@@ -1,5 +1,5 @@
 **/__pycache__
 logs/
 output/
-tmp.ipynb
+tmp*.ipynb
 RunDemoEAT.py
