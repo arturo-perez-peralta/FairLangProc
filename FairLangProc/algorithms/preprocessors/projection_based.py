@@ -40,7 +40,8 @@ class SentDebiasModel(nn.Module, ABC):
         tokenizer: Optional[TokenizerType] = None,
         word_pairs: list[tuple] = None,
         n_components: int = 1,
-        device: str = None
+        device: str = None,
+        **kwargs_loss
     ):
 
         super().__init__()
@@ -67,7 +68,7 @@ class SentDebiasModel(nn.Module, ABC):
         self.n_components = n_components
         self.bias_subspace = self._compute_bias_subspace()
 
-        self._get_loss()
+        self._get_loss(**kwargs_loss)
 
 
     @abstractmethod
@@ -89,7 +90,7 @@ class SentDebiasModel(nn.Module, ABC):
         """
     
         if not self.tokenizer:
-            self.tokenizer = AutoTokenizer.from_pretrained(model)
+            self.tokenizer = AutoTokenizer.from_pretrained(self.model)
 
         male_tokens = self.tokenizer([male for male, _ in self.word_pairs], return_tensors="pt", padding = True)
         female_tokens = self.tokenizer([female for _, female in self.word_pairs], return_tensors="pt", padding = True)
@@ -150,8 +151,12 @@ class SentDebiasForSequenceClassification(SentDebiasModel):
     Implementation ready for sequence classification, lacks _get_embedding method
     """
 
-    def _get_loss(self):
-        self.loss_fct = nn.CrossEntropyLoss()
+    def _get_loss(self, n_labels):
+        self.n_labels = n_labels
+        if n_labels == 1:
+            self.loss_fct = nn.MSELoss()
+        else:
+            self.loss_fct = nn.CrossEntropyLoss()
 
     def _loss(self, logits, labels):
         loss = self.loss_fct(logits, labels)

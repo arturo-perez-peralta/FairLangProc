@@ -36,8 +36,8 @@ class BLINDModel(nn.Module, ABC):
         config: Optional[str] = None,
         gamma: float = 2.0,
         temperature: float = 1.0,
-        size_average: bool = True,
-        hidden_dim: int = 768
+        hidden_dim: int = 768,
+        **kwargs_loss
     ):
 
         super().__init__()
@@ -61,7 +61,7 @@ class BLINDModel(nn.Module, ABC):
 
         self.BLIND = nn.Linear(hidden_dim, 2)
 
-        self._get_loss()
+        self._get_loss(**kwargs_loss)
 
 
     @abstractmethod
@@ -139,8 +139,12 @@ class BLINDModelForClassification(BLINDModel):
     def _load_model(self, model, config):
         return AutoModelForSequenceClassification(model, config = config)
 
-    def _get_loss(self):
-        self.loss_fct = nn.CrossEntropyLoss(reduction='none')
+    def _get_loss(self, n_labels):
+        self.n_labels = n_labels
+        if n_labels == 1:
+            self.loss_fct = nn.MSELoss()
+        else:
+            self.loss_fct = nn.CrossEntropyLoss()
 
     def _loss(self, logits, labels):
         loss = self.loss_fct(logits, labels)

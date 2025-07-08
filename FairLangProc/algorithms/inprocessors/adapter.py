@@ -11,7 +11,11 @@ class DebiasAdapter(nn.Module):
         config (str):       Name of the adapter's configuration 
     """
 
-    def __init__(self, model: nn.Module, config = 'lora'):
+    def __init__(
+            self,
+            model: nn.Module,
+            config = 'lora'
+            ):
         super().__init__()
         
         self.model = model

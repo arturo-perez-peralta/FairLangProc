@@ -158,7 +158,11 @@ class EARModel(torch.nn.Module):
         ear_reg_strength (float):       hyper-parameter containing the strength of the regularization term
     """
 
-    def __init__(self, model, ear_reg_strength: float = 0.01):
+    def __init__(
+            self,
+            model: nn.Module,
+            ear_reg_strength: float = 0.01
+            ):
         super().__init__()
         self.model = model
         self.ear_reg_strength = ear_reg_strength

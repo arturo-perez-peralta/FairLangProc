@@ -32,7 +32,7 @@ class DiffPrunedDebiasing(nn.Module, ABC):
     """
     def __init__(
         self,
-        base_model: nn.Module,
+        model: nn.Module,
         input_ids_A: torch.Tensor,
         input_ids_B: torch.Tensor,
         lambda_sparse: float = 1.0,
@@ -43,7 +43,7 @@ class DiffPrunedDebiasing(nn.Module, ABC):
         beta=1.0
     ):
         super().__init__()
-        self.base_model = base_model
+        self.base_model = model
         self.lambda_sparse = lambda_sparse
         self.lambda_bias = lambda_bias
         self.zeta = zeta
