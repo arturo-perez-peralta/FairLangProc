@@ -11,11 +11,11 @@ TASKS = [
 #    "sst2",
 #    "mrpc",
 #    "stsb",
-    "qqp",
+#    "wnli",
+#    "rte",
+#    "qnli",
     "mnli",
-    "qnli",
-    "rte",
-    "wnli"
+    "qqp"
 ]
 
 DEBIAS_METHODS = [
@@ -37,6 +37,7 @@ param_grid = [
         "DEBIAS": debias
     } for model_name in MODELS for task in TASKS for debias in DEBIAS_METHODS
 ]
+
 
 for i, params in enumerate(param_grid, 1):
     print('='*50)
