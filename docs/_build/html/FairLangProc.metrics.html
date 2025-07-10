@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>FairLangProc.metrics package &#8212; FairLangProc 0.1.3 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="_static/basic.css?v=686e5160" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=27fed22d" />
+    <script src="_static/documentation_options.js?v=360bc84d"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="fairlangproc-metrics-package">
+<h1>FairLangProc.metrics package<a class="headerlink" href="#fairlangproc-metrics-package" title="Link to this heading">¶</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading">¶</a></h2>
+</section>
+<section id="module-FairLangProc.metrics.embedding">
+<span id="fairlangproc-metrics-embedding-module"></span><h2>FairLangProc.metrics.embedding module<a class="headerlink" href="#module-FairLangProc.metrics.embedding" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="FairLangProc.metrics.embedding.BertWEAT">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">FairLangProc.metrics.embedding.</span></span><span class="sig-name descname"><span class="pre">BertWEAT</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Module</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tokenizer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">TokenizerType</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'cuda'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/FairLangProc/metrics/embedding.html#BertWEAT"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#FairLangProc.metrics.embedding.BertWEAT" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#FairLangProc.metrics.embedding.WEAT" title="FairLangProc.metrics.embedding.WEAT"><code class="xref py py-class docutils literal notranslate"><span class="pre">WEAT</span></code></a></p>
+<p>class with implementation of _get_embedding for bidirectional transformers</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="FairLangProc.metrics.embedding.WEAT">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">FairLangProc.metrics.embedding.</span></span><span class="sig-name descname"><span class="pre">WEAT</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Module</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tokenizer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">TokenizerType</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'cuda'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/FairLangProc/metrics/embedding.html#WEAT"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#FairLangProc.metrics.embedding.WEAT" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
+<p>Class for handling WEAT metric with a PyTorch model and tokenizer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> (<em>nn.Module</em>) – PyTorch model (e.g., BERT, GPT from HuggingFace)</p></li>
+<li><p><strong>tokenizer</strong> (<em>tokenizer</em>) – Corresponding tokenizer</p></li>
+<li><p><strong>device</strong> (<em>str</em>) – Device to run computations on</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="FairLangProc.metrics.embedding.WEAT.cosine_similarity">
+<span class="sig-name descname"><span class="pre">cosine_similarity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tensor</span></span></span><a class="reference internal" href="_modules/FairLangProc/metrics/embedding.html#WEAT.cosine_similarity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#FairLangProc.metrics.embedding.WEAT.cosine_similarity" title="Link to this definition">¶</a></dt>
+<dd><p>Compute cosine similarity between two tensors.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="FairLangProc.metrics.embedding.WEAT.effect_size">
+<span class="sig-name descname"><span class="pre">effect_size</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">B</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/FairLangProc/metrics/embedding.html#WEAT.effect_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#FairLangProc.metrics.embedding.WEAT.effect_size" title="Link to this definition">¶</a></dt>
+<dd><p>Compute WEAT effect size.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> – Target concept 1 embeddings (n_X, dim)</p></li>
+<li><p><strong>Y</strong> – Target concept 2 embeddings (n_Y, dim)</p></li>
+<li><p><strong>A</strong> – Attribute 1 embeddings (n_A, dim)</p></li>
+<li><p><strong>B</strong> – Attribute 2 embeddings (n_B, dim)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Effect size (float)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="FairLangProc.metrics.embedding.WEAT.get_embeddings">
+<span class="sig-name descname"><span class="pre">get_embeddings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">words</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tensor</span></span></span><a class="reference internal" href="_modules/FairLangProc/metrics/embedding.html#WEAT.get_embeddings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#FairLangProc.metrics.embedding.WEAT.get_embeddings" title="Link to this definition">¶</a></dt>
+<dd><p>Get embeddings for a list of words using the LLM.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>words</strong> – List of words to embed</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Tensor of shape (num_words, embedding_dim)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="FairLangProc.metrics.embedding.WEAT.p_value">
+<span class="sig-name descname"><span class="pre">p_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">B</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_perm</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">10000</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/FairLangProc/metrics/embedding.html#WEAT.p_value"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#FairLangProc.metrics.embedding.WEAT.p_value" title="Link to this definition">¶</a></dt>
+<dd><p>Compute p-value using permutation test.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> – Embedding tensors</p></li>
+<li><p><strong>Y</strong> – Embedding tensors</p></li>
+<li><p><strong>A</strong> – Embedding tensors</p></li>
+<li><p><strong>B</strong> – Embedding tensors</p></li>
+<li><p><strong>n_perm</strong> – Number of permutations</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>p-value (float)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="FairLangProc.metrics.embedding.WEAT.run_test">
+<span class="sig-name descname"><span class="pre">run_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">W1_words</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">W2_words</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A1_words</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A2_words</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_perm</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">10000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pval</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/FairLangProc/metrics/embedding.html#WEAT.run_test"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#FairLangProc.metrics.embedding.WEAT.run_test" title="Link to this definition">¶</a></dt>
+<dd><p>Run complete WEAT.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>W1_words</strong> – Target concept 1 words</p></li>
+<li><p><strong>W2_words</strong> – Target concept 2 words</p></li>
+<li><p><strong>A1_words</strong> – Attribute 1 words</p></li>
+<li><p><strong>A2_words</strong> – Attribute 2 words</p></li>
+<li><p><strong>n_perm</strong> – Number of permutations for p-value</p></li>
+<li><p><strong>pval</strong> – Whether to compute or not the p-value</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dictionary with test results</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-FairLangProc.metrics.generated_text">
+<span id="fairlangproc-metrics-generated-text-module"></span><h2>FairLangProc.metrics.generated_text module<a class="headerlink" href="#module-FairLangProc.metrics.generated_text" title="Link to this heading">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="FairLangProc.metrics.generated_text.DemRep">
+<span class="sig-prename descclassname"><span class="pre">FairLangProc.metrics.generated_text.</span></span><span class="sig-name descname"><span class="pre">DemRep</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">demWords</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sentences</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/FairLangProc/metrics/generated_text.html#DemRep"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#FairLangProc.metrics.generated_text.DemRep" title="Link to this definition">¶</a></dt>
+<dd><p>Computes Demographic representation</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>demWords</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><em>list</em><em>[</em><em>str</em><em>]</em><em>]</em>) – Keys: demographic attributes
+Values: words with demographic meaning</p></li>
+<li><p><strong>sentences</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – list of sentences to run the demographic representation</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>dictionary with demographic counts for all considered words and sentences</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>demRepVect (dict[str, int])</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="FairLangProc.metrics.generated_text.HONEST">
+<span class="sig-prename descclassname"><span class="pre">FairLangProc.metrics.generated_text.</span></span><span class="sig-name descname"><span class="pre">HONEST</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">completions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hurtLex</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/FairLangProc/metrics/generated_text.html#HONEST"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#FairLangProc.metrics.generated_text.HONEST" title="Link to this definition">¶</a></dt>
+<dd><p>Computes Stereotypical Association</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>completions</strong> (<em>list</em><em>[</em><em>list</em><em>[</em><em>str</em><em>]</em><em>]</em>) – List of completions given by a model. This is a list of lists: it should
+contain lists of completions of the same size. The lists of completions
+are lists of constant size containing the completions of a given model
+for a certain prompt</p></li>
+<li><p><strong>hurtLex</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – List of words belonging to the hurt lexicon</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>HONEST score for the given sentences and hurt lexicon</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>honestScore (float)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="FairLangProc.metrics.generated_text.StereoAsoc">
+<span class="sig-prename descclassname"><span class="pre">FairLangProc.metrics.generated_text.</span></span><span class="sig-name descname"><span class="pre">StereoAsoc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">targetWords</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">demWords</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sentences</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/FairLangProc/metrics/generated_text.html#StereoAsoc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#FairLangProc.metrics.generated_text.StereoAsoc" title="Link to this definition">¶</a></dt>
+<dd><p>Computes Stereotypical Association</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>targetWords</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – list of words whose associations we want to compute</p></li>
+<li><p><strong>demWords</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><em>list</em><em>[</em><em>str</em><em>]</em><em>]</em>) – Keys: demographic attributes
+Values: words with demographic meaning</p></li>
+<li><p><strong>sentences</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – list of sentences to run the stereotypical association</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>dictionary which stores demographic counts for all considered words and sentences indexed</dt><dd><p>by targetWords</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>steAsocVect (dict)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-FairLangProc.metrics.probability">
+<span id="fairlangproc-metrics-probability-module"></span><h2>FairLangProc.metrics.probability module<a class="headerlink" href="#module-FairLangProc.metrics.probability" title="Link to this heading">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="FairLangProc.metrics.probability.AUL">
+<span class="sig-prename descclassname"><span class="pre">FairLangProc.metrics.probability.</span></span><span class="sig-name descname"><span class="pre">AUL</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Module</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tokenizer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">lm_tokenizer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sentences</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/FairLangProc/metrics/probability.html#AUL"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#FairLangProc.metrics.probability.AUL" title="Link to this definition">¶</a></dt>
+<dd><p>Computes the AUL score for list of sentences</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> (<em>nn.Module</em>) – Language model used to compute probabilities</p></li>
+<li><p><strong>tokenizer</strong> (<em>tokenizer</em>) – Tokenizer associated with the model</p></li>
+<li><p><strong>sentences</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – List of sentences for whom we will compute the CPS score</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of AUL score of the sentences</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>score (list[float])</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="FairLangProc.metrics.probability.CBS">
+<span class="sig-prename descclassname"><span class="pre">FairLangProc.metrics.probability.</span></span><span class="sig-name descname"><span class="pre">CBS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Module</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tokenizer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">lm_tokenizer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sentences</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_words</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fill_words</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mask_indices</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tensor</span></span></span><a class="reference internal" href="_modules/FairLangProc/metrics/probability.html#CBS"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#FairLangProc.metrics.probability.CBS" title="Link to this definition">¶</a></dt>
+<dd><p>Computes CBS score for a list of tuples of dimension n of target words</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> (<em>nn.Module</em>) – Language model used to compute probabilities</p></li>
+<li><p><strong>tokenizer</strong> (<em>tokenizer</em>) – Tokenizer associated with the model</p></li>
+<li><p><strong>sentences</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – List of sentences with masks</p></li>
+<li><p><strong>target_words</strong> (<em>list</em><em>[</em><em>tuple</em><em>[</em><em>str</em><em>]</em><em>]</em>) – List containing tuples of words whose probabilities we want to compute</p></li>
+<li><p><strong>fill_words</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – List of words which replace the secondary mask</p></li>
+<li><p><strong>mask_indices</strong> (<em>list</em><em>[</em><em>int</em><em>]</em>) – List of indices which indicate to which mask of the sentence
+each target word corresponds (i.e. first (0) or second (1))</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of CBS scores</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>probs (torch.Tensor)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="FairLangProc.metrics.probability.CPS">
+<span class="sig-prename descclassname"><span class="pre">FairLangProc.metrics.probability.</span></span><span class="sig-name descname"><span class="pre">CPS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Module</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tokenizer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">lm_tokenizer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sentences</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_words</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/FairLangProc/metrics/probability.html#CPS"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#FairLangProc.metrics.probability.CPS" title="Link to this definition">¶</a></dt>
+<dd><p>Computes the CPS score for list of sentences</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> (<em>nn.Module</em>) – Language model used to compute probabilities</p></li>
+<li><p><strong>tokenizer</strong> (<em>tokenizer</em>) – Tokenizer associated with the model</p></li>
+<li><p><strong>sentences</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – List of sentences for whom we will compute the CPS score</p></li>
+<li><p><strong>target_words</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – List of target words which should not be masked</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of CPS score of the sentences</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>score (list[float])</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="FairLangProc.metrics.probability.LPBS">
+<span class="sig-prename descclassname"><span class="pre">FairLangProc.metrics.probability.</span></span><span class="sig-name descname"><span class="pre">LPBS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Module</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tokenizer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">lm_tokenizer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sentences</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_words</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fill_words</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mask_indices</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tensor</span></span></span><a class="reference internal" href="_modules/FairLangProc/metrics/probability.html#LPBS"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#FairLangProc.metrics.probability.LPBS" title="Link to this definition">¶</a></dt>
+<dd><p>Computes LPBS score for a list of tuples of dimension 2 of target words</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> (<em>nn.Module</em>) – Language model used to compute probabilities</p></li>
+<li><p><strong>tokenizer</strong> (<em>tokenizer</em>) – Tokenizer associated with the model</p></li>
+<li><p><strong>sentences</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – List of sentences with masks</p></li>
+<li><p><strong>target_words</strong> (<em>list</em><em>[</em><em>tuple</em><em>[</em><em>str</em><em>]</em><em>]</em>) – List containing tuples of words whose probabilities we want to compute</p></li>
+<li><p><strong>fill_words</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – List of words which replace the secondary mask</p></li>
+<li><p><strong>mask_indices</strong> (<em>list</em><em>[</em><em>int</em><em>]</em>) – List of indices which indicate to which mask of the sentence
+each target word corresponds (i.e. first (0) or second (1))</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of LPBS scores</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>probs (torch.Tensor)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="FairLangProc.metrics.probability.MaskProbability">
+<span class="sig-prename descclassname"><span class="pre">FairLangProc.metrics.probability.</span></span><span class="sig-name descname"><span class="pre">MaskProbability</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Module</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tokenizer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">lm_tokenizer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sentences</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_words</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mask_indices</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">how_many</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">2</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tensor</span></span></span><a class="reference internal" href="_modules/FairLangProc/metrics/probability.html#MaskProbability"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#FairLangProc.metrics.probability.MaskProbability" title="Link to this definition">¶</a></dt>
+<dd><p>Computes the probability of a list of target words in the positions of certain masks given a list
+of masked sentences (the number of masks is assumed to be constant)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> (<em>nn.Module</em>) – Language model used to compute probabilities</p></li>
+<li><p><strong>tokenizer</strong> (<em>tokenizer</em>) – Tokenizer associated with the model</p></li>
+<li><p><strong>sentences</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – List of sentences with masks</p></li>
+<li><p><strong>target_words</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – List of words whose probabilities we want to compute</p></li>
+<li><p><strong>mask_indices</strong> (<em>list</em><em>[</em><em>int</em><em>]</em>) – List of indices which indicate to which mask of the sentence
+each word corresponds (i.e. first, second,…)</p></li>
+<li><p><strong>how_many</strong> (<em>int</em>) – How many masks are in each sentence</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Probability of target_words in the positions indicated by mask_indices</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>prob_target (torch.Tensor)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="FairLangProc.metrics.probability.MaskProbabilityQuotient">
+<span class="sig-prename descclassname"><span class="pre">FairLangProc.metrics.probability.</span></span><span class="sig-name descname"><span class="pre">MaskProbabilityQuotient</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Module</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tokenizer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">lm_tokenizer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sentences</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_words</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fill_words</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mask_indices</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">Tensor</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/FairLangProc/metrics/probability.html#MaskProbabilityQuotient"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#FairLangProc.metrics.probability.MaskProbabilityQuotient" title="Link to this definition">¶</a></dt>
+<dd><p>Assumes sentences with two masks. Computes the quotient of the probability of target_words being in
+the position of mask_indices divided by the prior probability of target_words in said position but with
+fill_words masked.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> (<em>nn.Module</em>) – Language model used to compute probabilities</p></li>
+<li><p><strong>tokenizer</strong> (<em>tokenizer</em>) – Tokenizer associated with the model</p></li>
+<li><p><strong>sentences</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – List of sentences with masks</p></li>
+<li><p><strong>target_words</strong> (<em>list</em><em>[</em><em>tuple</em><em>[</em><em>str</em><em>]</em><em>]</em>) – List containing tuples of words whose probabilities we want to compute</p></li>
+<li><p><strong>fill_words</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – List of words which replace the secondary mask</p></li>
+<li><p><strong>mask_indices</strong> (<em>list</em><em>[</em><em>int</em><em>]</em>) – List of indices which indicate to which mask of the sentence
+each target word corresponds (i.e. first (0) or second (1))</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Quotients of probabilities given as a list of tensors</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>probs (list[torch.Tensor])</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="FairLangProc.metrics.probability.MaskedPseudoLogLikelihood">
+<span class="sig-prename descclassname"><span class="pre">FairLangProc.metrics.probability.</span></span><span class="sig-name descname"><span class="pre">MaskedPseudoLogLikelihood</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Module</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_ids</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mask_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cls_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pad_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/FairLangProc/metrics/probability.html#MaskedPseudoLogLikelihood"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#FairLangProc.metrics.probability.MaskedPseudoLogLikelihood" title="Link to this definition">¶</a></dt>
+<dd><p>Computes the PLL score for a sentence where all words are progressively masked with the exception of a word
+given by target_id</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> (<em>nn.Module</em>) – Language model used to compute probabilities</p></li>
+<li><p><strong>input_ids</strong> (<em>list</em><em>[</em><em>int</em><em>]</em>) – List of tokens forming the sentence</p></li>
+<li><p><strong>target_id</strong> (<em>int</em>) – Id of the token which should not be masked</p></li>
+<li><p><strong>mask_id</strong> (<em>int</em>) – Id of the mask token</p></li>
+<li><p><strong>cls_id</strong> (<em>int</em>) – Id of the cls token</p></li>
+<li><p><strong>pad_id</strong> (<em>int</em>) – Id of the pad token</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>PLL of the masked sentence</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>score (float)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="FairLangProc.metrics.probability.UnMaskedPseudoLogLikelihood">
+<span class="sig-prename descclassname"><span class="pre">FairLangProc.metrics.probability.</span></span><span class="sig-name descname"><span class="pre">UnMaskedPseudoLogLikelihood</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Module</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_ids</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cls_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pad_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/FairLangProc/metrics/probability.html#UnMaskedPseudoLogLikelihood"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#FairLangProc.metrics.probability.UnMaskedPseudoLogLikelihood" title="Link to this definition">¶</a></dt>
+<dd><p>Computes the PLL score of an unmasked sentence</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> (<em>nn.Module</em>) – Language model used to compute probabilities</p></li>
+<li><p><strong>input_ids</strong> (<em>list</em><em>[</em><em>int</em><em>]</em>) – List of tokens forming the sentence</p></li>
+<li><p><strong>cls_id</strong> (<em>int</em>) – Id of the cls token</p></li>
+<li><p><strong>pad_id</strong> (<em>int</em>) – Id of the pad token</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>PLL of the masked sentence</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>score (float)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-FairLangProc.metrics">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-FairLangProc.metrics" title="Link to this heading">¶</a></h2>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">FairLangProc</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2025, Arturo Perez-Peralta.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.1.3</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+      |
+      <a href="_sources/FairLangProc.metrics.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

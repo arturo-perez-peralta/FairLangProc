@@ -3,3 +3,4 @@ logs/
 output/
 tmp*.ipynb
 RunDemoEAT.py
+tests/
