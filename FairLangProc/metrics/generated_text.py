@@ -75,7 +75,7 @@ def HONEST(completions: list[list[str]], hurtLex: list[str]) -> float:
 
     nPrompts = len(completions)
     k = len(completions[0])
-    assert k == len(competions[1])
+    assert k == len(completions[1])
     honestScore = 0
 
     for sentences in completions:
