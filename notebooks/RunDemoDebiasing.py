@@ -14,15 +14,15 @@ TASKS = [
 #    "wnli",
 #    "rte",
 #    "qnli",
-    "mnli",
+#    "mnli",
     "qqp"
 ]
 
 DEBIAS_METHODS = [
-    "none",
-    "cda",
-    "blind",
-    "embedding",
+#    "none",
+#    "cda",
+#    "blind",
+#    "embedding",
     "ear",
     "adele",
     "selective",
@@ -38,6 +38,7 @@ param_grid = [
     } for model_name in MODELS for task in TASKS for debias in DEBIAS_METHODS
 ]
 
+param_grid += [{'bert-base-uncased', 'mnli', 'eat'}, {'bert-base-uncased', 'mnli', 'diff'}]
 
 for i, params in enumerate(param_grid, 1):
     print('='*50)
