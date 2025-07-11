@@ -7,27 +7,33 @@ MODELS = [
 ]
 
 TASKS = [
-#    "cola",
-#    "sst2",
-#    "mrpc",
-#    "stsb",
-#    "wnli",
-#    "rte",
-#    "qnli",
-#    "mnli",
+    "cola",
+    "sst2",
+    "mrpc",
+    "stsb",
+    "wnli",
+    "rte",
+    "qnli",
+    "mnli",
     "qqp"
 ]
 
 DEBIAS_METHODS = [
-#    "none",
-#    "cda",
-#    "blind",
-#    "embedding",
+    "none",
+    "cda",
+    "blind",
+    "embedding",
     "ear",
     "adele",
     "selective",
     "eat",
     "diff"
+]
+
+DEBIAS_METHODS = [
+    "blind",
+    "adele",
+    "eat"
 ]
 
 param_grid = [
@@ -38,7 +44,11 @@ param_grid = [
     } for model_name in MODELS for task in TASKS for debias in DEBIAS_METHODS
 ]
 
-param_grid += [{'bert-base-uncased', 'mnli', 'eat'}, {'bert-base-uncased', 'mnli', 'diff'}]
+param_grid = [
+    {'MODEL_NAME': 'bert-base-uncased', 'TASK': 'mnli', 'DEBIAS': 'blind'},
+    {'MODEL_NAME': 'bert-base-uncased', 'TASK': 'mnli', 'DEBIAS': 'diff'},
+    {'MODEL_NAME': 'bert-base-uncased', 'TASK': 'qqp', 'DEBIAS': 'diff'}
+]
 
 for i, params in enumerate(param_grid, 1):
     print('='*50)
@@ -48,8 +58,8 @@ for i, params in enumerate(param_grid, 1):
     print('='*50)
     try:
         pm.execute_notebook(
-            "notebooks/DemoDebiasing.ipynb",
-            "notebooks/tmp.ipynb",    # notebook de salida
+            "notebooks/DemoDebiasing.ipynb",    # input
+            "notebooks/tmp.ipynb",              # output
             parameters=params               
         )
     except Exception as e:
