@@ -26,6 +26,7 @@ class BLINDModel(nn.Module, ABC):
         model (nn.Module):      Language model to be debiased
         config (str):           Configuration (optional, only used if using AutoModel)
         gamma (float):          Hyper-parameter that regulates the strenght of BLIND weights
+        alpha (float):          Hyper-parameter that regulates the strenght of the loss
         temperature (float):    Hyper-parameter that regulates the softmax of the BLIND logodds
         hidden_dim (int):       Hyper-parameter, hidden dimension of the language model
     """
@@ -35,9 +36,9 @@ class BLINDModel(nn.Module, ABC):
         model: nn.Module,
         config: Optional[str] = None,
         gamma: float = 2.0,
+        alpha: float = 1.0,
         temperature: float = 1.0,
         hidden_dim: int = 768,
-        **kwargs_loss
     ):
 
         super().__init__()
@@ -56,12 +57,13 @@ class BLINDModel(nn.Module, ABC):
             raise AttributeError("Given model has no head.")
 
         self.gamma = gamma
+        self.alpha = alpha
         self.temperature = temperature
         self.hidden_dim = hidden_dim
 
         self.BLIND = nn.Linear(hidden_dim, 2)
 
-        self._get_loss(**kwargs_loss)
+        self._get_loss()
 
 
     @abstractmethod
@@ -100,18 +102,31 @@ class BLINDModel(nn.Module, ABC):
             loss_main = self._loss(logits, labels)
 
             # Compute auxiliary predicted weight from the embedding.
-            logits_BLIND = self.BLIND(embedding).squeeze(1)  # shape: (batch,)
+            logits_BLIND = self.BLIND(embedding).squeeze()  # shape: (batch, 2)
+            
             
             # Compute BLIND loss
-            prob_dist = F.softmax(logits_BLIND / self.temperature, dim=1)
+            pred = logits.argmax(dim=1)
+            success = torch.where(pred == labels, 1, 0)
+            BLIND_loss = self._loss(logits_BLIND, success)
+            # Not sure about this... maybe I should write a custom trainer class
+            BLIND_loss.backward(retain_graph=True)
+            
+            prob_dist = F.softmax(logits, dim=1)
+            prob_dist_BLIND = F.softmax(logits_BLIND / self.temperature, dim=1)
+
             pt = prob_dist.gather(1, labels.unsqueeze(1))
-            BLIND_loss = torch.pow(1 - pt, self.gamma)
+            pt_BLIND = prob_dist_BLIND.gather(1, success.unsqueeze(1))
+            coef = torch.pow(1 - pt_BLIND, self.gamma)
+            BLIND_loss = -self.alpha * coef * torch.log(pt)
+
 
         
-        if loss_main is not None and BLIND_loss is not None:
+        if BLIND_loss is not None:
             # Not sure if I should put a minus sign here huh
-            loss = loss_main * BLIND_loss
-            loss = loss.mean()
+            loss = BLIND_loss.mean()
+        elif loss_main is not None and BLIND_loss is None:
+            loss = loss_main.mean()
         else:
             loss = None
         
@@ -139,12 +154,8 @@ class BLINDModelForClassification(BLINDModel):
     def _load_model(self, model, config):
         return AutoModelForSequenceClassification(model, config = config)
 
-    def _get_loss(self, n_labels):
-        self.n_labels = n_labels
-        if n_labels == 1:
-            self.loss_fct = nn.MSELoss()
-        else:
-            self.loss_fct = nn.CrossEntropyLoss()
+    def _get_loss(self):
+        self.loss_fct = nn.CrossEntropyLoss()
 
     def _loss(self, logits, labels):
         loss = self.loss_fct(logits, labels)
