@@ -1,6 +1,5 @@
 # Standard imports
-import sys
-import inspect
+from dataclasses import dataclass
 from typing import Optional
 from abc import ABC, abstractmethod
 
@@ -10,11 +9,20 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 # Hugging Face
-from transformers import AutoModel, AutoModelForSequenceClassification, AutoTokenizer
+from transformers import Trainer, AutoModelForSequenceClassification
+from transformers.utils import ModelOutput
 
 # Custom imports
 from FairLangProc.algorithms.output import CustomOutput
 
+
+
+@dataclass
+class BlindOutput(ModelOutput):
+    loss: Optional[torch.FloatTensor] = None
+    BLIND_loss: Optional[torch.FloatTensor] = None
+    logits: Optional[torch.FloatTensor] = None
+    last_hidden_state: Optional[torch.FloatTensor] = None
 
 
 
@@ -88,7 +96,6 @@ class BLINDModel(nn.Module, ABC):
         embedding = self._get_embedding(input_ids = input_ids, attention_mask = attention_mask, token_type_ids = token_type_ids)
         
         # Compute the head's logits
-
         if hasattr(self.model, "classifier"):
             logits = self.model.classifier(embedding)
         elif hasattr(self.model, "head"):
@@ -109,8 +116,6 @@ class BLINDModel(nn.Module, ABC):
             pred = logits.argmax(dim=1)
             success = torch.where(pred == labels, 1, 0)
             BLIND_loss = self._loss(logits_BLIND, success)
-            # Not sure about this... maybe I should write a custom trainer class
-            BLIND_loss.backward(retain_graph=True)
             
             prob_dist = F.softmax(logits, dim=1)
             prob_dist_BLIND = F.softmax(logits_BLIND / self.temperature, dim=1)
@@ -118,30 +123,52 @@ class BLINDModel(nn.Module, ABC):
             pt = prob_dist.gather(1, labels.unsqueeze(1))
             pt_BLIND = prob_dist_BLIND.gather(1, success.unsqueeze(1))
             coef = torch.pow(1 - pt_BLIND, self.gamma)
-            BLIND_loss = -self.alpha * coef * torch.log(pt)
+            total_loss = -self.alpha * coef * torch.log(pt)
 
 
         
-        if BLIND_loss is not None:
-            # Not sure if I should put a minus sign here huh
+        if total_loss is not None:
             loss = BLIND_loss.mean()
-        elif loss_main is not None and BLIND_loss is None:
-            loss = loss_main.mean()
-        else:
-            loss = None
-        
-        if loss is None:
-            return CustomOutput(
+            return BlindOutput(
+                loss = loss,
+                BLIND_loss = BLIND_loss,
                 logits = logits,
                 last_hidden_state = embedding
                 )
-        else:
-            return CustomOutput(
+        elif loss_main is not None and total_loss is None:
+            loss = loss_main.mean()
+            return BlindOutput(
                 loss = loss,
                 logits = logits,
                 last_hidden_state = embedding
                 )
+        else:
+            loss = None
+            return BlindOutput(
+                logits = logits,
+                last_hidden_state = embedding
+                )
 
+
+
+
+
+class BLINDTrainer(Trainer):
+    def training_step(self, model, inputs, *args, **kwargs):
+        model.train()
+        inputs = self._prepare_inputs(inputs)
+
+        outputs = model(**inputs)
+        loss = outputs.loss
+        loss_blind = outputs.BLIND_loss
+
+        if loss_blind is not None:
+            self.accelerator.backward(loss_blind, retain_graph = True)
+
+        if loss is not None:
+            self.accelerator.backward(loss)
+
+        return loss.detach()
 
 
 

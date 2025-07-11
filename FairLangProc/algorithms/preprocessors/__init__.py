@@ -1,3 +1,3 @@
 from FairLangProc.algorithms.preprocessors.augmentation import CDA
 from FairLangProc.algorithms.preprocessors.projection_based import SentDebiasModel, SentDebiasForSequenceClassification
-from FairLangProc.algorithms.preprocessors.reweighting import BLINDModel, BLINDModelForClassification
+from FairLangProc.algorithms.preprocessors.reweighting import BLINDModel, BLINDModelForClassification, BLINDTrainer
