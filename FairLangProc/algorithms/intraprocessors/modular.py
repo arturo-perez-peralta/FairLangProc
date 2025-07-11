@@ -1,14 +1,12 @@
 # Standard imports
 from abc import ABC, abstractmethod
-from typing import Callable, Optional
+from typing import Callable
+from contextlib import contextmanager
 
 # Pytorch
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-
-# Hugging Face
-from transformers import AutoModel, AutoTokenizer
 
 # Custom imports
 from FairLangProc.algorithms.output import CustomOutput
@@ -20,16 +18,17 @@ class DiffPrunedDebiasing(nn.Module, ABC):
     Implements differ pruning for bias mitigation in pretrained models.
     
     Args:
-        base_model (nn.Module):     Pretrained model (e.g., BERT, GPT-2)
+        model (nn.Module):     Pretrained model (e.g., BERT, GPT-2)
         input_ids_A (torch.Tensor): Tensor with ids of text with demographic information of group A
         input_ids_B (torch.Tensor): Tensor with ids of text with demographic information of group B
         lambda_sparse (float):      Weight for sparsity loss
         lambda_bias (float):        Weight for bias mitigation loss
         bias_kernel (Callable):     Kernel for the embeddings of the bias loss. If None, defaults to the identity
-        zeta (float):               Temperature for concrete relaxation
-        gamma (float):              Parameter for concrete relaxation
-        beta (float):               Parameter for concrete relaxation
+        upper (float):              Parameter for concrete relaxation
+        lower (float):              Parameter for concrete relaxation
+        temp (float):               Temperature for concrete relaxation loss
     """
+
     def __init__(
         self,
         model: nn.Module,
@@ -38,29 +37,27 @@ class DiffPrunedDebiasing(nn.Module, ABC):
         lambda_sparse: float = 1.0,
         lambda_bias: float = 1.0,
         bias_kernel: Callable = None,
-        zeta=1.1,
-        gamma=-0.1,
-        beta=1.0
+        upper: float = 1.1,
+        lower: float = -0.1
     ):
         super().__init__()
-        self.base_model = model
+        self.model = model
         self.lambda_sparse = lambda_sparse
         self.lambda_bias = lambda_bias
-        self.zeta = zeta
-        self.gamma = gamma
-        self.beta = beta
+        self.upper = upper
+        self.lower = lower
         self.kernel = bias_kernel
 
         self.inputs_A = input_ids_A
         self.inputs_B = input_ids_B
         
         # Freeze the base model
-        for param in self.base_model.parameters():
+        for param in self.model.parameters():
             param.requires_grad = False
             
         # Initialize sparse parameters (m*w)
         self._init_sparse_parameters()
-        self._get_encoder()
+
 
 
     def _init_sparse_parameters(self):
@@ -68,7 +65,7 @@ class DiffPrunedDebiasing(nn.Module, ABC):
         self.sparse_params = nn.ParameterDict()
         self.name_mapping = {}
         
-        for name, param in self.base_model.named_parameters():
+        for name, param in self.model.named_parameters():
             clean_name = name.replace('.', '_')
             self.name_mapping[clean_name] = name
             if 'bias' not in name:  # Typically we don't prune biases
@@ -84,145 +81,80 @@ class DiffPrunedDebiasing(nn.Module, ABC):
                 )
 
 
-    def get_concrete_mask(self, log_alpha):
-        """Differentiable mask using concrete relaxation"""
-        u = torch.rand_like(log_alpha)
-        s = torch.sigmoid((torch.log(u) - torch.log(1 - u) + log_alpha) / self.beta)
-        return s * (self.zeta - self.gamma) + self.gamma
-    
-    def apply_sparse_updates(self):
-        """
-        Applies current sparse updates (m*w) to base parameters
-        Returns: Dictionary of UPDATED parameters
-        """
-        updated_params = {} 
-        # First clone all base parameters
-        for name, param in self.base_model.named_parameters():
-            updated_params[name] = param.data.clone().requires_grad_(True)
+    def forward(self, input_ids, attention_mask=None, labels=None):
+        """Forward pass"""
         
-        # Apply sparse updates
-        for clean_name in self.name_mapping:
-            if f'{clean_name}_log_alpha' in self.sparse_params:
-                original_name = self.name_mapping[clean_name]
-                log_alpha = self.sparse_params[f'{clean_name}_log_alpha']
-                w = self.sparse_params[f'{clean_name}_w']
-                
-                m = torch.clamp(self.get_concrete_mask(log_alpha), 0, 1)
-                updated_params[original_name] = updated_params[original_name] + (m * w)
-                
-        return updated_params
-    
-
-
-
-    def forward_with_updated_params(self, encoder, **kwargs):
-        """
-        Forward pass using UPDATED parameters (base + sparse updates)
-        Returns: Same as base model forward
-        """
-        updated_params = self.apply_sparse_updates()
-        
-        # Save original parameters
-        original_params = {n: p.data.clone() for n, p in self.base_model.named_parameters()}
-        
-        try:
-            # Apply updates
-            for name, param in self.base_model.named_parameters():
-                param.data.copy_(updated_params[name])
+        # Apply sparse update
+        with self._sparse_parameter_scope():
+            # Get the outputs
+            outputs = self.model(
+                input_ids=input_ids,
+                attention_mask=attention_mask,
+                labels=labels
+            )
             
-            # Forward pass
-            if encoder:
-                self._get_encoder()
-                outputs = self.encoder(**kwargs)
-                return self._get_embedding(outputs.last_hidden_state)
-            return self.base_model(**kwargs)
+            # Compute final outputs with debiased representations
+            logits = outputs.logits
+            
+            # Compute loses
+            if labels is not None:
+                task_loss = F.cross_entropy(logits, labels)
+                sparse_loss = self.compute_sparse_loss()
+                bias_loss = self.compute_bias_loss()
+                
+                total_loss = (task_loss + 
+                            self.lambda_sparse * sparse_loss +
+                            self.lambda_bias * bias_loss)
+            else:
+                total_loss = None
+        
+        return CustomOutput(
+            loss = total_loss,
+            logits = logits
+        )
+    
+
+
+    @contextmanager
+    def _sparse_parameter_scope(self):
+        """Context manager for applying sparse updates"""
+        original_params = {n: p.detach().clone() for n, p in self.model.named_parameters()}
+        try:
+            # Apply sparse updates
+            for name, param in self.model.named_parameters():
+                if f'{name}_log_alpha' in self.sparse_params:
+                    log_alpha = self.sparse_params[f'{name}_log_alpha']
+                    w = self.sparse_params[f'{name}_w']
+                    mask = torch.clamp(self.get_concrete_mask(log_alpha), 0, 1)
+                    param.data.add_(mask * w)
+            yield
         finally:
-            # Restore parameters
-            for name, param in self.base_model.named_parameters():
+            # Restore original parameters
+            for name, param in self.model.named_parameters():
                 param.data.copy_(original_params[name])
 
 
-    
-    def get_base_features(self, **kwargs):
-        """
-        Returns base model outputs (without head) using UPDATED parameters
-        Output: Last hidden states (batch_size, seq_len, hidden_dim)
-        """
-        updated_params = self.apply_sparse_updates()
-        
-        # Save original parameters
-        original_params = {n: p.data.clone() for n, p in self.base_model.named_parameters()}
-        
-        # Temporarily apply updates
-        for name, param in self.base_model.named_parameters():
-            param.data.copy_(updated_params[name])
-        
-        # Forward through base model only
-        with torch.no_grad():
-            outputs = self.encoder(**kwargs)
-            hidden_states = outputs.last_hidden_state
-        
-        # Restore original parameters
-        for name, param in self.base_model.named_parameters():
-            param.data.copy_(original_params[name])
-            
-        return hidden_states
-
-    
     def get_concrete_mask(self, log_alpha):
-        """Concrete relaxation of L0 norm (for differentiable pruning)"""
+        """Differentiable mask using concrete relaxation"""
         u = torch.rand_like(log_alpha)
-        s = torch.sigmoid((torch.log(u) - torch.log(1 - u) + log_alpha) / self.beta)
-        return s * (self.zeta - self.gamma) + self.gamma
+        s = torch.sigmoid(torch.log(u) - torch.log(1 - u) + log_alpha)
+        return s * (self.upper - self.lower) + self.lower
     
-    def forward(self, input_ids=None, attention_mask=None, labels=None):
-        # 1. Compute original model outputs
-        outputs = self.forward_with_updated_params(
-            encoder = False,
-            input_ids=input_ids,
-            attention_mask=attention_mask,
-            labels=labels,
-            output_hidden_states=True
-        )
-        
-        # 2. Apply sparse parameter updates
-        total_sparse_loss = self.compute_sparse_loss()
-        
-        # 3. Compute bias mitigation loss (if group masks provided)
-        bias_loss = self.compute_bias_loss()
-        
-        # Combine losses
-        loss = outputs.loss + \
-               self.lambda_sparse * total_sparse_loss + \
-               self.lambda_bias * bias_loss
-        
-        return CustomOutput(
-            loss = loss,
-            logits = outputs.logits
-        )
+    
+    def expected_l0_penalty(self, log_alpha):
+        """Computation of L0 penalty"""
+        return torch.sigmoid(log_alpha - torch.log(-self.lower/self.upper))
+
 
     def compute_sparse_loss(self):
-        """
-        Computation of sparse loss (mathcal{L}^0) through the relaxed concrete distribution
-        """
-        
+        """Computation of sparse loss (mathcal{L}^0) through the relaxed concrete distribution"""
         total_sparse_loss = 0.0
-
-        for name, param in self.base_model.named_parameters():
+        # Compute L0 regularization term
+        for name, param in self.model.named_parameters():
             if f'{name}_log_alpha' in self.sparse_params:
                 log_alpha = self.sparse_params[f'{name}_log_alpha']
-                w = self.sparse_params[f'{name}_w']
-                
-                # Get concrete mask
-                m = self.get_concrete_mask(log_alpha)
-                clamped_m = torch.clamp(m, min=0, max=1)
-                
-                # Apply sparse update
-                param.data = param.data + clamped_m * w
-                
-                # Compute L0 regularization term
-                sparse_loss = torch.sigmoid(log_alpha - self.beta * torch.log(-self.gamma/self.zeta))
-                total_sparse_loss += sparse_loss.mean()
+                sparse_loss = self.expected_l0_penalty(log_alpha)
+                total_sparse_loss += sparse_loss.item()
 
         return total_sparse_loss
 
@@ -231,11 +163,10 @@ class DiffPrunedDebiasing(nn.Module, ABC):
         """
         Compute debias loss as the difference of the kernel of the counterfactual pairs
         """
-        bias_loss = 0.0
 
         # Get hidden states from last layer
-        group_a = self.forward_with_updated_params(encoder=True, **self.inputs_A)
-        group_b = self.forward_with_updated_params(encoder=True, **self.inputs_B)
+        group_a = self._get_embedding(**self.inputs_A)
+        group_b = self._get_embedding(**self.inputs_B)
         
         group_a_mean = group_a.mean(dim=0)
         group_b_mean = group_b.mean(dim=0)
@@ -249,10 +180,6 @@ class DiffPrunedDebiasing(nn.Module, ABC):
     def _get_embedding(self):
         pass
 
-    @abstractmethod
-    def _get_encoder(self):
-        pass
-
     
     def get_sparsity(self):
         """Compute fraction of parameters that are pruned (m ≈ 0)"""
@@ -262,7 +189,7 @@ class DiffPrunedDebiasing(nn.Module, ABC):
         for name in self.sparse_params:
             if name.endswith('_log_alpha'):
                 log_alpha = self.sparse_params[name]
-                prob = torch.sigmoid(log_alpha - self.beta * torch.log(-self.gamma/self.zeta))
+                prob = torch.sigmoid(log_alpha - self.beta * torch.log(-self.lower/self.upper))
                 zero_params += (prob < 0.5).sum().item()
                 total_params += prob.numel()
                 
@@ -285,8 +212,12 @@ class DiffPrunedDebiasing(nn.Module, ABC):
 
 class DiffPrunningBERT(DiffPrunedDebiasing):
 
-    def _get_embedding(self, outputs):
-        return outputs[:, 0, :]
+    def _get_embedding(self, input_ids, attention_mask = None, token_type_ids = None):
+        return self.model.bert(
+            input_ids, attention_mask = attention_mask, token_type_ids = token_type_ids
+            ).last_hidden_state[:,0,:]
 
-    def _get_encoder(self):
-        self.encoder = self.base_model.bert
+
+
+
+
