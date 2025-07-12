@@ -98,7 +98,7 @@ class DiffPrunedDebiasing(nn.Module, ABC):
             
             # Compute loses
             if labels is not None:
-                task_loss = F.cross_entropy(logits, labels)
+                task_loss = outputs.loss
                 sparse_loss = self.compute_sparse_loss()
                 bias_loss = self.compute_bias_loss()
                 
