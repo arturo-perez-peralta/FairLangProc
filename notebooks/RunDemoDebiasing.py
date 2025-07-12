@@ -32,8 +32,7 @@ DEBIAS_METHODS = [
 
 DEBIAS_METHODS = [
     "blind",
-    "adele",
-    "eat"
+#    "diff"
 ]
 
 param_grid = [
@@ -46,6 +45,10 @@ param_grid = [
 
 
 for i, params in enumerate(param_grid, 1):
+
+    if params["DEBIAS"] == "blind" and params["TASK"] == "stsb":
+        continue
+
     print('='*50)
     print(params["MODEL_NAME"])
     print(params["TASK"])
