@@ -13,6 +13,7 @@ from abc import ABC, abstractmethod
 # Pytorch
 import torch
 import torch.nn as nn
+import torch.nn.functional as F
 from torch.nn import Parameter
 from torch.utils.data import DataLoader
 import torch.nn.utils.parametrize as parametrize
@@ -236,32 +237,32 @@ class BaseModel(nn.Module, ABC):
             warnings.warn(f"layer idx could not be determined for module_name {module_name}")
 
 
-    def to(self, device: Union[list, Union[str, torch.device]], *args, **kwargs) -> None:
-        self._remove_parallel()
-        if isinstance(device, list):
-            super().to(device[0])
-            if len(device)>1:
-                asssert_fn = lambda x: x=="cuda" if isinstance(x, str) else x.type=="cuda"
-                assert all([asssert_fn(d) for d in device]), "if list of devices is given, all must be of type 'cuda'"
-                self.encoder = torch.nn.DataParallel(self.encoder, device_ids=device)
-        else:
-            super().to(device)
-
-
-    def cpu(self):
-        self._remove_parallel()
-        super().cpu()
-
-
-    def cuda(self, *args, **kwargs) -> None:
-        self._remove_parallel()
-        super().cuda(*args, **kwargs)
-
-
-    def _remove_parallel(self) -> None:
-        if isinstance(self.encoder, torch.nn.DataParallel):
-            self.encoder = self.encoder.module
-
+#    def to(self, device: Union[list, Union[str, torch.device]], *args, **kwargs) -> None:
+#        self._remove_parallel()
+#        if isinstance(device, list):
+#            super().to(device[0])
+#            if len(device)>1:
+#                asssert_fn = lambda x: x=="cuda" if isinstance(x, str) else x.type=="cuda"
+#                assert all([asssert_fn(d) for d in device]), "if list of devices is given, all must be of type 'cuda'"
+#                self.encoder = torch.nn.DataParallel(self.encoder, device_ids=device)
+#        else:
+#            super().to(device)
+#
+#
+#    def cpu(self):
+#        self._remove_parallel()
+#        super().cpu()
+#
+#
+#    def cuda(self, *args, **kwargs) -> None:
+#        self._remove_parallel()
+#        super().cuda(*args, **kwargs)
+#
+#
+#    def _remove_parallel(self) -> None:
+#        if isinstance(self.encoder, torch.nn.DataParallel):
+#            self.encoder = self.encoder.module
+#
 
 
 
@@ -317,7 +318,7 @@ class BasePruningModel(BaseModel):
             assert len(sparsity_pen) == self.total_layers,  "invalid sparsity penalty per layer: # of layers mismatch"
             return sparsity_pen
         else:
-            return [sparsity_pen] * self.total_layers
+            return [sparsity_pen/self.total_layers] * self.total_layers
 
 
     def _get_sparsity_loss(self, log_ratio: float, sparsity_pen: list, idx: int) -> torch.Tensor:
@@ -631,7 +632,7 @@ class BasePruningModel(BaseModel):
 
 
 
-class DiffPrunedDebiasing(BasePruningModel, ABC):
+class DiffPrunDebiasing(BasePruningModel, ABC):
     """
     Implements differ pruning for bias mitigation in pretrained models.
     
@@ -649,8 +650,9 @@ class DiffPrunedDebiasing(BasePruningModel, ABC):
 
     def __init__(
         self,
-        model: nn.Module,
+        head: nn.Module,
         encoder: nn.Module,
+        loss_fn: Callable,
         input_ids_A: torch.Tensor,
         input_ids_B: torch.Tensor,
         lambda_sparse: float = 1.0,
@@ -663,22 +665,22 @@ class DiffPrunedDebiasing(BasePruningModel, ABC):
         lower: float = -0.1
     ):
         super().__init__(encoder = encoder)
-        self.model = model
-        self.encoder = encoder
+        self.head = head
+        self.loss_fn = loss_fn
+
 
         self.lambda_sparse = lambda_sparse
-        self.lambda_bias = lambda_bias
-        self.sparsity_pen = self.get_sparsity_pen(self.lambda_bias)      
-
+        self.sparsity_pen = self.get_sparsity_pen(self.lambda_sparse)      
         self.upper = upper
         self.lower = lower
         self.log_ratio = math.log(-self.upper/self.lower)
 
+        self.lambda_bias = lambda_bias
         self.kernel = bias_kernel
         self.inputs_A = input_ids_A
         self.inputs_B = input_ids_B
-
-        super()._add_diff_parametrizations(
+        
+        self._add_diff_parametrizations(
             n_parametrizations = 1,
             p_requires_grad = False,
             fixmask_init = fixmask_init,
@@ -687,6 +689,7 @@ class DiffPrunedDebiasing(BasePruningModel, ABC):
             concrete_upper = self.upper,
             structured = structured_diff_prunning
         )
+        
 
 
     def _get_bias_loss(self):
@@ -696,6 +699,10 @@ class DiffPrunedDebiasing(BasePruningModel, ABC):
         # Get hidden states from last layer
         group_a = self._forward(**self.inputs_A)
         group_b = self._forward(**self.inputs_B)
+
+        if self.kernel is not None:
+            group_a = self.kernel(group_a)
+            group_b = self.kernel(group_b)
         
         group_a_mean = group_a.mean(dim=0)
         group_b_mean = group_b.mean(dim=0)
@@ -705,259 +712,36 @@ class DiffPrunedDebiasing(BasePruningModel, ABC):
             group_b_mean.requires_grad_(True)
         )
     
-    def forward(self, input_ids, attention_mask=None, labels=None):
-        outputs = self.model(
-            input_ids = input_ids,
-            attention_mask = attention_mask,
-            labels = labels
-            )
-        
+    def forward(self, input_ids, attention_mask=None, token_type_ids = None, labels=None):
+        outputs = self._forward(input_ids = input_ids, attention_mask = attention_mask, token_type_ids = token_type_ids)
+        logits = self.head(outputs)
         if labels is not None:
-            task_loss = outputs.loss
+            task_loss = self._loss(logits, labels)
             bias_loss = self.lambda_bias*self._get_bias_loss()
-            sparse_loss = self._get_sparse_loss(log_ratio = self.log_ratio, sparsity_pen = self.sparsity_pen, idx = 0)
+            sparse_loss = self._get_sparsity_loss(log_ratio = self.log_ratio, sparsity_pen = self.sparsity_pen, idx = 0)
             loss = task_loss + bias_loss + sparse_loss
+            return CustomOutput(loss = loss, logits = logits)
         else:
-            loss = None
+            return CustomOutput(logits = logits)
 
-        return CustomOutput(loss = loss, logits = outputs.logits)
+    def _loss(self, output, target):
+        return self.loss_fn(output, target)
+    
+    def to(self, device):
+        """Override to() to handle device transfer consistently"""
+        super().to(device)
+        # Move input tensors
+        self.inputs_A = {k: v.to(device) for k, v in self.inputs_A.items()}
+        self.inputs_B = {k: v.to(device) for k, v in self.inputs_B.items()}
+        return self
 
 
-class DiffPrunningBERT(DiffPrunedDebiasing):
+class DiffPrunBERT(DiffPrunDebiasing):
 
-    def _get_encoder(self):
-        return self.model.bert
-
-    def _forward(self, input_ids, attention_mask=None, labels=None):
-        outputs = self.model(
+    def _forward(self, input_ids, attention_mask=None, token_type_ids=None):
+        outputs = self.encoder(
             input_ids = input_ids,
             attention_mask = attention_mask,
-            labels = labels
+            token_type_ids = token_type_ids
             )
         return outputs.last_hidden_state[:,0,:]
-
-# class DiffPrunedDebiasing(nn.Module, ABC):
-#     """
-#     Implements differ pruning for bias mitigation in pretrained models.
-#     
-#     Args:
-#         model (nn.Module):          Pretrained model (e.g., BERT, GPT-2).
-#         input_ids_A (torch.Tensor): Tensor with ids of text with demographic information of group A.
-#         input_ids_B (torch.Tensor): Tensor with ids of text with demographic information of group B.
-#         lambda_sparse (float):      Weight for sparsity loss.
-#         lambda_bias (float):        Weight for bias mitigation loss.
-#         bias_kernel (Callable):     Kernel for the embeddings of the bias loss. If None, defaults to the identity.
-#         upper (float):              Parameter for concrete relaxation (has to be > 1).
-#         lower (float):              Parameter for concrete relaxation (has to be < 0).
-#         temp (float):               Temperature for concrete relaxation loss.
-#     """
-# 
-#     def __init__(
-#         self,
-#         model: nn.Module,
-#         input_ids_A: torch.Tensor,
-#         input_ids_B: torch.Tensor,
-#         lambda_sparse: float = 1.0,
-#         lambda_bias: float = 1.0,
-#         bias_kernel: Callable = None,
-#         fixmask_init: bool = False,
-#         alpha_init: Optional[Union[int, float]] = 5,
-#         structured_diff_prunning: Optional[bool] = False,
-#         upper: float = 1.1,
-#         lower: float = -0.1
-#     ):
-#         super().__init__()
-#         self.model = model
-#         self.encoder = self._get_encoder()
-# 
-#         self.lambda_sparse = lambda_sparse
-#         self.lambda_bias = lambda_bias
-#         self.sparsity_pen = self.get_sparsity_pen(self.lambda_bias)      
-# 
-# 
-#         self.upper = upper
-#         self.lower = lower
-#         self.log_ratio = math.log(-self.upper/self.lower)
-# 
-#         self.kernel = bias_kernel
-#         self.inputs_A = input_ids_A
-#         self.inputs_B = input_ids_B
-# 
-#         self.model_state = ModelState.INIT
-#         self.fixmask_pct = None
-# 
-#         self._add_diff_parametrizations(
-#             n_parametrizations = 1,
-#             p_requires_grad = False,
-#             fixmask_init = fixmask_init,
-#             alpha_init = alpha_init,
-#             concrete_lower = self.lower,
-#             concrete_upper = self.upper,
-#             structured = structured_diff_prunning
-#             )
-# 
-#     def forward(self, input_ids, attention_mask=None, labels=None):
-#         outputs = self.model(
-#             input_ids = input_ids,
-#             attention_mask = attention_mask,
-#             labels = labels
-#             )
-#         loss = None
-#         if labels is not None:
-# 
-#             loss_main = outputs.loss
-#             loss_sparsity = self._get_sparsity_loss(self.log_ratio, self.sparsity_pen, 0)
-#             loss_bias = self._get_bias_loss()
-# 
-#             loss = loss_main + self.lambda_bias*loss_sparsity + self.lambda_bias*loss_bias
-#         
-# 
-#         return CustomOutput(
-#             logits = outputs.logits,
-#             loss = loss
-#         )
-#     
-#     @property
-#     def encoder_module(self) -> torch.nn.Module:
-#         if isinstance(self.encoder, torch.nn.DataParallel):
-#             return self.encoder.module
-#         else:
-#             return self.encoder
-# 
-#     @property
-#     def device(self) -> torch.device:
-#         return next(self.encoder.parameters()).device
-# 
-# 
-#     @property
-#     def model_type(self) -> str:
-#         return self.encoder_module.config.model_type
-# 
-# 
-#     @property
-#     def model_name(self) -> str:
-#         return self.encoder_module.config._name_or_path
-# 
-# 
-#     @property
-#     def hidden_size(self) -> int:
-#         return self.encoder_module.embeddings.word_embeddings.embedding_dim
-# 
-#     @property
-#     def parametrized(self) -> bool:
-#         return (self.model_state == ModelState.FINETUNING or self.model_state == ModelState.FIXMASK)
-# 
-# 
-#     @property
-#     def fixmask_state(self) -> bool:
-#         return self.model_state == ModelState.FIXMASK
-# 
-# 
-#     @property
-#     def finetune_state(self) -> bool:
-#         return self.model_state == ModelState.FINETUNING
-# 
-#     def get_layer_idx_from_module(self, module_name: str) -> int:
-#         # get layer index based on module name
-#         if self.model_type == "xlnet":
-#             search_str_emb = "word_embedding"
-#             search_str_hidden = "layer"
-#         else:
-#             search_str_emb = "embeddings"
-#             search_str_hidden = "encoder.layer"
-# 
-#         if search_str_emb in module_name:
-#             return 0
-#         elif search_str_hidden in module_name:
-#             return int(module_name.split(search_str_hidden + ".")[1].split(".")[0]) + 1
-#         elif 'pooler.dense' in module_name:
-#             return self.total_layers - 1
-#         else:
-#             warnings.warn(f"layer idx could not be determined for module_name {module_name}")
-# 
-# 
-#     def get_encoder_base_modules(self, return_names: bool = False):
-#         if self.parametrized:
-#             check_fn = lambda m: hasattr(m, "parametrizations")
-#         else:
-#             check_fn = lambda m: len(m._parameters)>0
-#         return [(n,m) if return_names else m for n,m in self.encoder.named_modules() if check_fn(m)]
-# 
-# 
-#     def get_sparsity_pen(self, sparsity_pen: Union[float, List[float], Tuple[float]]) -> None:
-#         if isinstance(sparsity_pen, (list, tuple)):
-#             assert len(sparsity_pen) == self.total_layers,  "invalid sparsity penalty per layer: # of layers mismatch"
-#             return sparsity_pen
-#         else:
-#             return [sparsity_pen] * self.total_layers
-#         
-# 
-#     def _add_diff_parametrizations(self, n_parametrizations: int = 1, p_requires_grad: bool = False, fixmask_init: bool = False, **kwargs) -> None:
-#         assert not self.parametrized, "cannot add diff parametrizations because of existing parametrizations in the model"
-#         for base_module in self.get_encoder_base_modules():
-#             for n,p in list(base_module.named_parameters()):
-#                 p.requires_grad = p_requires_grad
-#                 for _ in range(n_parametrizations): # number of diff networks to add
-#                     if fixmask_init:
-#                         # in case of fixmask init, can only initalize with dummy values
-#                         parametrize.register_parametrization(base_module, n, DiffWeightFixmask(
-#                             torch.zeros_like(p), torch.ones_like(p, dtype=bool)
-#                         ))
-#                     else:
-#                         parametrize.register_parametrization(base_module, n, DiffWeightFinetune(p, **kwargs))
-#         if fixmask_init:
-#             self.model_state = ModelState.FIXMASK
-#         else:
-#             self.model_state = ModelState.FINETUNING
-# 
-#     
-#     def _remove_parametrizations(self, leave_parametrized: bool = True) -> None:
-#         self._freeze_parametrizations(True)
-#         for module in self.get_encoder_base_modules():
-#             try:
-#                 for n in list(module.parametrizations):
-#                     parametrize.remove_parametrizations(module, n, leave_parametrized=leave_parametrized)
-#             except AttributeError:
-#                 pass
-#         self.model_state = ModelState.INIT
-# 
-#     @staticmethod
-#     def get_l0_norm_term(alpha: torch.Tensor, log_ratio: float) -> torch.Tensor:
-#         return torch.sigmoid(alpha - log_ratio).sum()
-#     
-#     def _get_sparsity_loss(self, log_ratio: float, sparsity_pen: list, idx: int) -> torch.Tensor:
-#         assert self.finetune_state, "model needs to be in finetuning state"
-#         l0_pen = 0.
-#         for module_name, base_module in self.get_encoder_base_modules(return_names=True):
-#             layer_idx = self.get_layer_idx_from_module(module_name)
-#             module_pen = 0.
-#             for n, par_list in list(base_module.parametrizations.items()):
-#                 for a in par_list[idx].alpha_weights:
-#                     module_pen += self.get_l0_norm_term(a, log_ratio)
-#             l0_pen += (module_pen * sparsity_pen[layer_idx])
-#         return l0_pen
-#     
-#     def _get_bias_loss(self):
-#         """
-#         Compute debias loss as the difference of the kernel of the counterfactual pairs
-#         """ 
-#         # Get hidden states from last layer
-#         group_a = self.encoder(**self.inputs_A)
-#         group_b = self.encoder(**self.inputs_B)
-#         
-#         group_a_mean = group_a.mean(dim=0)
-#         group_b_mean = group_b.mean(dim=0)
-#         
-#         return F.mse_loss(
-#             group_a_mean.requires_grad_(True), 
-#             group_b_mean.requires_grad_(True)
-#             )
-# 
-# 
-# class DiffPrunningBERT(DiffPrunedDebiasing):
-# 
-#     def _get_encoder(self):
-#         return self.model.bert
-# 
-#     def _get_head(self):
-#         return self.model.classifier
