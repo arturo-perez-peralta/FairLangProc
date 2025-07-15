@@ -1,31 +1,33 @@
 # Standard imports
-from typing import Optional
+from typing import Optional, Type
 from abc import ABC, abstractmethod
 
 # Pytorch
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+from torch.optim import Optimizer, AdamW
 
 # Hugging Face
 from transformers import Trainer
 
 
 class BLINDTrainer(Trainer, ABC):
-#     """
-#     Abstract class for implementing BLIND debiasing. Requires implementation of  `_get_loss` and `_loss` methods
-# 
-#     Args:
-#         model (nn.Module):      Language model to be debiased
-#         config (str):           Configuration (optional, only used if using AutoModel)
-#         gamma (float):          Hyper-parameter that regulates the strenght of BLIND weights
-#         alpha (float):          Hyper-parameter that regulates the strenght of the loss
-#         temperature (float):    Hyper-parameter that regulates the softmax of the BLIND logodds
-#         hidden_dim (int):       Hyper-parameter, hidden dimension of the language model
-#     """
+    """
+    Abstract class for implementing BLIND debiasing through a custom trainer. Requires implementation of  `_get_embedding` method
+
+    Args:
+        blind_optimizer (Optimizer):    Optimizer for the BLIND classifier.
+        blind_model (nn.Module):        Classifier used to measure the model's chance of succes for a given training instance.
+        hidden_dim (int):               Hyper-parameter, hidden dimension of the language model. I no blind model is given, the hidden dimension is used to create a simple classifier based on a linear layer.
+        temperature (float):            Hyper-parameter that regulates the softmax of the BLIND logodds.
+        gamma (float):                  Hyper-parameter that regulates the strenght of BLIND weights.
+        alpha (float):                  Hyper-parameter that regulates the strenght of the loss.
+        *args, **kwargs:                Usual arguments for a hugging face trainer.
+    """
     def __init__(
             self,
-            blind_optimizer,
+            blind_optimizer: Optimizer = lambda x: AdamW(x, lr=1e-5, weight_decay=0.1),
             blind_model: nn.Module = None,
             hidden_dim: int = 768,
             temperature: float = 1.0,
@@ -45,16 +47,20 @@ class BLINDTrainer(Trainer, ABC):
         self.alpha = alpha
 
     def compute_loss(self, model, inputs, return_outputs=False, num_items_in_batch: Optional[torch.Tensor] = None):
+        """Compute loss step"""
+        # Model outputs
         labels = inputs.get("labels")
         outputs = model(**inputs)
-        logits = outputs.logits
+        logits = outputs.logits 
 
+        # Obtain success labels
         with torch.no_grad():
             preds = logits.argmax(dim=1)
             success = (preds == labels).long()
 
         embedding = self._get_embedding(inputs)
 
+        # Train step of BLIND model
         if self.model.training:
             self.blind_optimizer.zero_grad()
             logits_blind = self.blind_model(embedding.detach())
@@ -76,8 +82,7 @@ class BLINDTrainer(Trainer, ABC):
             return loss_main
 
     def loss_func(self, logits, labels, logits_blind, labels_blind):
-        """ BLIND loss"""
-
+        """BLIND loss"""
         prob_dist = F.softmax(logits, dim=1)
         prob_dist_BLIND = F.softmax(logits_blind / self.temperature, dim=1)
 
