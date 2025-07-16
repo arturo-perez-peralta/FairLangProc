@@ -633,19 +633,63 @@ class BasePruningModel(BaseModel):
 
 
 class DiffPrunDebiasing(BasePruningModel, ABC):
-    """
-    Implements differ pruning for bias mitigation in pretrained models.
+    r"""Implements differ pruning for bias mitigation in pretrained models.
+
+    Requires the implementation of the '_forward' method, similar to '_ get_embedding' in other classes in that 
+    it should compute the embedding given some inputs.
     
-    Args:
-        model (nn.Module):          Pretrained model (e.g., BERT, GPT-2).
-        input_ids_A (torch.Tensor): Tensor with ids of text with demographic information of group A.
-        input_ids_B (torch.Tensor): Tensor with ids of text with demographic information of group B.
-        lambda_sparse (float):      Weight for sparsity loss.
-        lambda_bias (float):        Weight for bias mitigation loss.
-        bias_kernel (Callable):     Kernel for the embeddings of the bias loss. If None, defaults to the identity.
-        upper (float):              Parameter for concrete relaxation (has to be > 1).
-        lower (float):              Parameter for concrete relaxation (has to be < 0).
-        temp (float):               Temperature for concrete relaxation loss.
+    Example
+    -------
+    >>> from FairLangProc.algorithms.intraprocessors import DiffPrunBERT
+    >>>
+    >>> class DiffPrunBERT(DiffPrunDebiasing):
+    >>>     def _forward(self, input_ids, attention_mask=None, token_type_ids=None):
+    >>>         outputs = self.encoder(
+    >>>             input_ids = input_ids,
+    >>>             attention_mask = attention_mask,
+    >>>             token_type_ids = token_type_ids
+    >>>             )
+    >>>         return outputs.last_hidden_state[:,0,:]
+    >>>
+    >>> tokenizer = AutoTokenizer.from_pretrained('bert-base-uncased')
+    >>> model = AutoModelForSequenceClassification.from_pretrained('bert-base-uncased')
+    >>> 
+    >>> gendered_pairs = [("manager", "manageress"), ("nephew", "niece"), ("prince", "princess"), ("baron", "baroness")]
+    >>> tokens_male = [words[0] for words in gendered_pairs]
+    >>> tokens_female = [words[1] for words in gendered_pairs]
+    >>> inputs_male = tokenizer(tokens_male, padding = True, return_tensors = "pt")
+    >>> inputs_female = tokenizer(tokens_female, padding = True, return_tensors = "pt")
+    >>> 
+    >>> def normalize_by_column(x: torch.Tensor, eps: float = 1e-8):
+    >>>     mean = x.mean(dim=0, keepdim=True)
+    >>>     std = x.std(dim=0, keepdim=True)
+    >>>     return (x - mean) / (std + eps)
+    >>> 
+    >>> ModularDebiasingBERT = DiffPrunBERT(
+            head = model.classifier,
+            encoder = model.bert,
+            loss_fn = torch.nn.CrossEntropyLoss(),
+            input_ids_A = inputs_male,
+            input_ids_B = inputs_female,
+            bias_kernel = normalize_by_column,
+            upper = 10,
+            lower = -0.001,
+            lambda_bias = 0.5,
+            lambda_sparse = 0.00001
+        )
+    >>> trainer = Trainer(
+            model=ModularDebiasingBERT,
+            args=training_args,
+            train_dataset=train_dataset,
+            eval_dataset=val_dataset,
+            optimizers=(
+                AdamW(ModularDebiasingBERT.parameters(), lr=1e-5, weight_decay=0.1),
+                None
+                )
+        )
+    >>> trainer.train()
+    >>> results = trainer.evaluate()
+    >>> print(results)
     """
 
     def __init__(
@@ -664,6 +708,37 @@ class DiffPrunDebiasing(BasePruningModel, ABC):
         upper: float = 1.1,
         lower: float = -0.1
     ):
+        r""" Constructor of the DiffPrunDebiasing class.
+
+        Parameters
+        ----------
+        head : nn.Module
+            Head used for the task at hand (classification, question answering,...).
+        encoder : nn.Module
+            Pretrained model (e.g., BERT, GPT-2).
+        loss_fn : Callable
+            Loss function.
+        input_ids_A : torch.Tensor
+            Tensor with ids of text with demographic information of group A.
+        input_ids_B : torch.Tensor
+            Tensor with ids of text with demographic information of group B.
+        lambda_sparse : float
+            Weight for sparsity loss.
+        lambda_bias : float
+            Weight for bias mitigation loss.
+        bias_kernel : Callable
+            Kernel for the embeddings of the bias loss. If None, defaults to the identity.
+        fixmask_init : bool
+            If true, uses DiffWeightFixmask (i.e. only masks) instead of DiffWeightFinetune (i.e. smooth pruning).
+        alpha_init : Optional[Union[int, float]]
+            Initialization value for the log alpha parameters.
+        structured_diff_prunning : Optional[bool]
+            If true, adds a group structure to the diff pruning process (see DiffWeightFinetune)
+        upper : float
+            Parameter for concrete relaxation (has to be > 1).
+        lower : float
+            Parameter for concrete relaxation (has to be < 0).
+        """
         super().__init__(encoder = encoder)
         self.head = head
         self.loss_fn = loss_fn
@@ -693,8 +768,7 @@ class DiffPrunDebiasing(BasePruningModel, ABC):
 
 
     def _get_bias_loss(self):
-        """
-        Compute debias loss as the difference of the kernel of the counterfactual pairs
+        """Compute debias loss as the difference of the kernel of the counterfactual pairs.
         """ 
         # Get hidden states from last layer
         group_a = self._forward(**self.inputs_A)
@@ -713,6 +787,7 @@ class DiffPrunDebiasing(BasePruningModel, ABC):
         )
     
     def forward(self, input_ids, attention_mask=None, token_type_ids = None, labels=None):
+        """Forward pass."""
         outputs = self._forward(input_ids = input_ids, attention_mask = attention_mask, token_type_ids = token_type_ids)
         logits = self.head(outputs)
         if labels is not None:
@@ -725,6 +800,7 @@ class DiffPrunDebiasing(BasePruningModel, ABC):
             return CustomOutput(logits = logits)
 
     def _loss(self, output, target):
+        """Loss function."""
         return self.loss_fn(output, target)
     
     def to(self, device):
@@ -737,7 +813,7 @@ class DiffPrunDebiasing(BasePruningModel, ABC):
 
 
 class DiffPrunBERT(DiffPrunDebiasing):
-
+    """Concrete implementation for the BERT model."""
     def _forward(self, input_ids, attention_mask=None, token_type_ids=None):
         outputs = self.encoder(
             input_ids = input_ids,

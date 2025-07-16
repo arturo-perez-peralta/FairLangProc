@@ -21,16 +21,54 @@ TokenizerType = TypeVar("TokenizerType", bound = "PreTrainedTokenizer")
 
 
 class SentDebiasModel(nn.Module, ABC):
-    """
-    Implements SentDebiasModel, requires the implementation of _get_embedding, _loss and _get_loss methods.
+    r"""Implements SentDebiasModel, requires the implementation of _get_embedding, _loss and _get_loss methods.
 
-    Args:
-        model (nn.Module):              language model used
-        config (str):                   Optional, configuration to use when using AutoModel
-        tokenizer (TokenizerType):       Tokenizer associated with the model
-        word_pairs (list[tuple[str]]):  list of counterfactual tuples (might be words, sentences,...)
-        n_components (int):             number of components of the bias subspace
-        device (str):                   device to run the model on
+    Attributes
+    ----------
+    bias_subpsace : torch.Tensor
+        Tensor that stores the matrix/vector resulting from performing PCA on the difference of 
+        the words/sentences with sensitive attributes.
+    
+    Example
+    -------
+    >>> from FairLangProc.algorithms.preprocessors import SentDebiasForSequenceClassification
+    >>> gendered_pairs = [('he', 'she'), ('his', 'hers'), ('monk', 'nun')]
+    >>> model = AutoModelForSequenceClassification.from_pretrained('bert-base-uncased')
+    >>> 
+    >>> class SentDebiasBert(SentDebiasForSequenceClassification):        
+            def _get_embedding(
+                    self,
+                    input_ids,
+                    attention_mask = None,
+                    token_type_ids = None
+                    ):
+                return self.model.bert(
+                    input_ids,
+                    attention_mask = attention_mask,
+                    token_type_ids = token_type_ids
+                    ).last_hidden_state[:,0,:]
+    >>> EmbedModel = SentDebiasBert(
+            model = model,
+            config = None,
+            tokenizer = TOKENIZER,
+            word_pairs = gendered_pairs,
+            n_components = 1,
+            n_labels = 2
+        )
+    >>> 
+    >>> trainer = Trainer(
+            model=EmbedModel,
+            args=training_args,
+            train_dataset=train_dataset,
+            eval_dataset=val_dataset,
+            optimizers=(
+                AdamW(EmbedModel.parameters(), lr=1e-5, weight_decay=0.1),
+                None
+                )
+        )
+    >>> trainer.train()
+    >>> results = trainer.evaluate()
+    >>> print(results)
     """
 
     def __init__(
@@ -42,7 +80,24 @@ class SentDebiasModel(nn.Module, ABC):
         n_components: int = 1,
         device: str = None,
         **kwargs_loss
-    ):
+    ) -> None:
+        r"""Constructor of the SentDebiasModel class.
+
+        Parameters
+        ----------
+        model : nn.Module, str              
+            Language Model used.
+        config : str
+            Optional, configuration to use when using AutoModel (i.e. when model is a string).
+        tokenizer : TokenizerType
+            Tokenizer associated with the model.
+        word_pairs : list[tuple[str]]
+            List of counterfactual tuples (might be words, sentences,...).
+        n_components : int             
+            Number of components of the bias subspace.
+        device : str
+            Device to run the model on.
+        """
 
         super().__init__()
         
@@ -85,8 +140,7 @@ class SentDebiasModel(nn.Module, ABC):
 
 
     def _compute_bias_subspace(self):
-        """
-        Compute bias subspace with PCA
+        """Compute bias subspace with PCA.
         """
     
         if not self.tokenizer:
@@ -106,8 +160,7 @@ class SentDebiasModel(nn.Module, ABC):
 
 
     def _neutralize(self, v: torch.Tensor):
-        """
-        Compute the projection on bias free subspace
+        """Compute the projection on the bias free subspace.
         """
         proj_coeff = torch.matmul(v, self.bias_subspace)
         proj = torch.matmul(proj_coeff, self.bias_subspace.T)
@@ -116,8 +169,7 @@ class SentDebiasModel(nn.Module, ABC):
     
     
     def forward(self,  input_ids, attention_mask=None, token_type_ids=None, labels = None):
-        """
-        forward pass
+        """Forward pass.
         """
         embeddings = self._get_embedding(input_ids = input_ids, attention_mask = attention_mask, token_type_ids = token_type_ids)
         debiased_embeddings = self._neutralize(embeddings)
@@ -147,8 +199,7 @@ class SentDebiasModel(nn.Module, ABC):
 
 
 class SentDebiasForSequenceClassification(SentDebiasModel):
-    """
-    Implementation ready for sequence classification, lacks _get_embedding method
+    """Implementation ready for sequence classification, lacks _get_embedding method.
     """
 
     def _get_loss(self, n_labels):

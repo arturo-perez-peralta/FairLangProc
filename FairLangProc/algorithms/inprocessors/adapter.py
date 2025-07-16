@@ -10,20 +10,50 @@ import adapters
 
 
 class DebiasAdapter(nn.Module):
-    """
-    Implements ADELE debiasing based on bottleneck adapter.
+    """Implements ADELE debiasing based on bottleneck adapter.
     
-    Args:
-        model (nn.Module):                  Pretrained model (e.g., BERT, GPT-2)
-        adapter_name (str):                 Tensor with ids of text with demographic information of group A
-        adapter_config (Union[str, dict]):  Name or dictionary of the desired configuration for the adapter (bottleneck by default)
+    Example
+    -------
+    >>> from adapters import AdapterTrainer
+    >>> from FairLangProc.algorithms.inprocessors import DebiasAdapter
+    >>> 
+    >>> DebiasAdapter = DebiasAdapter(
+    >>>     model = AutoModel.from_pretrained('bert-base-uncased'),
+    >>>     adapter_config = "seq_bn"
+    >>>     )
+    >>> AdeleModel = DebiasAdapter.get_model()
+    >>> 
+    >>> trainer = AdapterTrainer(
+    >>>     model=AdeleModel,
+    >>>     args=training_args,
+    >>>     train_dataset=train_CDA,
+    >>>     eval_dataset=val_dataset,
+    >>>     optimizers=(
+    >>>         AdamW(AdeleModel.parameters(),lr=1e-5, weight_decay=0.1),
+    >>>         None
+    >>>         )
+    >>> )
+    >>> trainer.train()
+    >>> results = trainer.evaluate()
+    >>> print(results)
     """
     def __init__(
         self,
         model: nn.Module,
         adapter_name: str = "debias_adapter",
         adapter_config: Union[str, dict] = "seq_bn",
-    ):
+    ) -> None:
+        r"""Constructor of the DebiasAdapter class.
+        
+        Parameters
+        ----------
+        model : nn.Module 
+            Pretrained model (e.g., BERT, GPT-2)
+        adapter_name : str        
+            Tensor with ids of text with demographic information of group A
+        adapter_config : Union[str, dict]
+            Name or dictionary of the desired configuration for the adapter (bottleneck by default)
+        """
         
         super().__init__()
         self.adapter_name = adapter_name

@@ -21,12 +21,35 @@ class EmbeddingBasedRegularizer(nn.Module, ABC):
     Class for adding a regularizer based on the embeddings of counterfactual pairs.
     Requires the implementation of the _get_embedding method
 
-    Args:
-        model (nn.Module):              A language model
-        tokenizer (TokenizerType):       tokenizer of the model
-        word_pairs (list[tuple[str]]):  List of tuples of counterfactual pairs whose embeddings should be close together
-                                        (e.g. daughter and son, he and she,...)
-        ear_reg_strength (float):       hyper-parameter containing the strength of the regularization term
+    Example
+    -------
+    >>> from FairLangProc.algorithms.inprocessors import EmbeddingBasedRegularizer
+    >>> class BERTEmbedingReg(EmbeddingBasedRegularizer):
+            def _get_embedding(self, inputs):
+                return self.model(**inputs).last_hidden_state[:,0,:]
+    >>> model = AutoModelForSequenceClassification.from_pretrained('bert-base-uncased')
+    >>> tokenizer = AutoTokenizer.from_pretrained('bert-base-uncased')
+    >>> words = [('he', 'she'), ('his', 'hers'), ('monk', 'nun')]
+    >>> EmbRegularizer = EARModel(
+             model = model,
+             tokenizer = tokenizer,
+             word_pairs = words, 
+             ear_reg_strength = 0.01
+        )
+    >>> 
+    >>> trainer = Trainer(
+            model=EARRegularizer,
+            args=training_args,
+            train_dataset=train_dataset,
+            eval_dataset=val_dataset,
+            optimizers=(
+                AdamW(EARRegularizer.parameters(), lr=1e-5, weight_decay=0.1),
+                None
+                )
+        )
+    >>> trainer.train()
+    >>> results = trainer.evaluate()
+    >>> print(results)
     """
 
     def __init__(
@@ -35,7 +58,21 @@ class EmbeddingBasedRegularizer(nn.Module, ABC):
         tokenizer: TokenizerType,
         word_pairs: list[tuple[str]],
         ear_reg_strength: float = 0.01
-        ):
+        ) -> None:
+        r"""Constructor of the EmbeddingBasedRegularizer class.
+
+        Parameters
+        ----------
+        model : nn.Module   
+            A language model
+        tokenizer : TokenizerType
+            Tokenizer of the model
+        word_pairs : list[tuple[str]]
+            List of tuples of counterfactual pairs whose embeddings should be close together
+            (e.g. daughter and son, he and she,...).
+        ear_reg_strength : float
+            Hyper-parameter containing the strength of the regularization term.
+        """
         super().__init__()
         self.model = model
         self.ear_reg_strength = ear_reg_strength
@@ -56,8 +93,7 @@ class EmbeddingBasedRegularizer(nn.Module, ABC):
         token_type_ids=None,
         labels = None
         ):
-        """
-        forward pass
+        r"""Forward pass
         """
         output = self.model(
             input_ids,
@@ -92,6 +128,7 @@ class EmbeddingBasedRegularizer(nn.Module, ABC):
 
 
 class BERTEmbedingReg(EmbeddingBasedRegularizer):
+    r"""Concrete implementation for the BERT model."""
     def _get_embedding(self, inputs):
         return self.model(**inputs).last_hidden_state[:,0,:]
 
@@ -108,7 +145,7 @@ def EntropyAttentionRegularizer(
         attention_mask: torch.torch,
         return_values: bool = False
         ):
-    """Compute the negative entropy across layers of a network for given inputs.
+    r"""Compute the negative entropy across layers of a network for given inputs.
 
     Args:
         - input: tuple. Tuple of length num_layers. Each item should be in the form: BHSS
@@ -150,12 +187,31 @@ def EntropyAttentionRegularizer(
 
 
 class EARModel(torch.nn.Module):
-    """
-    Class for adding a regularizer based on entropy attention.
+    r"""Class for adding a regularizer based on entropy attention.
 
-    Args:
-        model (nn.Module):              A language model
-        ear_reg_strength (float):       hyper-parameter containing the strength of the regularization term
+    Example
+    -------
+    >>> from FairLangProc.algorithms.inprocessors import EARModel
+    >>> 
+    >>> model = AutoModelForSequenceClassification.from_pretrained('bert-base-uncased')
+    >>> EARRegularizer = EARModel(
+             model = model,
+             ear_reg_strength = 0.01
+        )
+    >>> 
+    >>> trainer = Trainer(
+            model=EARRegularizer,
+            args=training_args,
+            train_dataset=train_dataset,
+            eval_dataset=val_dataset,
+            optimizers=(
+                AdamW(EARRegularizer.parameters(), lr=1e-5, weight_decay=0.1),
+                None
+                )
+        )
+    >>> trainer.train()
+    >>> results = trainer.evaluate()
+    >>> print(results)
     """
 
     def __init__(
@@ -163,13 +219,21 @@ class EARModel(torch.nn.Module):
             model: nn.Module,
             ear_reg_strength: float = 0.01
             ):
+        r"""Constructor for the EARModel class
+
+        Parameters
+        ----------
+        model  : nn.Module 
+            A language model.
+        ear_reg_strength : float
+            Hyper-parameter containing the strength of the regularization term.
+        """
         super().__init__()
         self.model = model
         self.ear_reg_strength = ear_reg_strength
 
     def forward(self, input_ids, attention_mask=None, token_type_ids=None, labels = None):
-        """
-        forward pass
+        r"""Forward pass
         """
         output = self.model(
             input_ids,

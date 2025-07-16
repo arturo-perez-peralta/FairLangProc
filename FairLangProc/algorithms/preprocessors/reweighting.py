@@ -13,18 +13,47 @@ from transformers import Trainer
 
 
 class BLINDTrainer(Trainer, ABC):
-    """
-    Abstract class for implementing BLIND debiasing through a custom trainer. Requires implementation of  `_get_embedding` method
+    r"""Abstract class for implementing BLIND debiasing through a custom trainer. Requires implementation of  `_get_embedding` method.
 
-    Args:
-        blind_optimizer (Optimizer):    Optimizer for the BLIND classifier.
-        blind_model (nn.Module):        Classifier used to measure the model's chance of succes for a given training instance.
-        hidden_dim (int):               Hyper-parameter, hidden dimension of the language model. I no blind model is given, the hidden dimension is used to create a simple classifier based on a linear layer.
-        temperature (float):            Hyper-parameter that regulates the softmax of the BLIND logodds.
-        gamma (float):                  Hyper-parameter that regulates the strenght of BLIND weights.
-        alpha (float):                  Hyper-parameter that regulates the strenght of the loss.
-        *args, **kwargs:                Usual arguments for a hugging face trainer.
+    Extends the trainer class from hugging face thus inhereting all relevant methods and attributes.
+
+    Example
+    -------
+    >>> from FairLangProc.algorithms.preprocessors import BLINDTrainer
+    >>> 
+    >>> BLINDModel = AutoModelForSequenceClassification.from_pretrained('bert-base-uncased')
+    >>> BLINDClassifier = nn.Sequential(
+              nn.Linear(HIDDEN_DIM_BERT, HIDDEN_DIM_BERT),
+              nn.ReLU(),
+              nn.Linear(HIDDEN_DIM_BERT, 2)
+        )
+    >>> class BLINDBERTTrainer(BLINDTrainer):
+            def _get_embedding(self, inputs):
+                return self.model.bert(
+                    input_ids = inputs.get("input_ids"),
+                    attention_mask = inputs.get("attention_mask"),
+                    token_type_ids = inputs.get("token_type_ids")
+                    ).last_hidden_state[:,0,:]
+    >>>     
+    >>> trainer = BLINDBERTTrainer(
+            blind_model = BLINDClassifier,
+            blind_optimizer = lambda x: AdamW(x, lr=1e-5, weight_decay=0.1),
+            temperature = 1.0,
+            gamma = 2.0,
+            alpha = 1.0,
+            model = BLINDModel,
+            args = training_args,
+            train_dataset = train_dataset,
+            eval_dataset = val_dataset,
+            optimizers=(
+                AdamW(BLINDModel.parameters(), lr=1e-5, weight_decay=0.1),
+                None
+                )
+        )
+    >>> trainer.train()
+    >>> results = trainer.evaluate()
     """
+
     def __init__(
             self,
             blind_optimizer: Optimizer = lambda x: AdamW(x, lr=1e-5, weight_decay=0.1),
@@ -35,7 +64,26 @@ class BLINDTrainer(Trainer, ABC):
             alpha: float = 1.0,
             *args,
             **kwargs
-            ):
+            ) -> None:
+        r"""Constructor of the BLINDTrainer class.
+
+        Parameters
+        ----------
+        blind_optimizer : Optimizer
+            Optimizer for the BLIND classifier.
+        blind_model : nn.Module        
+            Classifier used to measure the model's chance of succes for a given training instance.
+        hidden_dim : int               
+            Hyper-parameter, hidden dimension of the language model. I no blind model is given, the hidden dimension is used to create a simple classifier based on a linear layer.
+        temperature : float            
+            Hyper-parameter that regulates the softmax of the BLIND logodds.
+        gamma : float   
+            Hyper-parameter that regulates the strenght of BLIND weights.
+        alpha : float      
+            Hyper-parameter that regulates the strenght of the loss.
+        *args, **kwargs                
+            Usual arguments for a hugging face trainer.
+        """
         super().__init__(*args, **kwargs)
         self.hidden_dim = hidden_dim
         if blind_model is None:
@@ -96,4 +144,5 @@ class BLINDTrainer(Trainer, ABC):
 
     @abstractmethod
     def _get_embedding(self):
+        """Abstract methods which computes the embedding of a given model's outputs."""
         pass
