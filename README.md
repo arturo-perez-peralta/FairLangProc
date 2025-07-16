@@ -9,7 +9,7 @@ The FairLangProc package includes:
 3) Algorithms to mitigate biases.
 It has been created with the intention of encouraging the use of bias mitigation strategies in the NLP community, and with the hope of democratizing these tools for the ever-increasing set of NLP practitioners. We invite you to use it and improve it.
 
-The companion paper provides a comprehensive introduction to the concepts and capabilities, with all code available in [notebooks](./notebooks).
+The companion paper provides a comprehensive introduction to the concepts and capabilities, with all code available in [notebooks](./notebooks). Furthermore, we are working torwards a comprehensive [documentation](https://fairlangproc.readthedocs.io/en/latest/).
 
 We have developed the package with extensibility in mind. This library is still in development. We encourage your contributions.
 
