@@ -16,13 +16,24 @@ TokenizerType = TypeVar("TokenizerType", bound = "PreTrainedTokenizer")
 
 
 class WEAT(ABC):
-    """
-    Class for handling WEAT metric with a PyTorch model and tokenizer.
+    """Class for handling WEAT metric with a PyTorch model and tokenizer.
     
-    Args:
-        model (nn.Module):     PyTorch model (e.g., BERT, GPT from HuggingFace)
-        tokenizer (tokenizer): Corresponding tokenizer
-        device (str):          Device to run computations on
+    Attributes
+    ----------
+    model : nn.Module     
+        PyTorch model (e.g., BERT, GPT from HuggingFace).
+    tokenizer : TokenizerType
+        Tokenizer for the model.
+    device : str
+        Device to run the WEAT test on.
+
+    Methods
+    -------
+    metric(W1_words, W2_words, A1_words, A2_words, n_perm, pval)
+        Computation of the WEAT effect size between W1, W2 and A1, A2.
+    _get_embedding(outputs)
+        Abstract method whose implementation is required and which aims to compute the embedding of an output given
+        by the model.
     """
 
     def __init__(
@@ -30,7 +41,18 @@ class WEAT(ABC):
         model: nn.Module,
         tokenizer: TokenizerType,
         device: str='cuda'
-        ):
+        ) -> None:
+        r"""Constructor for the WEAT class
+
+        Parameters
+        ----------
+        model : nn.Module     
+            PyTorch model (e.g., BERT, GPT from HuggingFace).
+        tokenizer : TokenizerType
+            Tokenizer for the model.
+        device : str
+            Device to run the WEAT test on.
+        """
         self.model = model
         self.tokenizer = tokenizer
         self.device = device
@@ -38,15 +60,7 @@ class WEAT(ABC):
         self.model.eval()
 
     def get_embeddings(self, words: list[str]) -> torch.Tensor:
-        """
-        Get embeddings for a list of words using the LLM.
-        
-        Args:
-            words: List of words to embed
-            
-        Returns:
-            Tensor of shape (num_words, embedding_dim)
-        """
+        """Get embeddings for a list of words using the LLM."""
         embeddings = []
         for word in words:
             # Tokenize and get embeddings
@@ -63,6 +77,7 @@ class WEAT(ABC):
 
     @abstractmethod
     def _get_embedding(self, outputs):
+        r"""Abstract method that instructs the class on how to obtain the embedding of a given input."""
         pass
 
     def cosine_similarity(self, x: torch.Tensor, y: torch.Tensor) -> torch.Tensor:
@@ -75,17 +90,22 @@ class WEAT(ABC):
         A: torch.Tensor,
         B: torch.Tensor
         ) -> float:
-        """
-        Compute WEAT effect size.
+        r"""Compute WEAT effect size.
         
-        Args:
-            X: Target concept 1 embeddings (n_X, dim)
-            Y: Target concept 2 embeddings (n_Y, dim)
-            A: Attribute 1 embeddings (n_A, dim)
-            B: Attribute 2 embeddings (n_B, dim)
+        Parameters
+        ----------
+        X : torch.Tensor
+            Target concept 1 embeddings (n_X, dim)
+        Y : torch.Tensor
+            Target concept 2 embeddings (n_Y, dim)
+        A : torch.Tensor
+            Attribute 1 embeddings (n_A, dim)
+        B : torch.Tensor
+            Attribute 2 embeddings (n_B, dim)
             
-        Returns:
-            Effect size (float)
+        Returns
+        -------
+            Effect size : float
         """
         # Compute similarities
         x_a = self.cosine_similarity(X, A).mean()
@@ -109,15 +129,18 @@ class WEAT(ABC):
     def p_value(self, X: torch.Tensor, Y: torch.Tensor, 
                A: torch.Tensor, B: torch.Tensor, 
                n_perm: int = 10000) -> float:
-        """
-        Compute p-value using permutation test.
+        r"""Compute p-value using permutation test.
         
-        Args:
-            X, Y, A, B: Embedding tensors
-            n_perm: Number of permutations
+        Parameters
+        ----------
+        X, Y, A, B : torch.Tensor
+            Embedding tensors
+        n_perm : int
+            Number of permutations
             
-        Returns:
-            p-value (float)
+        Returns
+        -------
+        p-value : float
         """
         combined = torch.cat([X, Y])
         size_X = X.size(0)
@@ -137,7 +160,7 @@ class WEAT(ABC):
                 
         return (count + 1) / (n_perm + 1)  # Add 1 for smoothing
 
-    def run_test(
+    def metric(
         self,
         W1_words: list[str],
         W2_words: list[str],
@@ -146,19 +169,28 @@ class WEAT(ABC):
         n_perm: int = 10000,
         pval: bool = True
         ) -> dict[str, float]:
-        """
-        Run complete WEAT.
+        r"""Run WEAT test.
         
-        Args:
-            W1_words: Target concept 1 words
-            W2_words: Target concept 2 words
-            A1_words: Attribute 1 words
-            A2_words: Attribute 2 words
-            n_perm: Number of permutations for p-value
-            pval: Whether to compute or not the p-value
+        Parameters
+        ----------
+        W1_words : list[str]
+            Target concept 1 words/sentences
+        W2_words : list[str]
+            Target concept 2 words
+        A1_words : list[str]
+            Attribute 1 words/sentences
+        A2_words : list[str]
+            Attribute 2 words/sentences
+        n_perm : int
+            Number of permutations for p-value
+        pval : bool
+            Whether to compute or not the p-value
             
-        Returns:
-            Dictionary with test results
+        Returns
+        -------
+        results : dict[str, float]
+            Dictionary with test results, namely mean similarity between W1, W2 and A1, A2; their sizes,
+            the WEAT effect size and the p-value if needed.
         """
         # Get embeddings
         X = self.get_embeddings(W1_words)
@@ -193,8 +225,7 @@ class WEAT(ABC):
 
 
 class BertWEAT(WEAT):
-    """
-    class with implementation of _get_embedding for bidirectional transformers
+    """Class with implementation of _get_embedding for bidirectional transformers
     """
     def _get_embedding(self, outputs):
         return outputs.last_hidden_state[:, 0, :]
