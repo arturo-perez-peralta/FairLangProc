@@ -30,9 +30,12 @@ DEBIAS_METHODS = [
     "diff"
 ]
 
+TASKS = [
+    "stsb"
+]
+
 DEBIAS_METHODS = [
-    "blind",
-#    "diff"
+    "diff"
 ]
 
 param_grid = [
