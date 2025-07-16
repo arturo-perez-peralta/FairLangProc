@@ -105,7 +105,28 @@ class WEAT(ABC):
             
         Returns
         -------
-            Effect size : float
+        Effect size : float
+
+        Example
+        -------
+        >>> from transformers import AutoTokenizer, AutoModel
+        >>> from FairLangProc.metrics import WEAT
+        >>> class BertWEAT(WEAT):
+            def _get_embedding(self, outputs):
+                return outputs.last_hidden_state[:, 0, :]
+        >>> tokenizer = AutoTokenizer.from_pretrained('bert-base-uncased')
+        >>> model = AutoModel.from_pretrained('bert-base-uncased')
+        >>> math = ['math', 'algebra', 'geometry', 'calculus', 'equations']
+        >>> arts = ['poetry', 'art', 'dance', 'literature', 'novel']
+        >>> masc = ['male', 'man', 'boy', 'brother', 'he']
+        >>> femn = ['female', 'woman', 'girl', 'sister', 'she']
+        >>> 
+        >>> weatClass = BertWEAT(model = model, tokenizer = tokenizer)
+        >>> weatClass.metric(
+                W1_words = math, W2_words = arts,
+                A1_words = masc, A2_words = femn,
+                pval = False
+                )
         """
         # Compute similarities
         x_a = self.cosine_similarity(X, A).mean()
