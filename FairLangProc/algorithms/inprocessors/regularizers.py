@@ -1,6 +1,4 @@
-"""FairLangProc.algorithms.inprocessors.regularizers.py
-
-Submodule inside of the FairLangProc.algorithms.inprocessors module which stores all
+"""Submodule inside of the FairLangProc.algorithms.inprocessors module which stores all
 processors related with the addition of regularizers.
 
 The supported methods are embedding-based regularizers and EAR.

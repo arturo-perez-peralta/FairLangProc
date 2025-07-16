@@ -1,6 +1,4 @@
-"""FairLangProc.metrics.probability.py
-
-Submodule inside of the FairLangProc.metrics module which stores all methods and metrics related
+"""Submodule inside of the FairLangProc.metrics module which stores all methods and metrics related
 with Language Modelling.
 
 The supported metrics are LPBS, CBS, CPS, AUL.

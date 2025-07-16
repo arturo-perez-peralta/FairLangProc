@@ -1,6 +1,4 @@
-"""FairLangProc.algorithms.preprocessors.projection_based.py
-
-Submodule inside of the FairLangProc.algorithms.preprocessors module which stores all
+"""Submodule inside of the FairLangProc.algorithms.preprocessors module which stores all
 processors related with the embeddings of training instances.
 
 The supported method is a projection-based debiasing procedure flexible enough to implement Hardt and Sent debias.

@@ -1,6 +1,4 @@
-"""FairLangProc.algorithms.inprocessors.adapter.py
-
-Submodule inside of the FairLangProc.algorithms.inprocessors module which stores all
+"""Submodule inside of the FairLangProc.algorithms.inprocessors module which stores all
 processors related with the addition of adapters
 
 The supported method is ADELE.

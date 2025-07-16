@@ -1,6 +1,4 @@
-"""FairLangProc.datasets
-
-Module which stores the BiasDataLoader function to load bias evaluation datasets.
+"""Module which stores the BiasDataLoader function to load bias evaluation datasets.
 """
 
 # Standard libraries
