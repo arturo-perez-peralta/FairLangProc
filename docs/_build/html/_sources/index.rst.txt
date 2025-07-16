@@ -19,9 +19,9 @@ The companion paper provides a comprehensive introduction to the concepts and ca
 
 We have developed the package with extensibility in mind. This library is still in development. We encourage your contributions.
 
-   modules
-
 .. toctree::
    :maxdepth: 3
    :caption: Contents:
 
+
+   modules

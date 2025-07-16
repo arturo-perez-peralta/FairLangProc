@@ -8,7 +8,7 @@ FairLangProc.algorithms.inprocessors.adapter module
 ---------------------------------------------------
 
 .. automodule:: FairLangProc.algorithms.inprocessors.adapter
-   :members:
+   :members: DebiasAdapter
    :undoc-members:
    :show-inheritance:
 
@@ -16,7 +16,7 @@ FairLangProc.algorithms.inprocessors.regularizers module
 --------------------------------------------------------
 
 .. automodule:: FairLangProc.algorithms.inprocessors.regularizers
-   :members:
+   :members: EmbeddingBasedRegularizer, BERTEmbedingReg, EARModel
    :undoc-members:
    :show-inheritance:
 
@@ -24,7 +24,7 @@ FairLangProc.algorithms.inprocessors.selective\_updating module
 ---------------------------------------------------------------
 
 .. automodule:: FairLangProc.algorithms.inprocessors.selective_updating
-   :members:
+   :members: selective_unfreezing
    :undoc-members:
    :show-inheritance:
 

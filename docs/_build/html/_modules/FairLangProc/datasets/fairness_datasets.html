@@ -84,16 +84,13 @@
 <span class="n">path_benchmark</span> <span class="o">=</span> <span class="n">file_path</span> <span class="o">+</span> <span class="s1">&#39;/Fair-LLM-Benchmark&#39;</span>
 
 <span class="c1"># Get folders in path_benchmark</span>
-<div class="viewcode-block" id="getDatasets">
-<a class="viewcode-back" href="../../../FairLangProc.datasets.html#FairLangProc.datasets.fairness_datasets.getDatasets">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">getDatasets</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Get list of available datasets&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">path_benchmark</span><span class="p">):</span>
         <span class="k">return</span> <span class="p">[]</span>
     <span class="n">datasets</span> <span class="o">=</span> <span class="p">[</span><span class="nb">dir</span> <span class="k">for</span> <span class="nb">dir</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">path_benchmark</span><span class="p">)</span> 
                <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path_benchmark</span><span class="p">,</span> <span class="nb">dir</span><span class="p">))</span> <span class="ow">and</span> <span class="s1">&#39;git&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">]</span>
-    <span class="k">return</span> <span class="n">datasets</span></div>
-
+    <span class="k">return</span> <span class="n">datasets</span>
 
 
 <span class="n">dirs_benchmark</span> <span class="o">=</span> <span class="n">getDatasets</span><span class="p">()</span>
@@ -108,52 +105,32 @@
 <span class="c1">#                               READERS</span>
 <span class="c1">#=======================================================================</span>
 
-<div class="viewcode-block" id="csvReader">
-<a class="viewcode-back" href="../../../FairLangProc.datasets.html#FairLangProc.datasets.fairness_datasets.csvReader">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">csvReader</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Read CSV file&quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">path</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
 
-
-<div class="viewcode-block" id="tsvReader">
-<a class="viewcode-back" href="../../../FairLangProc.datasets.html#FairLangProc.datasets.fairness_datasets.tsvReader">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">tsvReader</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Read TSV file&quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">)</span>
 
-
-<div class="viewcode-block" id="jsonReader">
-<a class="viewcode-back" href="../../../FairLangProc.datasets.html#FairLangProc.datasets.fairness_datasets.jsonReader">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">jsonReader</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Read JSON file&quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="n">path</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
 
-
-<div class="viewcode-block" id="jsonlReader">
-<a class="viewcode-back" href="../../../FairLangProc.datasets.html#FairLangProc.datasets.fairness_datasets.jsonlReader">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">jsonlReader</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Read JSONL file&quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">lines</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">lines</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-
-<div class="viewcode-block" id="txtReader">
-<a class="viewcode-back" href="../../../FairLangProc.datasets.html#FairLangProc.datasets.fairness_datasets.txtReader">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">txtReader</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Read text file&quot;&quot;&quot;</span>
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
         <span class="n">data</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
-    <span class="k">return</span> <span class="n">data</span></div>
+    <span class="k">return</span> <span class="n">data</span>
 
-
-<div class="viewcode-block" id="zipReader">
-<a class="viewcode-back" href="../../../FairLangProc.datasets.html#FairLangProc.datasets.fairness_datasets.zipReader">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">zipReader</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Read ZIP compressed CSV&quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">compression</span><span class="o">=</span><span class="s1">&#39;zip&#39;</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">compression</span><span class="o">=</span><span class="s1">&#39;zip&#39;</span><span class="p">)</span>
 
-
-<div class="viewcode-block" id="tgzReader">
-<a class="viewcode-back" href="../../../FairLangProc.datasets.html#FairLangProc.datasets.fairness_datasets.tgzReader">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">tgzReader</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Extracts a .tgz file and returns the path to the extraction directory.</span>
@@ -183,11 +160,8 @@
         <span class="k">return</span> <span class="kc">None</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;An unexpected error occurred: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="kc">None</span></div>
+        <span class="k">return</span> <span class="kc">None</span>
 
-
-<div class="viewcode-block" id="pyReader">
-<a class="viewcode-back" href="../../../FairLangProc.datasets.html#FairLangProc.datasets.fairness_datasets.pyReader">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">pyReader</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Execute Python file with arguments&quot;&quot;&quot;</span>
     <span class="c1"># Path variables</span>
@@ -204,17 +178,13 @@
     <span class="n">process</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;python&#39;</span><span class="p">,</span> <span class="n">program</span><span class="p">]</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
 
     <span class="c1"># Run the command</span>
-    <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">process</span><span class="p">,</span> <span class="n">cwd</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">program_folder</span><span class="p">))</span></div>
+    <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">process</span><span class="p">,</span> <span class="n">cwd</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">program_folder</span><span class="p">))</span>
 
-
-<div class="viewcode-block" id="defaultReader">
-<a class="viewcode-back" href="../../../FairLangProc.datasets.html#FairLangProc.datasets.fairness_datasets.defaultReader">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">defaultReader</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Generic data reader&quot;&quot;&quot;</span>
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
         <span class="n">data</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
-    <span class="k">return</span> <span class="n">data</span></div>
-
+    <span class="k">return</span> <span class="n">data</span>
 
 <span class="n">readers</span> <span class="o">=</span> <span class="p">{</span><span class="n">ext</span><span class="p">:</span> <span class="nb">globals</span><span class="p">()[</span><span class="n">ext</span> <span class="o">+</span> <span class="s1">&#39;Reader&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">ext</span> <span class="ow">in</span> <span class="n">extensions</span><span class="p">}</span>
 
@@ -223,8 +193,6 @@
 <span class="c1">#                               HANDLER</span>
 <span class="c1">#=======================================================================</span>
 
-<div class="viewcode-block" id="dataReader">
-<a class="viewcode-back" href="../../../FairLangProc.datasets.html#FairLangProc.datasets.fairness_datasets.dataReader">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">dataReader</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Use appropriate reader based on file extension&quot;&quot;&quot;</span>
     <span class="n">extension</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
@@ -232,11 +200,8 @@
     <span class="k">if</span> <span class="n">extension</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">extensions</span><span class="p">:</span>
         <span class="n">extension</span> <span class="o">=</span> <span class="s1">&#39;default&#39;</span>
 
-    <span class="k">return</span> <span class="n">readers</span><span class="p">[</span><span class="n">extension</span><span class="p">](</span><span class="n">path</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">readers</span><span class="p">[</span><span class="n">extension</span><span class="p">](</span><span class="n">path</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
 
-
-<div class="viewcode-block" id="readFolder">
-<a class="viewcode-back" href="../../../FairLangProc.datasets.html#FairLangProc.datasets.fairness_datasets.readFolder">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">readFolder</span><span class="p">(</span><span class="n">path_folder</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Recursively read folder contents&quot;&quot;&quot;</span>
     <span class="n">files</span> <span class="o">=</span> <span class="p">{}</span>
@@ -255,18 +220,12 @@
                 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error reading </span><span class="si">{</span><span class="n">path_file</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
                 <span class="n">files</span><span class="p">[</span><span class="n">file</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     
-    <span class="k">return</span> <span class="n">files</span></div>
+    <span class="k">return</span> <span class="n">files</span>
 
-
-<div class="viewcode-block" id="obtainPath">
-<a class="viewcode-back" href="../../../FairLangProc.datasets.html#FairLangProc.datasets.fairness_datasets.obtainPath">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">obtainPath</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Get dataset path&quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path_benchmark</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="s1">&#39;data&#39;</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path_benchmark</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="s1">&#39;data&#39;</span><span class="p">)</span>
 
-
-<div class="viewcode-block" id="downloadData">
-<a class="viewcode-back" href="../../../FairLangProc.datasets.html#FairLangProc.datasets.fairness_datasets.downloadData">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">downloadData</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">trace</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Download and load dataset contents&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;h&#39;</span><span class="p">,</span> <span class="s1">&#39;help&#39;</span><span class="p">):</span>
@@ -291,11 +250,8 @@
     <span class="k">if</span> <span class="n">trace</span><span class="p">:</span> 
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Data set &#39;</span> <span class="o">+</span> <span class="n">name</span> <span class="o">+</span> <span class="s1">&#39; loaded&#39;</span><span class="p">)</span>
     
-    <span class="k">return</span> <span class="n">readFolder</span><span class="p">(</span><span class="n">path</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">readFolder</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
 
-
-<div class="viewcode-block" id="runProcess">
-<a class="viewcode-back" href="../../../FairLangProc.datasets.html#FairLangProc.datasets.fairness_datasets.runProcess">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">runProcess</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Run Python process for dataset&quot;&quot;&quot;</span>
     <span class="n">path</span> <span class="o">=</span> <span class="n">obtainPath</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
@@ -311,16 +267,13 @@
         <span class="k">return</span>
         
     <span class="n">proc</span> <span class="o">=</span> <span class="n">py_files</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># Use first Python file found</span>
-    <span class="n">pyReader</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">proc</span><span class="p">),</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span></div>
-
+    <span class="n">pyReader</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">proc</span><span class="p">),</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
 
 
 <span class="c1">#=======================================================================</span>
 <span class="c1">#                               HANDLERS</span>
 <span class="c1">#=======================================================================</span>
 
-<div class="viewcode-block" id="BBQHandler">
-<a class="viewcode-back" href="../../../FairLangProc.datasets.html#FairLangProc.datasets.fairness_datasets.BBQHandler">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">BBQHandler</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="kc">None</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Handle BBQ dataset&quot;&quot;&quot;</span>
     <span class="n">path</span> <span class="o">=</span> <span class="n">obtainPath</span><span class="p">(</span><span class="s1">&#39;BBQ&#39;</span><span class="p">)</span>
@@ -342,11 +295,8 @@
         <span class="k">return</span> <span class="n">csvReader</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span> <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">data</span> <span class="o">+</span> <span class="s1">&#39;.jsonl&#39;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">jsonlReader</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span> <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span></div>
+        <span class="k">return</span> <span class="n">jsonlReader</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span> <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
 
-
-<div class="viewcode-block" id="BECProHandler">
-<a class="viewcode-back" href="../../../FairLangProc.datasets.html#FairLangProc.datasets.fairness_datasets.BECProHandler">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">BECProHandler</span><span class="p">(</span><span class="n">config</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">],</span> <span class="kc">None</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Handle BEC-Pro dataset&quot;&quot;&quot;</span>
     <span class="n">path</span> <span class="o">=</span> <span class="n">obtainPath</span><span class="p">(</span><span class="s1">&#39;BEC-Pro&#39;</span><span class="p">)</span>
@@ -367,11 +317,8 @@
         <span class="k">return</span> <span class="n">tsvReader</span><span class="p">(</span><span class="n">files</span><span class="p">[</span><span class="n">current_config</span><span class="p">])</span>
     
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Available options: english, german, all&#39;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="kc">None</span></div>
+    <span class="k">return</span> <span class="kc">None</span>
 
-
-<div class="viewcode-block" id="BOLDHandler">
-<a class="viewcode-back" href="../../../FairLangProc.datasets.html#FairLangProc.datasets.fairness_datasets.BOLDHandler">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">BOLDHandler</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="kc">None</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Handle BOLD dataset&quot;&quot;&quot;</span>
     <span class="n">path</span> <span class="o">=</span> <span class="n">obtainPath</span><span class="p">(</span><span class="s1">&#39;BOLD&#39;</span><span class="p">)</span>
@@ -403,11 +350,8 @@
         <span class="k">return</span> <span class="n">jsonReader</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span> <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">data</span> <span class="o">+</span> <span class="s1">&#39;.csv&#39;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">csvReader</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span> <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span></div>
+        <span class="k">return</span> <span class="n">csvReader</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span> <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
 
-
-<div class="viewcode-block" id="BUGHandler">
-<a class="viewcode-back" href="../../../FairLangProc.datasets.html#FairLangProc.datasets.fairness_datasets.BUGHandler">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">BUGHandler</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="kc">None</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Handle BUG dataset&quot;&quot;&quot;</span>
     <span class="n">path</span> <span class="o">=</span> <span class="n">obtainPath</span><span class="p">(</span><span class="s1">&#39;BUG&#39;</span><span class="p">)</span>
@@ -428,34 +372,22 @@
         <span class="k">return</span> <span class="n">csvReader</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span> <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">data</span> <span class="o">+</span> <span class="s1">&#39;.csv&#39;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">csvReader</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span> <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span></div>
+        <span class="k">return</span> <span class="n">csvReader</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span> <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
 
-
-<div class="viewcode-block" id="CrowSPairsHandler">
-<a class="viewcode-back" href="../../../FairLangProc.datasets.html#FairLangProc.datasets.fairness_datasets.CrowSPairsHandler">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">CrowSPairsHandler</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Handle CrowS-Pairs dataset&quot;&quot;&quot;</span>
     <span class="n">file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">obtainPath</span><span class="p">(</span><span class="s1">&#39;CrowS-pairs&#39;</span><span class="p">),</span> <span class="s1">&#39;crows_pairs_anonymized.csv&#39;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">csvReader</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span> <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span></div>
+    <span class="k">return</span> <span class="n">csvReader</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span> <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
 
-
-<div class="viewcode-block" id="EquityEvaluationCorpusHandler">
-<a class="viewcode-back" href="../../../FairLangProc.datasets.html#FairLangProc.datasets.fairness_datasets.EquityEvaluationCorpusHandler">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">EquityEvaluationCorpusHandler</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Handle Equity Evaluation Corpus&quot;&quot;&quot;</span>
     <span class="n">file_path</span> <span class="o">=</span> <span class="n">obtainPath</span><span class="p">(</span><span class="s1">&#39;Equity-Evaluation-Corpus&#39;</span><span class="p">)</span> <span class="o">/</span> <span class="s1">&#39;equity_evaluation_corpus.csv&#39;</span>
-    <span class="k">return</span> <span class="n">csvReader</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span> <span class="k">if</span> <span class="n">file_path</span> <span class="k">else</span> <span class="kc">None</span></div>
+    <span class="k">return</span> <span class="n">csvReader</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span> <span class="k">if</span> <span class="n">file_path</span> <span class="k">else</span> <span class="kc">None</span>
 
-
-<div class="viewcode-block" id="GAPHandler">
-<a class="viewcode-back" href="../../../FairLangProc.datasets.html#FairLangProc.datasets.fairness_datasets.GAPHandler">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">GAPHandler</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Handle GAP dataset&quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">readFolder</span><span class="p">(</span><span class="n">obtainPath</span><span class="p">(</span><span class="s1">&#39;GAP&#39;</span><span class="p">))</span></div>
+    <span class="k">return</span> <span class="n">readFolder</span><span class="p">(</span><span class="n">obtainPath</span><span class="p">(</span><span class="s1">&#39;GAP&#39;</span><span class="p">))</span>
 
-
-<div class="viewcode-block" id="GrepBiasIRHandler">
-<a class="viewcode-back" href="../../../FairLangProc.datasets.html#FairLangProc.datasets.fairness_datasets.GrepBiasIRHandler">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">GrepBiasIRHandler</span><span class="p">(</span><span class="n">config</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Handle Grep-BiasIR dataset&quot;&quot;&quot;</span>
     <span class="n">path</span> <span class="o">=</span> <span class="n">obtainPath</span><span class="p">(</span><span class="s1">&#39;Grep-BiasIR&#39;</span><span class="p">)</span>
@@ -488,11 +420,8 @@
         <span class="k">if</span> <span class="n">rel_file</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
             <span class="n">data_dict</span><span class="p">[</span><span class="s1">&#39;relevance&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tsvReader</span><span class="p">(</span><span class="n">rel_file</span><span class="p">)</span>
     
-    <span class="k">return</span> <span class="n">data_dict</span> <span class="k">if</span> <span class="n">data_dict</span> <span class="k">else</span> <span class="kc">None</span></div>
+    <span class="k">return</span> <span class="n">data_dict</span> <span class="k">if</span> <span class="n">data_dict</span> <span class="k">else</span> <span class="kc">None</span>
 
-
-<div class="viewcode-block" id="HolisticBiasHandler">
-<a class="viewcode-back" href="../../../FairLangProc.datasets.html#FairLangProc.datasets.fairness_datasets.HolisticBiasHandler">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">HolisticBiasHandler</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="kc">None</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Handle HolisticBias dataset&quot;&quot;&quot;</span>
     <span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">obtainPath</span><span class="p">(</span><span class="s1">&#39;HolisticBias&#39;</span><span class="p">),</span> <span class="s1">&#39;files&#39;</span><span class="p">)</span>
@@ -507,11 +436,8 @@
         <span class="k">return</span> <span class="n">csvReader</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span> <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Allowed data sets: noun_phrases, sentences, all&#39;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="kc">None</span></div>
+        <span class="k">return</span> <span class="kc">None</span>
 
-
-<div class="viewcode-block" id="RealToxicityPromptsHandler">
-<a class="viewcode-back" href="../../../FairLangProc.datasets.html#FairLangProc.datasets.fairness_datasets.RealToxicityPromptsHandler">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">RealToxicityPromptsHandler</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Handle RealToxicityPrompts dataset.</span>
@@ -523,8 +449,7 @@
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Data file not found at </span><span class="si">{</span><span class="n">file_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Please download &#39;prompts.jsonl&#39; and place it in the &#39;data/RealToxicityPrompts&#39; directory.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">None</span>
-    <span class="k">return</span> <span class="n">jsonlReader</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span></div>
-
+    <span class="k">return</span> <span class="n">jsonlReader</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
 
 <span class="k">def</span><span class="w"> </span><span class="nf">RedditBiasHandler</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="kc">None</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Handle RedditBias dataset&quot;&quot;&quot;</span>
@@ -543,8 +468,6 @@
         <span class="n">file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">data</span> <span class="o">+</span> <span class="s1">&#39;.jsonl&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">jsonlReader</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span> <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
 
-<div class="viewcode-block" id="BiasNLIHandler">
-<a class="viewcode-back" href="../../../FairLangProc.datasets.html#FairLangProc.datasets.fairness_datasets.BiasNLIHandler">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">BiasNLIHandler</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="kc">None</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Handle Bias-NLI dataset&quot;&quot;&quot;</span>
     <span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">obtainPath</span><span class="p">(</span><span class="s1">&#39;Bias-NLI&#39;</span><span class="p">),</span> <span class="s1">&#39;files&#39;</span><span class="p">)</span>
@@ -565,11 +488,8 @@
         <span class="k">return</span> <span class="n">readFolder</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">data</span> <span class="o">+</span> <span class="s1">&#39;.csv&#39;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">csvReader</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span> <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span></div>
+        <span class="k">return</span> <span class="n">csvReader</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span> <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
 
-
-<div class="viewcode-block" id="BiasInBiosHandler">
-<a class="viewcode-back" href="../../../FairLangProc.datasets.html#FairLangProc.datasets.fairness_datasets.BiasInBiosHandler">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">BiasInBiosHandler</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Handle Bias in Bios dataset.</span>
@@ -588,19 +508,13 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Data file not found at </span><span class="si">{</span><span class="n">file_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Please download the &#39;BIOS.pkl&#39; file and place it in the &#39;data/BiasInBios&#39; directory.&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="kc">None</span></div>
+        <span class="k">return</span> <span class="kc">None</span>
 
-
-<div class="viewcode-block" id="HONESTHandler">
-<a class="viewcode-back" href="../../../FairLangProc.datasets.html#FairLangProc.datasets.fairness_datasets.HONESTHandler">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">HONESTHandler</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Handle HONEST dataset&quot;&quot;&quot;</span>
     <span class="n">file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">obtainPath</span><span class="p">(</span><span class="s1">&#39;HONEST&#39;</span><span class="p">),</span> <span class="s1">&#39;honest.csv&#39;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">csvReader</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span> <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span></div>
+    <span class="k">return</span> <span class="n">csvReader</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span> <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
 
-
-<div class="viewcode-block" id="PANDAHandler">
-<a class="viewcode-back" href="../../../FairLangProc.datasets.html#FairLangProc.datasets.fairness_datasets.PANDAHandler">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">PANDAHandler</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="kc">None</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Handle PANDA dataset&quot;&quot;&quot;</span>
     <span class="n">path</span> <span class="o">=</span> <span class="n">obtainPath</span><span class="p">(</span><span class="s1">&#39;PANDA&#39;</span><span class="p">)</span>
@@ -616,11 +530,8 @@
         <span class="k">return</span> <span class="n">readFolder</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">data</span> <span class="o">+</span> <span class="s1">&#39;.csv&#39;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">csvReader</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span> <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span></div>
+        <span class="k">return</span> <span class="n">csvReader</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span> <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
 
-
-<div class="viewcode-block" id="RedditBiasHandler">
-<a class="viewcode-back" href="../../../FairLangProc.datasets.html#FairLangProc.datasets.fairness_datasets.RedditBiasHandler">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">RedditBiasHandler</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="kc">None</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Handle RedditBias dataset&quot;&quot;&quot;</span>
     <span class="n">path</span> <span class="o">=</span> <span class="n">obtainPath</span><span class="p">(</span><span class="s1">&#39;RedditBias&#39;</span><span class="p">)</span>
@@ -636,11 +547,8 @@
         <span class="k">return</span> <span class="n">readFolder</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">data</span> <span class="o">+</span> <span class="s1">&#39;.jsonl&#39;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">jsonlReader</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span> <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span></div>
+        <span class="k">return</span> <span class="n">jsonlReader</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span> <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
 
-
-<div class="viewcode-block" id="TrustGPTHandler">
-<a class="viewcode-back" href="../../../FairLangProc.datasets.html#FairLangProc.datasets.fairness_datasets.TrustGPTHandler">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">TrustGPTHandler</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="kc">None</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Handle TrustGPT dataset&quot;&quot;&quot;</span>
     <span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">obtainPath</span><span class="p">(</span><span class="s1">&#39;TrustGPT&#39;</span><span class="p">),</span> <span class="s1">&#39;files&#39;</span><span class="p">)</span>
@@ -661,27 +569,18 @@
         <span class="k">return</span> <span class="n">readFolder</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">data</span> <span class="o">+</span> <span class="s1">&#39;.csv&#39;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">csvReader</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span> <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span></div>
+        <span class="k">return</span> <span class="n">csvReader</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span> <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
 
-
-<div class="viewcode-block" id="UnQoverHandler">
-<a class="viewcode-back" href="../../../FairLangProc.datasets.html#FairLangProc.datasets.fairness_datasets.UnQoverHandler">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">UnQoverHandler</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Handle UnQover dataset&quot;&quot;&quot;</span>
     <span class="n">file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">obtainPath</span><span class="p">(</span><span class="s1">&#39;UnQover&#39;</span><span class="p">),</span> <span class="s1">&#39;unqover.csv&#39;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">csvReader</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span> <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span></div>
+    <span class="k">return</span> <span class="n">csvReader</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span> <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
 
-
-<div class="viewcode-block" id="WinoQueerHandler">
-<a class="viewcode-back" href="../../../FairLangProc.datasets.html#FairLangProc.datasets.fairness_datasets.WinoQueerHandler">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">WinoQueerHandler</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Handle WinoQueer dataset&quot;&quot;&quot;</span>
     <span class="n">file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">obtainPath</span><span class="p">(</span><span class="s1">&#39;WinoQueer&#39;</span><span class="p">),</span> <span class="s1">&#39;winoqueer.csv&#39;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">csvReader</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span> <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span></div>
+    <span class="k">return</span> <span class="n">csvReader</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span> <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
 
-
-<div class="viewcode-block" id="StereoSetHandler">
-<a class="viewcode-back" href="../../../FairLangProc.datasets.html#FairLangProc.datasets.fairness_datasets.StereoSetHandler">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">StereoSetHandler</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">],</span> <span class="kc">None</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Handle StereoSet dataset&quot;&quot;&quot;</span>
     <span class="n">path</span> <span class="o">=</span> <span class="n">obtainPath</span><span class="p">(</span><span class="s1">&#39;StereoSet&#39;</span><span class="p">)</span>
@@ -736,11 +635,8 @@
                     <span class="s1">&#39;labels&#39;</span><span class="p">:</span> <span class="n">labels</span>
                 <span class="p">})</span>
 
-    <span class="k">return</span> <span class="n">dataframes</span></div>
+    <span class="k">return</span> <span class="n">dataframes</span>
 
-
-<div class="viewcode-block" id="WinoBiasHandler">
-<a class="viewcode-back" href="../../../FairLangProc.datasets.html#FairLangProc.datasets.fairness_datasets.WinoBiasHandler">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">WinoBiasHandler</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Handle WinoBias dataset&quot;&quot;&quot;</span>
     <span class="n">files</span> <span class="o">=</span> <span class="n">downloadData</span><span class="p">(</span><span class="s1">&#39;WinoBias&#39;</span><span class="p">,</span> <span class="n">trace</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
@@ -809,11 +705,8 @@
                 <span class="s1">&#39;pronoun&#39;</span><span class="p">:</span> <span class="n">pronouns</span>
             <span class="p">})</span>
 
-        <span class="k">return</span> <span class="n">dataframes</span></div>
+        <span class="k">return</span> <span class="n">dataframes</span>
 
-
-<div class="viewcode-block" id="WinoBiasPlusHandler">
-<a class="viewcode-back" href="../../../FairLangProc.datasets.html#FairLangProc.datasets.fairness_datasets.WinoBiasPlusHandler">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">WinoBiasPlusHandler</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Handle WinoBias+ dataset&quot;&quot;&quot;</span>
     <span class="n">raw</span> <span class="o">=</span> <span class="n">readFolder</span><span class="p">(</span><span class="n">obtainPath</span><span class="p">(</span><span class="s1">&#39;WinoBias+&#39;</span><span class="p">))</span>
@@ -834,23 +727,17 @@
     <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
         <span class="s1">&#39;gendered&#39;</span><span class="p">:</span> <span class="n">gendered_split</span><span class="p">,</span>
         <span class="s1">&#39;neutral&#39;</span><span class="p">:</span> <span class="n">neutral_split</span>
-    <span class="p">})</span></div>
+    <span class="p">})</span>
 
-
-<div class="viewcode-block" id="WinogenderHandler">
-<a class="viewcode-back" href="../../../FairLangProc.datasets.html#FairLangProc.datasets.fairness_datasets.WinogenderHandler">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">WinogenderHandler</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Handle Winogender dataset&quot;&quot;&quot;</span>
     <span class="n">file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">obtainPath</span><span class="p">(</span><span class="s1">&#39;Winogender&#39;</span><span class="p">),</span> <span class="s1">&#39;all_sentences.tsv&#39;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">tsvReader</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span> <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span></div>
-
+    <span class="k">return</span> <span class="n">tsvReader</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span> <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
 
 <span class="c1">#=======================================================================</span>
 <span class="c1">#                               DATA LOADER </span>
 <span class="c1">#=======================================================================</span>
 
-<div class="viewcode-block" id="CustomDataset">
-<a class="viewcode-back" href="../../../FairLangProc.datasets.html#FairLangProc.datasets.fairness_datasets.CustomDataset">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">CustomDataset</span><span class="p">(</span><span class="n">PtDataset</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Custom PyTorch Dataset wrapper&quot;&quot;&quot;</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataframe</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
@@ -863,8 +750,7 @@
         <span class="k">return</span> <span class="n">features</span><span class="p">,</span> <span class="n">label</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dataframe</span><span class="p">)</span></div>
-
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dataframe</span><span class="p">)</span>
 
 <div class="viewcode-block" id="BiasDataLoader">
 <a class="viewcode-back" href="../../../FairLangProc.datasets.html#FairLangProc.datasets.fairness_datasets.BiasDataLoader">[docs]</a>
@@ -1027,8 +913,6 @@
     <span class="k">return</span> <span class="n">dataDict</span></div>
 
 
-<div class="viewcode-block" id="RunProcessAndDownload">
-<a class="viewcode-back" href="../../../FairLangProc.datasets.html#FairLangProc.datasets.fairness_datasets.RunProcessAndDownload">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">RunProcessAndDownload</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Run process and download dataset&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">need_python</span><span class="p">:</span>
@@ -1038,8 +922,7 @@
         <span class="n">runProcess</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
     
     <span class="c1"># Load and return the data</span>
-    <span class="k">return</span> <span class="n">downloadData</span><span class="p">(</span><span class="n">name</span><span class="p">)</span></div>
-
+    <span class="k">return</span> <span class="n">downloadData</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
 </pre></div>
 
           </div>
@@ -1067,6 +950,10 @@
     </div>
 </search>
 <script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">FairLangProc</a></li>
+</ul>
 
 <div class="relations">
 <h3>Related Topics</h3>

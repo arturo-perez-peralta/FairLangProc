@@ -190,8 +190,6 @@
 <span class="c1">#===================================================================================</span>
 
 
-<div class="viewcode-block" id="EntropyAttentionRegularizer">
-<a class="viewcode-back" href="../../../../FairLangProc.algorithms.inprocessors.html#FairLangProc.algorithms.inprocessors.regularizers.EntropyAttentionRegularizer">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">EntropyAttentionRegularizer</span><span class="p">(</span>
         <span class="n">inputs</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">,</span>
         <span class="n">attention_mask</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">torch</span><span class="p">,</span>
@@ -235,8 +233,7 @@
     <span class="c1"># average over the batch</span>
     <span class="n">final_entropy</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">samples_entropy</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
     
-    <span class="k">return</span> <span class="n">final_entropy</span></div>
-
+    <span class="k">return</span> <span class="n">final_entropy</span>
 
 
 <div class="viewcode-block" id="EARModel">
@@ -345,6 +342,10 @@
     </div>
 </search>
 <script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules.html">FairLangProc</a></li>
+</ul>
 
 <div class="relations">
 <h3>Related Topics</h3>

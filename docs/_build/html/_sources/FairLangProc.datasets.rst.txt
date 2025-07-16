@@ -8,7 +8,7 @@ FairLangProc.datasets.fairness\_datasets module
 -----------------------------------------------
 
 .. automodule:: FairLangProc.datasets.fairness_datasets
-   :members:
+   :members: BiasDataLoader
    :undoc-members:
    :show-inheritance:
 

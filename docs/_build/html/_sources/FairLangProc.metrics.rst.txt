@@ -8,15 +8,15 @@ FairLangProc.metrics.embedding module
 -------------------------------------
 
 .. automodule:: FairLangProc.metrics.embedding
-   :members:
-   :undoc-members:
+   :members: WEAT, BertWEAT
+   :undoc-members: 
    :show-inheritance:
 
 FairLangProc.metrics.generated\_text module
 -------------------------------------------
 
 .. automodule:: FairLangProc.metrics.generated_text
-   :members:
+   :members: DemRep, StereoAsoc, HONEST
    :undoc-members:
    :show-inheritance:
 
@@ -24,7 +24,7 @@ FairLangProc.metrics.probability module
 ---------------------------------------
 
 .. automodule:: FairLangProc.metrics.probability
-   :members:
+   :members: LPBS, CBS, CPS, AUL
    :undoc-members:
    :show-inheritance:
 

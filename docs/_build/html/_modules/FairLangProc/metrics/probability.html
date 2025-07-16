@@ -52,8 +52,6 @@
 
 <span class="n">TokenizerType</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;TokenizerType&quot;</span><span class="p">,</span> <span class="n">bound</span><span class="o">=</span><span class="s2">&quot;PreTrainedTokenizer&quot;</span><span class="p">)</span>
 
-<div class="viewcode-block" id="MaskProbability">
-<a class="viewcode-back" href="../../../FairLangProc.metrics.html#FairLangProc.metrics.probability.MaskProbability">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">MaskProbability</span><span class="p">(</span>
     <span class="n">model</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">,</span>
     <span class="n">tokenizer</span><span class="p">:</span> <span class="n">TokenizerType</span><span class="p">,</span>
@@ -126,12 +124,9 @@
     
     <span class="n">prob_targets</span> <span class="o">=</span> <span class="n">probs</span><span class="p">[</span><span class="n">sentRange</span><span class="p">,</span> <span class="n">mask_index</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">mask_position</span><span class="p">],</span> <span class="n">target_ids</span><span class="p">]</span>
 
-    <span class="k">return</span> <span class="n">prob_targets</span></div>
+    <span class="k">return</span> <span class="n">prob_targets</span>
 
 
-
-<div class="viewcode-block" id="MaskProbabilityQuotient">
-<a class="viewcode-back" href="../../../FairLangProc.metrics.html#FairLangProc.metrics.probability.MaskProbabilityQuotient">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">MaskProbabilityQuotient</span><span class="p">(</span>
     <span class="n">model</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">,</span>
     <span class="n">tokenizer</span><span class="p">:</span> <span class="n">TokenizerType</span><span class="p">,</span>
@@ -202,8 +197,7 @@
         <span class="n">prob_quotient</span> <span class="o">=</span> <span class="n">post_probs</span><span class="o">/</span><span class="n">prior_probs</span>
         <span class="n">probs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">prob_quotient</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">probs</span></div>
-
+    <span class="k">return</span> <span class="n">probs</span>
 
 
 <div class="viewcode-block" id="LPBS">
@@ -333,8 +327,6 @@
 
 
 
-<div class="viewcode-block" id="MaskedPseudoLogLikelihood">
-<a class="viewcode-back" href="../../../FairLangProc.metrics.html#FairLangProc.metrics.probability.MaskedPseudoLogLikelihood">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">MaskedPseudoLogLikelihood</span><span class="p">(</span>
     <span class="n">model</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">,</span>
     <span class="n">input_ids</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
@@ -442,8 +434,7 @@
 
     <span class="n">score</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">logProb</span><span class="p">[</span><span class="n">indices_dim0</span><span class="p">,</span> <span class="n">indices_dim1</span><span class="p">,</span> <span class="n">indices_dim2</span><span class="p">])</span>
 
-    <span class="k">return</span> <span class="n">score</span><span class="o">.</span><span class="n">item</span><span class="p">()</span></div>
-
+    <span class="k">return</span> <span class="n">score</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
 
 
 
@@ -521,8 +512,6 @@
 
 
 
-<div class="viewcode-block" id="UnMaskedPseudoLogLikelihood">
-<a class="viewcode-back" href="../../../FairLangProc.metrics.html#FairLangProc.metrics.probability.UnMaskedPseudoLogLikelihood">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">UnMaskedPseudoLogLikelihood</span><span class="p">(</span>
     <span class="n">model</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">,</span>
     <span class="n">input_ids</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
@@ -588,8 +577,7 @@
 
     <span class="n">score</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">logProb</span><span class="p">[</span><span class="n">indices_dim0</span><span class="p">,</span> <span class="n">indices_dim1</span><span class="p">,</span> <span class="n">indices_dim2</span><span class="p">])</span>
 
-    <span class="k">return</span> <span class="n">score</span><span class="o">.</span><span class="n">item</span><span class="p">()</span></div>
-
+    <span class="k">return</span> <span class="n">score</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
 
 
 
@@ -681,6 +669,10 @@
     </div>
 </search>
 <script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">FairLangProc</a></li>
+</ul>
 
 <div class="relations">
 <h3>Related Topics</h3>

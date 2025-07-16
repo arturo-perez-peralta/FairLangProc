@@ -14,6 +14,7 @@
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="FairLangProc.datasets package" href="FairLangProc.datasets.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
@@ -526,196 +527,6 @@ target word corresponds (i.e. first (0) or second (1)).</p>
 </section>
 </dd></dl>
 
-<dl class="py function">
-<dt class="sig sig-object py" id="FairLangProc.metrics.probability.MaskProbability">
-<span class="sig-prename descclassname"><span class="pre">FairLangProc.metrics.probability.</span></span><span class="sig-name descname"><span class="pre">MaskProbability</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Module</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tokenizer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">TokenizerType</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sentences</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_words</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mask_indices</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">how_many</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">2</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tensor</span></span></span><a class="reference internal" href="_modules/FairLangProc/metrics/probability.html#MaskProbability"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#FairLangProc.metrics.probability.MaskProbability" title="Link to this definition">¶</a></dt>
-<dd><p>Computation of masked probability with a Language Model.</p>
-<p>Computes the probability of a list of target words in the positions of certain masks given a list
-of masked sentences (the number of masks is assumed to be constant)</p>
-<section id="id26">
-<h3>Parameters<a class="headerlink" href="#id26" title="Link to this heading">¶</a></h3>
-<dl class="simple">
-<dt>model<span class="classifier">nn.Module</span></dt><dd><p>Language Model used to compute probabilities.</p>
-</dd>
-<dt>tokenizer<span class="classifier">TokenizerType</span></dt><dd><p>Tokenizer associated with the model.</p>
-</dd>
-<dt>sentences<span class="classifier">list[str]</span></dt><dd><p>List of sentences with masks.</p>
-</dd>
-<dt>target_words<span class="classifier">list[str]</span></dt><dd><p>List of words whose probabilities we want to compute.</p>
-</dd>
-<dt>mask_indices<span class="classifier">list[int]</span></dt><dd><p>List of indices which indicate to which mask of the sentence
-each word corresponds to (i.e. first, second,…)</p>
-</dd>
-<dt>how_many<span class="classifier">int</span></dt><dd><p>How many masks are in each sentence</p>
-</dd>
-</dl>
-</section>
-<section id="id27">
-<h3>Returns<a class="headerlink" href="#id27" title="Link to this heading">¶</a></h3>
-<dl class="simple">
-<dt>prob_target<span class="classifier">torch.Tensor</span></dt><dd><p>Probability of target_words in the positions indicated by mask_indices.</p>
-</dd>
-</dl>
-</section>
-<section id="id28">
-<h3>Example<a class="headerlink" href="#id28" title="Link to this heading">¶</a></h3>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">AutoModelForMaskedLM</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s1">&#39;bert-base-uncased&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">tokenizer</span> <span class="o">=</span> <span class="n">AutoTokenizer</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s1">&#39;bert-base-uncased&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">sentences</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;The [MASK] is a [MASK]&quot;</span><span class="p">,</span> <span class="s2">&quot;[MASK] is such a [MASK]&quot;</span><span class="p">]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">target_words</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;engineer&quot;</span><span class="p">,</span> <span class="s2">&quot;He&quot;</span><span class="p">]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">mask_indices</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">how_many</span> <span class="o">=</span> <span class="mi">2</span>
-<span class="gp">&gt;&gt;&gt;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">probabilities</span> <span class="o">=</span> <span class="n">MaskProbability</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">sentences</span><span class="p">,</span> <span class="n">target_words</span><span class="p">,</span> <span class="n">mask_indices</span><span class="p">,</span> <span class="n">how_many</span> <span class="o">=</span> <span class="n">how_many</span><span class="p">)</span>
-</pre></div>
-</div>
-</section>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="FairLangProc.metrics.probability.MaskProbabilityQuotient">
-<span class="sig-prename descclassname"><span class="pre">FairLangProc.metrics.probability.</span></span><span class="sig-name descname"><span class="pre">MaskProbabilityQuotient</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Module</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tokenizer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">TokenizerType</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sentences</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_words</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fill_words</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mask_indices</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">Tensor</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/FairLangProc/metrics/probability.html#MaskProbabilityQuotient"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#FairLangProc.metrics.probability.MaskProbabilityQuotient" title="Link to this definition">¶</a></dt>
-<dd><p>Computes the quotient of the probabilities of two different words in the same spot in a sentence.</p>
-<p>Assumes sentences with two masks. Computes the quotient of the probability of target_words being in
-the position of mask_indices divided by the prior probability of target_words in said position but with
-fill_words masked.</p>
-<section id="id29">
-<h3>Parameters<a class="headerlink" href="#id29" title="Link to this heading">¶</a></h3>
-<dl class="simple">
-<dt>model<span class="classifier">nn.Module</span></dt><dd><p>Language Model used to compute probabilities.</p>
-</dd>
-<dt>tokenizer<span class="classifier">TokenizerType</span></dt><dd><p>Tokenizer associated with the model.</p>
-</dd>
-<dt>sentences<span class="classifier">list[str]</span></dt><dd><p>List of sentences with masks.</p>
-</dd>
-<dt>target_words<span class="classifier">list[tuple[str]]</span></dt><dd><p>List containing tuples of words whose probabilities we want to compute.</p>
-</dd>
-<dt>fill_words<span class="classifier">list[str]</span></dt><dd><p>List of words which replace the secondary mask.</p>
-</dd>
-<dt>mask_indices<span class="classifier">list[int]</span></dt><dd><p>List of indices which indicate to which mask of the sentence each
-target word corresponds to (i.e. first (0) or second (1)).</p>
-</dd>
-</dl>
-</section>
-<section id="id30">
-<h3>Returns<a class="headerlink" href="#id30" title="Link to this heading">¶</a></h3>
-<dl class="simple">
-<dt>probs<span class="classifier">list[torch.Tensor]</span></dt><dd><p>Quotients of probabilities given as a list of tensors</p>
-</dd>
-</dl>
-</section>
-<section id="id31">
-<h3>Example<a class="headerlink" href="#id31" title="Link to this heading">¶</a></h3>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">AutoModelForMaskedLM</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s1">&#39;bert-base-uncased&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">tokenizer</span> <span class="o">=</span> <span class="n">AutoTokenizer</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s1">&#39;bert-base-uncased&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">sentences</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;The [MASK] is a [MASK]&quot;</span><span class="p">,</span> <span class="s2">&quot;[MASK] is such a [MASK]&quot;</span><span class="p">]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">target_words</span> <span class="o">=</span> <span class="p">[(</span><span class="s2">&quot;man&quot;</span><span class="p">,</span> <span class="s2">&quot;woman&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;He&quot;</span><span class="p">,</span> <span class="s2">&quot;She&quot;</span><span class="p">)]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">fill_words</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;engineer&quot;</span><span class="p">,</span> <span class="s2">&quot;drag&quot;</span><span class="p">]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">mask_indices</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
-<span class="gp">&gt;&gt;&gt;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">quotients</span> <span class="o">=</span> <span class="n">MaskProbabilityQuotient</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">sentences</span><span class="p">,</span> <span class="n">target_words</span><span class="p">,</span> <span class="n">fill_word</span><span class="p">,</span> <span class="n">mask_indices</span><span class="p">)</span>
-</pre></div>
-</div>
-</section>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="FairLangProc.metrics.probability.MaskedPseudoLogLikelihood">
-<span class="sig-prename descclassname"><span class="pre">FairLangProc.metrics.probability.</span></span><span class="sig-name descname"><span class="pre">MaskedPseudoLogLikelihood</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Module</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_ids</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mask_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cls_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pad_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/FairLangProc/metrics/probability.html#MaskedPseudoLogLikelihood"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#FairLangProc.metrics.probability.MaskedPseudoLogLikelihood" title="Link to this definition">¶</a></dt>
-<dd><p>Computes the PLL score for a sentence where all words are progressively masked with the exception of a word
-given by target_id.</p>
-<section id="id32">
-<h3>Parameters<a class="headerlink" href="#id32" title="Link to this heading">¶</a></h3>
-<dl class="simple">
-<dt>model<span class="classifier">nn.Module</span></dt><dd><p>Language model used to compute probabilities.</p>
-</dd>
-<dt>input_ids<span class="classifier">list[int]</span></dt><dd><p>List of tokens forming the sentence.</p>
-</dd>
-<dt>target_id<span class="classifier">int        </span></dt><dd><p>Id of the token which should not be masked.</p>
-</dd>
-<dt>mask_id<span class="classifier">int          </span></dt><dd><p>Id of the mask token.</p>
-</dd>
-<dt>cls_id<span class="classifier">int         </span></dt><dd><p>Id of the cls token.</p>
-</dd>
-<dt>pad_id<span class="classifier">int       </span></dt><dd><p>Id of the pad token.</p>
-</dd>
-</dl>
-</section>
-<section id="id33">
-<h3>Returns<a class="headerlink" href="#id33" title="Link to this heading">¶</a></h3>
-<dl class="simple">
-<dt>score<span class="classifier">float</span></dt><dd><p>PLL of the masked sentence.</p>
-</dd>
-</dl>
-</section>
-<section id="id34">
-<h3>Example<a class="headerlink" href="#id34" title="Link to this heading">¶</a></h3>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">AutoModelForMaskedLM</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s2">&quot;bert-base-uncased&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">tokenizer</span> <span class="o">=</span> <span class="n">AutoTokenizer</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s2">&quot;bert-base-uncased&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">sentence</span> <span class="o">=</span> <span class="s1">&#39;The actor did a terrible job&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">input_ids</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="p">([</span><span class="n">sentence</span><span class="p">],</span> <span class="n">return_tensors</span> <span class="o">=</span> <span class="s1">&#39;pt&#39;</span><span class="p">)[</span><span class="s1">&#39;input_ids&#39;</span><span class="p">]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">target_id</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="o">.</span><span class="n">convert_tokens_to_ids</span><span class="p">(</span><span class="n">tokenizer</span><span class="o">.</span><span class="n">tokenize</span><span class="p">(</span><span class="s1">&#39;actor&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">mask_id</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="o">.</span><span class="n">mask_token_id</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">pad_id</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="o">.</span><span class="n">pad_token_type_id</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">cls_id</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="o">.</span><span class="n">cls_token_id</span>
-<span class="gp">&gt;&gt;&gt;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">score</span> <span class="o">=</span> <span class="n">MaskedPseudoLogLikelihood</span><span class="p">(</span>
-<span class="go">        model = model,</span>
-<span class="go">        input_ids = input_ids,</span>
-<span class="go">        target_id = target_id,</span>
-<span class="go">        mask_id = mask_id,</span>
-<span class="go">        pad_id = pad_id,</span>
-<span class="go">        cls_id = cls_id</span>
-<span class="go">    )</span>
-</pre></div>
-</div>
-</section>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="FairLangProc.metrics.probability.UnMaskedPseudoLogLikelihood">
-<span class="sig-prename descclassname"><span class="pre">FairLangProc.metrics.probability.</span></span><span class="sig-name descname"><span class="pre">UnMaskedPseudoLogLikelihood</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Module</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_ids</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cls_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pad_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/FairLangProc/metrics/probability.html#UnMaskedPseudoLogLikelihood"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#FairLangProc.metrics.probability.UnMaskedPseudoLogLikelihood" title="Link to this definition">¶</a></dt>
-<dd><p>Computes the PLL score of an unmasked sentence.</p>
-<section id="id35">
-<h3>Parameters<a class="headerlink" href="#id35" title="Link to this heading">¶</a></h3>
-<dl class="simple">
-<dt>model<span class="classifier">nn.Module      </span></dt><dd><p>Language model used to compute probabilities.</p>
-</dd>
-<dt>input_ids<span class="classifier">list[int]</span></dt><dd><p>List of tokens forming the sentence.</p>
-</dd>
-<dt>cls_id<span class="classifier">int</span></dt><dd><p>Id of the cls token.</p>
-</dd>
-<dt>pad_id<span class="classifier">int</span></dt><dd><p>Id of the pad token.</p>
-</dd>
-</dl>
-</section>
-<section id="id36">
-<h3>Returns<a class="headerlink" href="#id36" title="Link to this heading">¶</a></h3>
-<dl class="simple">
-<dt>score<span class="classifier">float</span></dt><dd><p>PLL of the masked sentence.</p>
-</dd>
-</dl>
-</section>
-<section id="id37">
-<h3>Example<a class="headerlink" href="#id37" title="Link to this heading">¶</a></h3>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">AutoModelForMaskedLM</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s2">&quot;bert-base-uncased&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">tokenizer</span> <span class="o">=</span> <span class="n">AutoTokenizer</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s2">&quot;bert-base-uncased&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">sentence</span> <span class="o">=</span> <span class="s1">&#39;The actor did a terrible job&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">input_ids</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="p">([</span><span class="n">sentence</span><span class="p">],</span> <span class="n">return_tensors</span> <span class="o">=</span> <span class="s1">&#39;pt&#39;</span><span class="p">)[</span><span class="s1">&#39;input_ids&#39;</span><span class="p">]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">pad_id</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="o">.</span><span class="n">pad_token_type_id</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">cls_id</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="o">.</span><span class="n">cls_token_id</span>
-<span class="gp">&gt;&gt;&gt;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">score</span> <span class="o">=</span> <span class="n">UnMaskedPseudoLogLikelihood</span><span class="p">(</span>
-<span class="go">        model = model,</span>
-<span class="go">        input_ids = input_ids,</span>
-<span class="go">        pad_id = pad_id,</span>
-<span class="go">        cls_id = cls_id</span>
-<span class="go">    )</span>
-</pre></div>
-</div>
-</section>
-</dd></dl>
-
 </section>
 <section id="module-FairLangProc.metrics">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-FairLangProc.metrics" title="Link to this heading">¶</a></h2>
@@ -748,11 +559,27 @@ given by target_id.</p>
     </div>
 </search>
 <script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">FairLangProc</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="FairLangProc.html">FairLangProc package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="FairLangProc.html#subpackages">Subpackages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="FairLangProc.html#module-FairLangProc">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
 
 <div class="relations">
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="modules.html">FairLangProc</a><ul>
+  <li><a href="FairLangProc.html">FairLangProc package</a><ul>
+      <li>Previous: <a href="FairLangProc.datasets.html" title="previous chapter">FairLangProc.datasets package</a></li>
+  </ul></li>
+  </ul></li>
   </ul></li>
 </ul>
 </div>
