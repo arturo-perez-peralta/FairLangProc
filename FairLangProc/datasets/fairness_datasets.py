@@ -5,8 +5,8 @@ from typing import Union, List, Dict, Any, Optional
 
 # data handling libraries
 import pandas as pd
-from torch.utils.data import Dataset as pt_Dataset
-from datasets import Dataset as hf_Dataset
+from torch.utils.data import Dataset as PtDataset
+from datasets import Dataset as HfDataset
 
 
 #=======================================================================
@@ -700,7 +700,7 @@ def WinogenderHandler() -> Optional[pd.DataFrame]:
 #                               DATA LOADER 
 #=======================================================================
 
-class CustomDataset(pt_Dataset):
+class CustomDataset(PtDataset):
     """Custom PyTorch Dataset wrapper"""
     def __init__(self, dataframe: pd.DataFrame):
         self.dataframe = dataframe
@@ -718,17 +718,59 @@ def BiasDataLoader(
         dataset: Optional[str] = None,
         config: Optional[str] = None,
         format: str = 'hf'
-    ) -> Optional[Dict[str, Union[pd.DataFrame, List[str], pt_Dataset, hf_Dataset]]]:
-    """
-    Load specified bias evaluation dataset
+    ) -> Optional[Dict[str, Union[pd.DataFrame, List[str], PtDataset, HfDataset]]]:
+    r"""Load specified bias evaluation dataset.
 
-    Args:
-        dataset: name of the dataset
-        config: dataset configuration if applicable
-        format: output format - 'raw', 'hf' (hugging face), or 'pt' (pytorch)
+    Requires downloading the Fair-LLM-Benchmark repository (https://github.com/i-gallegos/Fair-LLM-Benchmark ,
+    credits to credits to Isabel O. Gallegos et al).
+
+    Parameters
+    ----------
+    dataset : str
+        name of the dataset.
+    config : str
+        dataset configuration if applicable.
+    format : str
+        output format - 'raw', 'hf' (hugging face), or 'pt' (pytorch).
     
-    Returns:
-        Dictionary with datasets in the appropriate format
+    Returns
+    -------
+    dataDict : dict
+        Dictionary with datasets in the appropriate format.
+
+    Example
+    -------
+    >>> from FairLangProc.datasets import BiasDataLoader
+    >>> BiasDataLoader()
+    Available datasets:
+    ====================
+    BBQ
+    BEC-Pro
+    BOLD
+    BUG
+    CrowS-Pairs
+    GAP
+    HolisticBias
+    StereoSet
+    WinoBias+
+    WinoBias
+    Winogender
+    >>> BiasDataLoader(dataset = 'BBQ')
+    Available configurations:
+    ====================
+    Age
+    Disability_Status
+    Gender_identity
+    Nationality
+    Physical_appearance
+    Race_ethnicity
+    Race_x_gender
+    Race_x_SES
+    Religion
+    SES
+    Sexual_orientation
+    all
+    >>> ageBBQ = BiasDataLoader(dataset = 'BBQ', config = 'Age')
     """
     
     # Create handlers mapping
@@ -802,11 +844,11 @@ def BiasDataLoader(
         if isinstance(dataRaw, dict):
             for key, value in dataRaw.items():
                 if isinstance(value, pd.DataFrame):
-                    dataDict[key] = hf_Dataset.from_pandas(value)
+                    dataDict[key] = HfDataset.from_pandas(value)
                 else:
                     print(f"Skipping {key}: not a DataFrame")
         elif isinstance(dataRaw, pd.DataFrame): 
-            dataDict['data'] = hf_Dataset.from_pandas(dataRaw)
+            dataDict['data'] = HfDataset.from_pandas(dataRaw)
         else:
             raise TypeError("Data must be a pandas DataFrame or dict of DataFrames")
 
