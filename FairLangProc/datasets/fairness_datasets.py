@@ -1,3 +1,8 @@
+"""FairLangProc.datasets
+
+Module which stores the BiasDataLoader function to load bias evaluation datasets.
+"""
+
 # Standard libraries
 import os, subprocess, re
 import tarfile

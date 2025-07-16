@@ -1,75 +1,45 @@
-
-
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" data-content_root="../../../">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>FairLangProc.metrics.probability &mdash; FairLangProc 0.1.3 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
-      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+
+<html lang="en" data-content_root="../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FairLangProc.metrics.probability &#8212; FairLangProc 0.1.3 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/basic.css?v=686e5160" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/alabaster.css?v=27fed22d" />
+    <script src="../../../_static/documentation_options.js?v=360bc84d"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
 
   
-      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
-      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=360bc84d"></script>
-      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
-      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script src="../../../_static/js/theme.js"></script>
-    <link rel="index" title="Index" href="../../../genindex.html" />
-    <link rel="search" title="Search" href="../../../search.html" /> 
-</head>
+  
 
-<body class="wy-body-for-nav"> 
-  <div class="wy-grid-for-nav">
-    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
-      <div class="wy-side-scroll">
-        <div class="wy-side-nav-search" >
+  </head><body>
+  
 
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
           
-          
-          <a href="../../../index.html" class="icon icon-home">
-            FairLangProc
-          </a>
-<div role="search">
-  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
-    <input type="hidden" name="check_keywords" value="yes" />
-    <input type="hidden" name="area" value="default" />
-  </form>
-</div>
-        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">FairLangProc Reference</a></li>
-</ul>
 
-        </div>
-      </div>
-    </nav>
-
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
-          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../../index.html">FairLangProc</a>
-      </nav>
-
-      <div class="wy-nav-content">
-        <div class="rst-content">
-          <div role="navigation" aria-label="Page navigation">
-  <ul class="wy-breadcrumbs">
-      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
-      <li class="breadcrumb-item active">FairLangProc.metrics.probability</li>
-      <li class="wy-breadcrumbs-aside">
-      </li>
-  </ul>
-  <hr/>
-</div>
-          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
-           <div itemprop="articleBody">
-             
+          <div class="body" role="main">
+            
   <h1>Source code for FairLangProc.metrics.probability</h1><div class="highlight"><pre>
-<span></span><span class="c1"># Standard libraries</span>
+<span></span><span class="sd">&quot;&quot;&quot;FairLangProc.metrics.probability.py</span>
+
+<span class="sd">Submodule inside of the FairLangProc.metrics module which stores all methods and metrics related</span>
+<span class="sd">with Language Modelling.</span>
+
+<span class="sd">The supported metrics are LPBS, CBS, CPS, AUL.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="c1"># Standard libraries</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TypeVar</span>
 
 <span class="c1"># Numpy</span>
@@ -80,33 +50,54 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">torch.nn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nn</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">torch.nn.functional</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">F</span>
 
-<span class="n">lm_tokenizer</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;lm_tokenizer&quot;</span><span class="p">,</span> <span class="n">bound</span><span class="o">=</span><span class="s2">&quot;PreTrainedTokenizer&quot;</span><span class="p">)</span>
+<span class="n">TokenizerType</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;TokenizerType&quot;</span><span class="p">,</span> <span class="n">bound</span><span class="o">=</span><span class="s2">&quot;PreTrainedTokenizer&quot;</span><span class="p">)</span>
 
 <div class="viewcode-block" id="MaskProbability">
 <a class="viewcode-back" href="../../../FairLangProc.metrics.html#FairLangProc.metrics.probability.MaskProbability">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">MaskProbability</span><span class="p">(</span>
     <span class="n">model</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">,</span>
-    <span class="n">tokenizer</span><span class="p">:</span> <span class="n">lm_tokenizer</span><span class="p">,</span>
+    <span class="n">tokenizer</span><span class="p">:</span> <span class="n">TokenizerType</span><span class="p">,</span>
     <span class="n">sentences</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
     <span class="n">target_words</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
     <span class="n">mask_indices</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
     <span class="n">how_many</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Computation of masked probability with a Language Model.</span>
+<span class="sd">    </span>
 <span class="sd">    Computes the probability of a list of target words in the positions of certain masks given a list</span>
 <span class="sd">    of masked sentences (the number of masks is assumed to be constant)</span>
 
-<span class="sd">    Args:</span>
-<span class="sd">        model (nn.Module):          Language model used to compute probabilities</span>
-<span class="sd">        tokenizer (tokenizer):      Tokenizer associated with the model</span>
-<span class="sd">        sentences (list[str]):      List of sentences with masks</span>
-<span class="sd">        target_words (list[str]):   List of words whose probabilities we want to compute </span>
-<span class="sd">        mask_indices (list[int]):   List of indices which indicate to which mask of the sentence</span>
-<span class="sd">                                    each word corresponds (i.e. first, second,...)</span>
-<span class="sd">        how_many (int):             How many masks are in each sentence</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    model : nn.Module</span>
+<span class="sd">        Language Model used to compute probabilities.</span>
+<span class="sd">    tokenizer : TokenizerType</span>
+<span class="sd">        Tokenizer associated with the model.</span>
+<span class="sd">    sentences : list[str]</span>
+<span class="sd">        List of sentences with masks.</span>
+<span class="sd">    target_words : list[str]</span>
+<span class="sd">        List of words whose probabilities we want to compute.</span>
+<span class="sd">    mask_indices : list[int]</span>
+<span class="sd">        List of indices which indicate to which mask of the sentence</span>
+<span class="sd">        each word corresponds to (i.e. first, second,...)</span>
+<span class="sd">    how_many : int</span>
+<span class="sd">        How many masks are in each sentence</span>
 
-<span class="sd">    Returns:</span>
-<span class="sd">        prob_target (torch.Tensor): Probability of target_words in the positions indicated by mask_indices</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    prob_target : torch.Tensor</span>
+<span class="sd">        Probability of target_words in the positions indicated by mask_indices.</span>
+
+<span class="sd">    Example</span>
+<span class="sd">    -------</span>
+<span class="sd">    &gt;&gt;&gt; model = AutoModelForMaskedLM.from_pretrained(&#39;bert-base-uncased&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; tokenizer = AutoTokenizer.from_pretrained(&#39;bert-base-uncased&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; sentences = [&quot;The [MASK] is a [MASK]&quot;, &quot;[MASK] is such a [MASK]&quot;]</span>
+<span class="sd">    &gt;&gt;&gt; target_words = [&quot;engineer&quot;, &quot;He&quot;]</span>
+<span class="sd">    &gt;&gt;&gt; mask_indices = [0,1]</span>
+<span class="sd">    &gt;&gt;&gt; how_many = 2</span>
+<span class="sd">    &gt;&gt;&gt;</span>
+<span class="sd">    &gt;&gt;&gt; probabilities = MaskProbability(model, tokenizer, sentences, target_words, mask_indices, how_many = how_many)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">mask_indices</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
@@ -143,28 +134,50 @@
 <a class="viewcode-back" href="../../../FairLangProc.metrics.html#FairLangProc.metrics.probability.MaskProbabilityQuotient">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">MaskProbabilityQuotient</span><span class="p">(</span>
     <span class="n">model</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">,</span>
-    <span class="n">tokenizer</span><span class="p">:</span> <span class="n">lm_tokenizer</span><span class="p">,</span>
+    <span class="n">tokenizer</span><span class="p">:</span> <span class="n">TokenizerType</span><span class="p">,</span>
     <span class="n">sentences</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
     <span class="n">target_words</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">]],</span>
     <span class="n">fill_words</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
     <span class="n">mask_indices</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">]:</span>
 
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Computes the quotient of the probabilities of two different words in the same spot in a sentence.</span>
+
 <span class="sd">    Assumes sentences with two masks. Computes the quotient of the probability of target_words being in</span>
 <span class="sd">    the position of mask_indices divided by the prior probability of target_words in said position but with</span>
 <span class="sd">    fill_words masked.</span>
 
-<span class="sd">    Args:</span>
-<span class="sd">        model (nn.Module):                  Language model used to compute probabilities</span>
-<span class="sd">        tokenizer (tokenizer):              Tokenizer associated with the model</span>
-<span class="sd">        sentences (list[str]):              List of sentences with masks</span>
-<span class="sd">        target_words (list[tuple[str]]):    List containing tuples of words whose probabilities we want to compute</span>
-<span class="sd">        fill_words (list[str]):             List of words which replace the secondary mask</span>
-<span class="sd">        mask_indices (list[int]):           List of indices which indicate to which mask of the sentence</span>
-<span class="sd">                                            each target word corresponds (i.e. first (0) or second (1))</span>
-<span class="sd">    Returns:</span>
-<span class="sd">        probs (list[torch.Tensor]):         Quotients of probabilities given as a list of tensors</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    model : nn.Module</span>
+<span class="sd">        Language Model used to compute probabilities.</span>
+<span class="sd">    tokenizer : TokenizerType</span>
+<span class="sd">        Tokenizer associated with the model.</span>
+<span class="sd">    sentences : list[str]</span>
+<span class="sd">        List of sentences with masks.</span>
+<span class="sd">    target_words : list[tuple[str]]</span>
+<span class="sd">        List containing tuples of words whose probabilities we want to compute.</span>
+<span class="sd">    fill_words : list[str]</span>
+<span class="sd">        List of words which replace the secondary mask.</span>
+<span class="sd">    mask_indices : list[int]</span>
+<span class="sd">        List of indices which indicate to which mask of the sentence each</span>
+<span class="sd">        target word corresponds to (i.e. first (0) or second (1)).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    probs : list[torch.Tensor]</span>
+<span class="sd">        Quotients of probabilities given as a list of tensors</span>
+
+<span class="sd">    Example</span>
+<span class="sd">    -------</span>
+<span class="sd">    &gt;&gt;&gt; model = AutoModelForMaskedLM.from_pretrained(&#39;bert-base-uncased&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; tokenizer = AutoTokenizer.from_pretrained(&#39;bert-base-uncased&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; sentences = [&quot;The [MASK] is a [MASK]&quot;, &quot;[MASK] is such a [MASK]&quot;]</span>
+<span class="sd">    &gt;&gt;&gt; target_words = [(&quot;man&quot;, &quot;woman&quot;), (&quot;He&quot;, &quot;She&quot;)]</span>
+<span class="sd">    &gt;&gt;&gt; fill_words = [&quot;engineer&quot;, &quot;drag&quot;]</span>
+<span class="sd">    &gt;&gt;&gt; mask_indices = [1,0]</span>
+<span class="sd">    &gt;&gt;&gt;</span>
+<span class="sd">    &gt;&gt;&gt; quotients = MaskProbabilityQuotient(model, tokenizer, sentences, target_words, fill_word, mask_indices)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     
     <span class="n">n_cat</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">target_words</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
@@ -197,25 +210,52 @@
 <a class="viewcode-back" href="../../../FairLangProc.metrics.html#FairLangProc.metrics.probability.LPBS">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">LPBS</span><span class="p">(</span>
     <span class="n">model</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">,</span>
-    <span class="n">tokenizer</span><span class="p">:</span> <span class="n">lm_tokenizer</span><span class="p">,</span>
+    <span class="n">tokenizer</span><span class="p">:</span> <span class="n">TokenizerType</span><span class="p">,</span>
     <span class="n">sentences</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
     <span class="n">target_words</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">]],</span>
     <span class="n">fill_words</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
     <span class="n">mask_indices</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Computes LPBS score for a list of tuples of dimension 2 of target words</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Computes LPBS score for a list of tuples of dimension 2 of target words.</span>
 
-<span class="sd">    Args:</span>
-<span class="sd">        model (nn.Module):                  Language model used to compute probabilities</span>
-<span class="sd">        tokenizer (tokenizer):              Tokenizer associated with the model</span>
-<span class="sd">        sentences (list[str]):              List of sentences with masks</span>
-<span class="sd">        target_words (list[tuple[str]]):    List containing tuples of words whose probabilities we want to compute</span>
-<span class="sd">        fill_words (list[str]):             List of words which replace the secondary mask</span>
-<span class="sd">        mask_indices (list[int]):           List of indices which indicate to which mask of the sentence</span>
-<span class="sd">                                            each target word corresponds (i.e. first (0) or second (1))</span>
-<span class="sd">    Returns:</span>
-<span class="sd">        probs (torch.Tensor):               List of LPBS scores</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    model : nn.Module                  </span>
+<span class="sd">        Language model used to compute probabilities.</span>
+<span class="sd">    tokenizer : TokenizerType              </span>
+<span class="sd">        Tokenizer associated with the model.</span>
+<span class="sd">    sentences : list[str]              </span>
+<span class="sd">        List of sentences with masks.</span>
+<span class="sd">    target_words : list[tuple[str]]    </span>
+<span class="sd">        List containing tuples of words whose probabilities we want to compute.</span>
+<span class="sd">    fill_words : list[str]             </span>
+<span class="sd">        List of words which replace the secondary mask.</span>
+<span class="sd">    mask_indices : list[int]           </span>
+<span class="sd">            List of indices which indicate to which mask of the sentence each </span>
+<span class="sd">            target word corresponds (i.e. first (0) or second (1)).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    probs : torch.Tensor               </span>
+<span class="sd">        List of LPBS scores</span>
+
+<span class="sd">    Example</span>
+<span class="sd">    -------</span>
+<span class="sd">    &gt;&gt;&gt; model = AutoModelForMaskedLM.from_pretrained(&#39;bert-base-uncased&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; tokenizer = AutoTokenizer.from_pretrained(&#39;bert-base-uncased&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; sentences = [&quot;[MASK] is a [MASK].&quot;, &quot;[MASK] is a [MASK].&quot;, &quot;The [MASK] was a [MASK].&quot;]</span>
+<span class="sd">    &gt;&gt;&gt; target_words = [(&quot;John&quot;, &quot;Mary&quot;), (&quot;He&quot;, &quot;She&quot;), (&quot;man&quot;, &quot;woman&quot;)]</span>
+<span class="sd">    &gt;&gt;&gt; fill_words = [&quot;engineer&quot;,&quot;nurse&quot;,&quot;doctor&quot;]</span>
+<span class="sd">    &gt;&gt;&gt; mask_indices = [0, 0, 1]</span>
+<span class="sd">    &gt;&gt;&gt; </span>
+<span class="sd">    &gt;&gt;&gt; LPBSscore = LPBS(</span>
+<span class="sd">            model = model,</span>
+<span class="sd">            tokenizer = tokenizer,</span>
+<span class="sd">            sentences = sentences,</span>
+<span class="sd">            target_words = target_words,</span>
+<span class="sd">            fill_words = fill_words,</span>
+<span class="sd">            mask_indices = mask_indices</span>
+<span class="sd">        )</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">target_words</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">==</span> <span class="mi">2</span>
@@ -233,25 +273,53 @@
 <a class="viewcode-back" href="../../../FairLangProc.metrics.html#FairLangProc.metrics.probability.CBS">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">CBS</span><span class="p">(</span>
     <span class="n">model</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">,</span>
-    <span class="n">tokenizer</span><span class="p">:</span> <span class="n">lm_tokenizer</span><span class="p">,</span>
+    <span class="n">tokenizer</span><span class="p">:</span> <span class="n">TokenizerType</span><span class="p">,</span>
     <span class="n">sentences</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
     <span class="n">target_words</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">]],</span>
     <span class="n">fill_words</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
     <span class="n">mask_indices</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Computes CBS score for a list of tuples of dimension n of target words</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Computes CBS score for a list of tuples of dimension n of target words.</span>
 
-<span class="sd">    Args:</span>
-<span class="sd">        model (nn.Module):                  Language model used to compute probabilities</span>
-<span class="sd">        tokenizer (tokenizer):              Tokenizer associated with the model</span>
-<span class="sd">        sentences (list[str]):              List of sentences with masks</span>
-<span class="sd">        target_words (list[tuple[str]]):    List containing tuples of words whose probabilities we want to compute</span>
-<span class="sd">        fill_words (list[str]):             List of words which replace the secondary mask</span>
-<span class="sd">        mask_indices (list[int]):           List of indices which indicate to which mask of the sentence</span>
-<span class="sd">                                            each target word corresponds (i.e. first (0) or second (1))</span>
-<span class="sd">    Returns:</span>
-<span class="sd">        probs (torch.Tensor):               List of CBS scores</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    model : nn.Module                  </span>
+<span class="sd">        Language model used to compute probabilities.</span>
+<span class="sd">    tokenizer : TokenizerType              </span>
+<span class="sd">        Tokenizer associated with the model</span>
+<span class="sd">    sentences : list[str]     </span>
+<span class="sd">        List of sentences with masks</span>
+<span class="sd">    target_words : list[tuple[str]]  </span>
+<span class="sd">        List containing tuples of words whose probabilities we want to compute</span>
+<span class="sd">    fill_words : list[str]          </span>
+<span class="sd">        List of words which replace the secondary mask</span>
+<span class="sd">    mask_indices : list[int]          </span>
+<span class="sd">        List of indices which indicate to which mask of the sentence</span>
+<span class="sd">        each target word corresponds (i.e. first (0) or second (1))</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    probs : torch.Tensor</span>
+<span class="sd">        List of CBS scores</span>
+
+<span class="sd">    Example</span>
+<span class="sd">    -------</span>
+<span class="sd">    &gt;&gt;&gt; model = AutoModelForMaskedLM.from_pretrained(&#39;bert-base-uncased&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; tokenizer = AutoTokenizer.from_pretrained(&#39;bert-base-uncased&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; target_words = [(&quot;John&quot;, &quot;Mamadouk&quot;, &quot;Liu&quot;), (&quot;white&quot;, &quot;black&quot;, &quot;asian&quot;), (&quot;white&quot;, &quot;black&quot;, &quot;asian&quot;)]</span>
+<span class="sd">    &gt;&gt;&gt; sentences = [&quot;[MASK] is a [MASK]&quot;, &quot;The [MASK] kid got [MASK] results&quot;, &quot;The [MASK] kid wanted to be a [MASK]&quot;]</span>
+<span class="sd">    &gt;&gt;&gt; fill_words = [&quot;engineer&quot;, &quot;outstanding&quot;, &quot;doctor&quot;]</span>
+<span class="sd">    &gt;&gt;&gt; mask_indices = [0, 1, 1]</span>
+<span class="sd">    &gt;&gt;&gt; </span>
+<span class="sd">    &gt;&gt;&gt; CBSscore = CBS(</span>
+<span class="sd">            model = model,</span>
+<span class="sd">            tokenizer = tokenizer,</span>
+<span class="sd">            sentences = sentences,</span>
+<span class="sd">            target_words = target_words,</span>
+<span class="sd">            fill_words = fill_words,</span>
+<span class="sd">            mask_indices = mask_indices</span>
+<span class="sd">        )</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">if</span> <span class="n">mask_indices</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -275,20 +343,48 @@
     <span class="n">cls_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">pad_id</span><span class="p">:</span> <span class="nb">int</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Computes the PLL score for a sentence where all words are progressively masked with the exception of a word</span>
-<span class="sd">    given by target_id</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Computes the PLL score for a sentence where all words are progressively masked with the exception of a word</span>
+<span class="sd">    given by target_id.</span>
 
-<span class="sd">    Args:</span>
-<span class="sd">        model (nn.Module):      Language model used to compute probabilities</span>
-<span class="sd">        input_ids (list[int]):  List of tokens forming the sentence</span>
-<span class="sd">        target_id (int):        Id of the token which should not be masked</span>
-<span class="sd">        mask_id (int):          Id of the mask token</span>
-<span class="sd">        cls_id (int):           Id of the cls token</span>
-<span class="sd">        pad_id (int):           Id of the pad token</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    model : nn.Module</span>
+<span class="sd">        Language model used to compute probabilities.</span>
+<span class="sd">    input_ids : list[int]</span>
+<span class="sd">        List of tokens forming the sentence.</span>
+<span class="sd">    target_id : int        </span>
+<span class="sd">        Id of the token which should not be masked.</span>
+<span class="sd">    mask_id : int          </span>
+<span class="sd">        Id of the mask token.</span>
+<span class="sd">    cls_id : int         </span>
+<span class="sd">        Id of the cls token.</span>
+<span class="sd">    pad_id : int       </span>
+<span class="sd">        Id of the pad token.</span>
 
-<span class="sd">    Returns:</span>
-<span class="sd">        score (float):          PLL of the masked sentence</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    score : float</span>
+<span class="sd">        PLL of the masked sentence.</span>
+
+<span class="sd">    Example</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; model = AutoModelForMaskedLM.from_pretrained(&quot;bert-base-uncased&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; tokenizer = AutoTokenizer.from_pretrained(&quot;bert-base-uncased&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; sentence = &#39;The actor did a terrible job&#39;</span>
+<span class="sd">    &gt;&gt;&gt; input_ids = tokenizer([sentence], return_tensors = &#39;pt&#39;)[&#39;input_ids&#39;]</span>
+<span class="sd">    &gt;&gt;&gt; target_id = tokenizer.convert_tokens_to_ids(tokenizer.tokenize(&#39;actor&#39;)[0])</span>
+<span class="sd">    &gt;&gt;&gt; mask_id = tokenizer.mask_token_id</span>
+<span class="sd">    &gt;&gt;&gt; pad_id = tokenizer.pad_token_type_id</span>
+<span class="sd">    &gt;&gt;&gt; cls_id = tokenizer.cls_token_id</span>
+<span class="sd">    &gt;&gt;&gt;</span>
+<span class="sd">    &gt;&gt;&gt; score = MaskedPseudoLogLikelihood(</span>
+<span class="sd">            model = model,</span>
+<span class="sd">            input_ids = input_ids,</span>
+<span class="sd">            target_id = target_id,</span>
+<span class="sd">            mask_id = mask_id,</span>
+<span class="sd">            pad_id = pad_id,</span>
+<span class="sd">            cls_id = cls_id</span>
+<span class="sd">        )</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">input_ids</span><span class="p">)):</span>
@@ -356,21 +452,41 @@
 <a class="viewcode-back" href="../../../FairLangProc.metrics.html#FairLangProc.metrics.probability.CPS">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">CPS</span><span class="p">(</span>
     <span class="n">model</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">,</span>
-    <span class="n">tokenizer</span><span class="p">:</span> <span class="n">lm_tokenizer</span><span class="p">,</span>
+    <span class="n">tokenizer</span><span class="p">:</span> <span class="n">TokenizerType</span><span class="p">,</span>
     <span class="n">sentences</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
     <span class="n">target_words</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Computes the CPS score for list of sentences</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Computes the CPS score for list of sentences.</span>
 
-<span class="sd">    Args:</span>
-<span class="sd">        model (nn.Module):          Language model used to compute probabilities</span>
-<span class="sd">        tokenizer (tokenizer):      Tokenizer associated with the model</span>
-<span class="sd">        sentences (list[str]):      List of sentences for whom we will compute the CPS score</span>
-<span class="sd">        target_words (list[str]):   List of target words which should not be masked</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    model : nn.Module</span>
+<span class="sd">        Language model used to compute probabilities.</span>
+<span class="sd">    tokenizer : TokenizerType</span>
+<span class="sd">        Tokenizer associated with the model.</span>
+<span class="sd">    sentences : list[str]</span>
+<span class="sd">        List of sentences for whom we will compute the CPS score.</span>
+<span class="sd">    target_words : list[str]</span>
+<span class="sd">        List of target words which should not be masked.</span>
 
-<span class="sd">    Returns:</span>
-<span class="sd">        score (list[float]):         List of CPS score of the sentences</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    score : list[float]</span>
+<span class="sd">        List of CPS score of the sentences.</span>
+
+<span class="sd">    Example</span>
+<span class="sd">    -------</span>
+<span class="sd">    &gt;&gt;&gt; model = AutoModelForMaskedLM.from_pretrained(&quot;bert-base-uncased&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; tokenizer = AutoTokenizer.from_pretrained(&quot;bert-base-uncased&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; sentences = [&#39;The actor did a terrible job&#39;, &#39;The actress did a terrible job&#39;, &#39;The doctor was an exemplary man&#39;, &#39;The doctor was an exemplary woman&#39;]</span>
+<span class="sd">    &gt;&gt;&gt; target_words = [&#39;actor&#39;, &#39;actress&#39;, &#39;man&#39;, &#39;woman&#39;]</span>
+<span class="sd">    &gt;&gt;&gt; </span>
+<span class="sd">    &gt;&gt;&gt; CPSscore = CPS(</span>
+<span class="sd">            model = model,</span>
+<span class="sd">            tokenizer = tokenizer,</span>
+<span class="sd">            sentences = sentences,</span>
+<span class="sd">            target_words = target_words</span>
+<span class="sd">        )</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     
     <span class="n">input_ids</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="p">(</span><span class="n">sentences</span><span class="p">,</span> <span class="n">return_tensors</span><span class="o">=</span><span class="s2">&quot;pt&quot;</span><span class="p">)</span>
@@ -413,17 +529,39 @@
     <span class="n">cls_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">pad_id</span><span class="p">:</span> <span class="nb">int</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Computes the PLL score of an unmasked sentence</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Computes the PLL score of an unmasked sentence.</span>
 
-<span class="sd">    Args:</span>
-<span class="sd">        model (nn.Module):      Language model used to compute probabilities</span>
-<span class="sd">        input_ids (list[int]):  List of tokens forming the sentence</span>
-<span class="sd">        cls_id (int):           Id of the cls token</span>
-<span class="sd">        pad_id (int):           Id of the pad token</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    model : nn.Module      </span>
+<span class="sd">        Language model used to compute probabilities.</span>
+<span class="sd">    input_ids : list[int]</span>
+<span class="sd">        List of tokens forming the sentence.</span>
+<span class="sd">    cls_id : int</span>
+<span class="sd">        Id of the cls token.</span>
+<span class="sd">    pad_id : int</span>
+<span class="sd">        Id of the pad token.</span>
 
-<span class="sd">    Returns:</span>
-<span class="sd">        score (float):          PLL of the masked sentence</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    score : float</span>
+<span class="sd">        PLL of the masked sentence.</span>
+
+<span class="sd">    Example</span>
+<span class="sd">    -------</span>
+<span class="sd">    &gt;&gt;&gt; model = AutoModelForMaskedLM.from_pretrained(&quot;bert-base-uncased&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; tokenizer = AutoTokenizer.from_pretrained(&quot;bert-base-uncased&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; sentence = &#39;The actor did a terrible job&#39;</span>
+<span class="sd">    &gt;&gt;&gt; input_ids = tokenizer([sentence], return_tensors = &#39;pt&#39;)[&#39;input_ids&#39;]</span>
+<span class="sd">    &gt;&gt;&gt; pad_id = tokenizer.pad_token_type_id</span>
+<span class="sd">    &gt;&gt;&gt; cls_id = tokenizer.cls_token_id</span>
+<span class="sd">    &gt;&gt;&gt;</span>
+<span class="sd">    &gt;&gt;&gt; score = UnMaskedPseudoLogLikelihood(</span>
+<span class="sd">            model = model,</span>
+<span class="sd">            input_ids = input_ids,</span>
+<span class="sd">            pad_id = pad_id,</span>
+<span class="sd">            cls_id = cls_id</span>
+<span class="sd">        )</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">input_ids</span><span class="p">)):</span>
@@ -459,20 +597,37 @@
 <a class="viewcode-back" href="../../../FairLangProc.metrics.html#FairLangProc.metrics.probability.AUL">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">AUL</span><span class="p">(</span>
     <span class="n">model</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">,</span>
-    <span class="n">tokenizer</span><span class="p">:</span> <span class="n">lm_tokenizer</span><span class="p">,</span>
+    <span class="n">tokenizer</span><span class="p">:</span> <span class="n">TokenizerType</span><span class="p">,</span>
     <span class="n">sentences</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
 
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Computes the AUL score for list of sentences</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Computes the AUL score for list of sentences.</span>
 
-<span class="sd">    Args:</span>
-<span class="sd">        model (nn.Module):          Language model used to compute probabilities</span>
-<span class="sd">        tokenizer (tokenizer):      Tokenizer associated with the model</span>
-<span class="sd">        sentences (list[str]):      List of sentences for whom we will compute the CPS score</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    model : nn.Module</span>
+<span class="sd">        Language model used to compute probabilities.</span>
+<span class="sd">    tokenizer : TokenizerType</span>
+<span class="sd">        Tokenizer associated with the model.</span>
+<span class="sd">    sentences : list[str]</span>
+<span class="sd">        List of sentences for whom we will compute the AUL score.</span>
 
-<span class="sd">    Returns:</span>
-<span class="sd">        score (list[float]):         List of AUL score of the sentences</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    score : list[float]</span>
+<span class="sd">        List of AUL score of the sentences.</span>
+
+<span class="sd">    Example</span>
+<span class="sd">    -------</span>
+<span class="sd">    &gt;&gt;&gt; model = AutoModelForMaskedLM.from_pretrained(&quot;bert-base-uncased&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; tokenizer = AutoTokenizer.from_pretrained(&quot;bert-base-uncased&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; sentences = [&#39;The actor did a terrible job&#39;, &#39;The actress did a terrible job&#39;, &#39;The doctor was an exemplary man&#39;, &#39;The doctor was an exemplary woman&#39;]</span>
+<span class="sd">    &gt;&gt;&gt; </span>
+<span class="sd">    &gt;&gt;&gt; AULscore = AUL(</span>
+<span class="sd">            model = model,</span>
+<span class="sd">            tokenizer = tokenizer,</span>
+<span class="sd">            sentences = sentences</span>
+<span class="sd">        )</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     
     <span class="n">input_ids</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="p">(</span><span class="n">sentences</span><span class="p">,</span> <span class="n">return_tensors</span><span class="o">=</span><span class="s2">&quot;pt&quot;</span><span class="p">)</span>
@@ -501,31 +656,64 @@
 
 </pre></div>
 
-           </div>
           </div>
-          <footer>
-
-  <hr/>
-
-  <div role="contentinfo">
-    <p>&#169; Copyright 2025, Arturo Perez-Peralta.</p>
-  </div>
-
-  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    provided by <a href="https://readthedocs.org">Read the Docs</a>.
-   
-
-</footer>
+          
         </div>
       </div>
-    </section>
-  </div>
-  <script>
-      jQuery(function () {
-          SphinxRtdTheme.Navigation.enable(true);
-      });
-  </script> 
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../../index.html">FairLangProc</a></h1>
 
-</body>
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2025, Arturo Perez-Peralta.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.1.3</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+    </div>
+
+    
+
+    
+  </body>
 </html>

@@ -1,4 +1,10 @@
+"""FairLangProc.metrics.generated_text.py
 
+Submodule inside of the FairLangProc.metrics module which stores all methods and metrics related
+with generated text.
+
+The supported metrics are Demographic Representation (DemRep), Stereotypical Association (StereoAsoc) and HONEST.
+"""
 
 
 def DemRep(demWords: dict[str, list[str]], sentences: list[str]) -> dict[str, int]:

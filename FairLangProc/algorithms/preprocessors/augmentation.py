@@ -1,3 +1,10 @@
+"""FairLangProc.algorithms.preprocessors.augmentation.py
+
+Submodule inside of the FairLangProc.algorithms.preprocessors module which stores all
+processors related with augmenting training instances.
+
+The supported method is CDA.
+"""
 import re
 from typing import Optional
 

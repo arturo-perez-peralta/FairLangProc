@@ -1,3 +1,10 @@
+"""FairLangProc.metrics.embedding.py
+
+Submodule inside of the FairLangProc.metrics module which stores all methods and metrics related
+with the embeddings of a Language Model.
+
+The WEAT class is flexible enough to implement other embedding metrics like SEAT or CEAT.
+"""
 # Standard imports
 from abc import ABC, abstractmethod
 from tqdm import tqdm

@@ -1,3 +1,11 @@
+"""FairLangProc.algorithms.inprocessors.selective_updating.py
+
+Submodule inside of the FairLangProc.algorithms.inprocessors module which stores all
+processors related with the selective update of model parameters.
+
+The supported method is selective unfreezing by name.
+"""
+
 import torch
 import torch.nn as nn
 from transformers import BertForSequenceClassification, BertConfig, BertTokenizer

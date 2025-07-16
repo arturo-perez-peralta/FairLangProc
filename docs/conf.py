@@ -18,11 +18,8 @@ release = '0.1.3'
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
-extensions = [
-    'sphinx.ext.autodoc',    
-    'sphinx.ext.viewcode',
-    'sphinx.ext.napoleon',   
-]
+extensions = ['sphinx.ext.todo', 'sphinx.ext.viewcode', 'sphinx.ext.autodoc']
+todo_include_todos = True
 
 templates_path = ['_templates']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
@@ -34,8 +31,3 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
 html_theme = 'alabaster'
 html_static_path = ['_static']
-autodoc_default_options = {
-    'members': True,
-    'special-members': '__init__',
-    'private-members': True,
-}

@@ -1,3 +1,11 @@
+"""FairLangProc.algorithms.preprocessors.reweighting.py
+
+Submodule inside of the FairLangProc.algorithms.preprocessors module which stores all
+processors related with reweighting training instances.
+
+The supported method is BLIND debiasing.
+"""
+
 # Standard imports
 from typing import Optional, Type
 from abc import ABC, abstractmethod

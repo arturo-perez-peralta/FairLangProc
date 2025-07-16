@@ -1,3 +1,11 @@
+"""FairLangProc.algorithms.intraprocessors.modular.py
+
+Submodule inside of the FairLangProc.algorithms.intraprocessors module which stores all
+processors related with the addition of modular subnetworks.
+
+The supported method is Difference Pruning.
+"""
+
 # Standard library
 import os
 import math

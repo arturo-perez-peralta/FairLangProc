@@ -1,3 +1,11 @@
+"""FairLangProc.algorithms.intraprocessors.redistribution.py
+
+Submodule inside of the FairLangProc.algorithms.intraprocessors module which stores all
+processors related with the redistribution of model parameters.
+
+The supported method is EAT.
+"""
+
 import torch
 import torch.nn as nn
 
