@@ -1185,17 +1185,61 @@ def BiasDataLoader(
     format: str = 'hf',
     benchmark_path: Optional[str] = None
 ) -> Optional[Dict[str, Union[pd.DataFrame, List[str], PtDataset, HfDataset]]]:
-    """
-    Load specified bias evaluation dataset
+    r"""Load specified bias evaluation dataset.
+
+    Requires downloading the Fair-LLM-Benchmark repository (https://github.com/i-gallegos/Fair-LLM-Benchmark ,
+    credits to Isabel O. Gallegos et al).
+
+    Parameters
+    ----------
+    dataset : str
+        name of the dataset.
+    config : str
+        dataset configuration if applicable.
+    format : str
+        output format - 'raw', 'hf' (hugging face), or 'pt' (pytorch).
+    benchmark_path : str
+        path where the Fair-LLM-Benchmark resides. If none, it looks for it
+        in FairLangProc/FairLangProc/datasets/Fair-LLM-Benchmark
     
-    Args:
-        dataset: Name of the dataset to load
-        config: Dataset configuration if applicable
-        format: Output format - 'raw', 'hf' (HuggingFace), or 'pt' (PyTorch)
-        benchmark_path: Path to Fair-LLM-Benchmark directory
-    
-    Returns:
-        Dictionary with datasets in the appropriate format
+    Returns
+    -------
+    dataDict : dict
+        Dictionary with datasets in the appropriate format.
+
+    Example
+    -------
+    >>> from FairLangProc.datasets import BiasDataLoader
+    >>> BiasDataLoader()
+    Available datasets:
+    ====================
+    BBQ
+    BEC-Pro
+    BOLD
+    BUG
+    CrowS-Pairs
+    GAP
+    HolisticBias
+    StereoSet
+    WinoBias+
+    WinoBias
+    Winogender
+    >>> BiasDataLoader(dataset = 'BBQ')
+    Available configurations:
+    ====================
+    Age
+    Disability_Status
+    Gender_identity
+    Nationality
+    Physical_appearance
+    Race_ethnicity
+    Race_x_gender
+    Race_x_SES
+    Religion
+    SES
+    Sexual_orientation
+    all
+    >>> ageBBQ = BiasDataLoader(dataset = 'BBQ', config = 'Age')
     """
     
     loader = FairLLMBenchmarkLoader(benchmark_path)
