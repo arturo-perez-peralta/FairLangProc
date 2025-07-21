@@ -69,8 +69,8 @@ def MaskProbability(
     nSent = len(sentences)
     sentRange = np.arange(nSent)
 
-    assert nSent == len(target_words)
-    assert nSent == len(mask_indices)
+    assert nSent == len(target_words), "Different number of sentences and target words."
+    assert nSent == len(mask_indices), "Different number of sentences and mask indices."
 
     input_ids = tokenizer(sentences, padding = True, return_tensors="pt")
     target_ids = [tokenizer.convert_tokens_to_ids(tokenizer.tokenize(word)[0]) for word in target_words]
@@ -142,6 +142,7 @@ def MaskProbabilityQuotient(
     
     n_cat = len(target_words[0])
     n_sentences = len(target_words)
+
     try:
         fill_indices = 1 - mask_indices
     except TypeError:
@@ -215,7 +216,9 @@ def LPBS(
         )
     """
 
-    assert len(target_words[0]) == 2
+    assert len(sentences) == len(fill_words), "Different number of sentences and fill words."
+    assert len(sentences) == len(target_words), "Different number of sentences and target words."
+    assert len(target_words[0]) == 2, "Target words must consist of pairs of words."
 
     if mask_indices is None:
         mask_indices = [0 for i in range(len(sentences))]
@@ -275,6 +278,9 @@ def CBS(
             mask_indices = mask_indices
         )
     """
+
+    assert len(sentences) == len(fill_words), "Different number of sentences and fill words."
+    assert len(sentences) == len(target_words), "Different number of sentences and target words."
 
     if mask_indices is None:
         mask_indices = [0 for i in range(len(sentences))]
