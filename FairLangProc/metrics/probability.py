@@ -350,7 +350,7 @@ def MaskedPseudoLogLikelihood(
             break
 
     for i in reversed(range(len(input_ids))):
-        if input_ids[i] != cls_id:
+        if input_ids[i] != pad_id:
             end = i
             break  
 
@@ -442,7 +442,10 @@ def CPS(
             target_words = target_words
         )
     """
-    
+
+    assert len(sentences) == len(target_words), "Number of sentences and target words must be the same."
+    assert len(sentences) != 0, "Empty sentence list."
+
     input_ids = tokenizer(sentences, return_tensors="pt")
     ids = input_ids['input_ids']
     target_ids = [tokenizer.convert_tokens_to_ids(tokenizer.tokenize(word)[0]) for word in target_words]
@@ -516,7 +519,7 @@ def UnMaskedPseudoLogLikelihood(
     """
 
     for i in range(len(input_ids)):
-        if input_ids[i] != pad_id:
+        if input_ids[i] != cls_id:
             start = i
             break
 
@@ -528,7 +531,6 @@ def UnMaskedPseudoLogLikelihood(
     input_ids = input_ids.unsqueeze(0)
 
     with torch.no_grad():
-        print(input_ids)
         outputs = model(input_ids)
         logits = outputs.logits
         logProb = torch.log(F.softmax(logits, dim = 1))
@@ -537,7 +539,7 @@ def UnMaskedPseudoLogLikelihood(
     indices_dim1 = torch.arange(start, end)
     indices_dim2 = input_ids.squeeze()[start:end]
 
-    score = torch.sum(logProb[indices_dim0, indices_dim1, indices_dim2])
+    score = torch.mean(logProb[indices_dim0, indices_dim1, indices_dim2])
 
     return score.item()
 
@@ -577,10 +579,11 @@ def AUL(
             sentences = sentences
         )
     """
+
+    assert len(sentences) != 0, "Empty sentence list."
     
     input_ids = tokenizer(sentences, return_tensors="pt")
     ids = input_ids['input_ids']
-    mask_index = torch.where(input_ids.input_ids == tokenizer.mask_token_id)
 
     pad_id = tokenizer.pad_token_type_id
     cls_id = tokenizer.cls_token_id
