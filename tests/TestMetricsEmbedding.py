@@ -151,16 +151,16 @@ def test_value_cosine_similarity():
     output = TEST_WEAT.cosine_similarity(X, Y)
     for i in range(output.shape[0]):
         for j in range(output.shape[1]):
-            assert abs(output[i,j] - COSXY[i,j]) < 1e-7
+            assert abs(output[i,j] - COSXY[i,j]) < 1e-7, f"Mismatch between output ({output[i,j]}) and expected value ({COSXY[i,j]})"
 
 def test_type_effect_size():
     result = TEST_WEAT.effect_size(XEFFECT, YEFFECT, AEFFECT, BEFFECT)
-    assert isinstance(result, float)
+    assert isinstance(result, float), f"Wrong format: expected {float}, got {type(result)}"
 
 def test_value_effect_size():
     result = TEST_WEAT.effect_size(XEFFECT, YEFFECT, AEFFECT, BEFFECT)
-    assert abs(result - 1.699794717779) < 1e-7
+    assert abs(result - 1.699794717779) < 1e-7, f"Mismatch between output ({result}) and expected value ({1.69979})"
 
 def test_type_metric():
     result = TEST_WEAT.metric(WORDSX, WORDSY, WORDSA, WORDSB)
-    assert isinstance(result, dict)
+    assert isinstance(result, dict), f"Wrong format: expected {dict}, got {type(result)}"
