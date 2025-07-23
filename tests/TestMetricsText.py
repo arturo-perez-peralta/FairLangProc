@@ -1,6 +1,3 @@
-import os
-import sys
-
 import pytest
 
 from FairLangProc.metrics import DemRep, StereoAsoc, HONEST
