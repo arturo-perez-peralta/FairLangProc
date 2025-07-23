@@ -1,9 +1,18 @@
-import os, sys, pytest
+import os
+import sys
+
 import pandas as pd
+import pytest
+
 from torch.utils.data import Dataset as PtDataset
 from datasets import Dataset as HfDataset
 
 from FairLangProc.datasets.fairness_datasets import BiasDataLoader
+
+#==================================
+#       TEST VARIABLES
+#==================================
+
 
 IMPLEMENTED = [
     "BBQ",
@@ -64,6 +73,12 @@ CONFIGURATIONS = {
     "Winogender": [""],
 }
 
+#======================================
+#                TESTS
+#======================================
+
+# Formats
+
 FORMATS = ["hf", "pt", "raw"]
 
 CLASS_DICT = {
@@ -82,10 +97,11 @@ TEST_CASES_FORMAT = [
 @pytest.mark.parametrize("dataset, config, format", TEST_CASES_FORMAT)
 def test_format(dataset, config, format):
     result = BiasDataLoader(dataset = dataset, config = config, format = format)
-    assert isinstance(result, dict)
+    assert isinstance(result, dict), f"Wrong format for {dataset}, {config}: found {type(result)} expected {dict}"
     for key in result:
-        assert isinstance(result[key], CLASS_DICT[format])
+        assert isinstance(result[key], CLASS_DICT[format]), f"Wrong format for dataset {dataset} key {key}: found {type(result[key])}, expected {CLASS_DICT[format]}"
 
+# Columns
 
 COLUMNS = {
     "BBQ": ['example_id', 'question_index', 'question_polarity', 'context_condition', 'category', 'answer_info', 'additional_metadata', 'context', 'question', 'ans0', 'ans1', 'ans2', 'label'],
@@ -107,8 +123,9 @@ TEST_CASES_COLUMNS = list(COLUMNS.keys())
 def test_columns(dataset):
     result = BiasDataLoader(dataset = dataset, config = 'all', format = 'raw')
     data = result[list(dataset.keys())[0]]
+    assert len(COLUMNS[dataset]) == len(data.columns), f"Different number of columns: found {len(data.columns)} expected {len(COLUMNS[dataset])}"
     for column in COLUMNS[dataset]:
-        assert column in data.columns
+        assert column in data.columns, f"Missing column {column}"
 
 
 ROWS = {
@@ -130,6 +147,6 @@ def test_row_number(dataset):
     result = BiasDataLoader(dataset = dataset, config = 'all', format = 'raw')
     for key in result:
         if isinstance(result[key], pd.Dataframe):
-            assert len(result[key].index) == ROWS[dataset][key]
+            assert len(result[key].index) == ROWS[dataset][key], f"Different number of columns: found {len(result[key].index)}, expected {ROWS[dataset][key]}"
         elif isinstance(result[key], list):
-            assert len(result[key]) == ROWS[dataset][key]
+            assert len(result[key]) == ROWS[dataset][key], f"Different number of columns: found {len(result[key])}, expected {ROWS[dataset][key]}"
