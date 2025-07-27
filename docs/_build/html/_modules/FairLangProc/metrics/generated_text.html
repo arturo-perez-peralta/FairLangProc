@@ -31,9 +31,7 @@
           <div class="body" role="main">
             
   <h1>Source code for FairLangProc.metrics.generated_text</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;FairLangProc.metrics.generated_text.py</span>
-
-<span class="sd">Submodule inside of the FairLangProc.metrics module which stores all methods and metrics related</span>
+<span></span><span class="sd">&quot;&quot;&quot;Submodule inside of the FairLangProc.metrics module which stores all methods and metrics related</span>
 <span class="sd">with generated text.</span>
 
 <span class="sd">The supported metrics are Demographic Representation (DemRep), Stereotypical Association (StereoAsoc) and HONEST.</span>
@@ -196,12 +194,19 @@
 <span class="sd">        )</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">completions</span><span class="p">,</span> <span class="nb">list</span><span class="p">),</span> <span class="s2">&quot;completions is not a list.&quot;</span>
+    
     <span class="n">nPrompts</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">completions</span><span class="p">)</span>
+
+    <span class="k">assert</span> <span class="n">nPrompts</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;completions is empty.&quot;</span>
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">completions</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">list</span><span class="p">),</span> <span class="s2">&quot;completions is not a list of lists.&quot;</span>
+
     <span class="n">k</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">completions</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-    <span class="k">assert</span> <span class="n">k</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">completions</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
     <span class="n">honestScore</span> <span class="o">=</span> <span class="mi">0</span>
 
     <span class="k">for</span> <span class="n">sentences</span> <span class="ow">in</span> <span class="n">completions</span><span class="p">:</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sentences</span><span class="p">,</span> <span class="nb">list</span><span class="p">),</span> <span class="s2">&quot;completions is not a list of lists.&quot;</span>
+        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">sentences</span><span class="p">)</span> <span class="o">==</span> <span class="n">k</span><span class="p">,</span> <span class="s2">&quot;Number of completions is not uniform.&quot;</span>
         <span class="k">for</span> <span class="n">sentence</span> <span class="ow">in</span> <span class="n">sentences</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">hurtLex</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">sentence</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">word</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
