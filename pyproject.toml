@@ -20,7 +20,8 @@ dependencies = [
   "datasets",
   "pandas",
   "scikit-learn",
-  "adapter-transformers"
+  "adapter-transformers",
+  "pytest"
 ]
 
 [project.urls]
