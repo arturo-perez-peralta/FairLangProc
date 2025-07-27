@@ -33,12 +33,5 @@ autodock_mock_imports = [
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
-# Theme
-html_theme = "pydata_sphinx_theme"
+html_theme = 'alabaster'
 html_static_path = ['_static']
-
-# Optional
-html_theme_options = {
-    "navbar_end": ["theme-switcher", "navbar-icon-links"],
-    "show_prev_next": False,
-}
