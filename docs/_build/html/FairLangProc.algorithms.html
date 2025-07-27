@@ -35,12 +35,28 @@
             
   <section id="fairlangproc-algorithms-package">
 <h1>FairLangProc.algorithms package<a class="headerlink" href="#fairlangproc-algorithms-package" title="Link to this heading">¶</a></h1>
+<p>FairLangProc supports multiple algorithms to mitigate bias in LLMs.
+They can be classified depending on their position on the ML pipeline:</p>
+<ul class="simple">
+<li><p>Pre-processors: Fairness processors that modify the model inputs.</p></li>
+<li><p>In-processors: Fairness processors that modify the training process.</p></li>
+<li><p>Intra-processors: Fairness processors that modify the model’s behavior without further training.</p></li>
+</ul>
+<p>The supported methods are:
+* Counterfactual Data Augmentation (CDA) ([Webster et al. 2020](<a class="reference external" href="https://arxiv.org/abs/2010.06032">https://arxiv.org/abs/2010.06032</a>))
+* Projection based debiasing ([Bolukbasi et al., 2023](<a class="reference external" href="https://arxiv.org/abs/1607.06520">https://arxiv.org/abs/1607.06520</a>))
+* Bias removaL wIth No Demographics (BLIND) ([Orgad et al., 2023](<a class="reference external" href="https://aclanthology.org/2023.acl-long.490/">https://aclanthology.org/2023.acl-long.490/</a>))
+* Adapter-based DEbiasing of LanguagE models (ADELE) ([Lauscher et al., 2021](<a class="reference external" href="https://arxiv.org/abs/2109.03646">https://arxiv.org/abs/2109.03646</a>))
+* Modular Debiasing with Diff Subnetworks ([Hauzenberger et al., 2023](<a class="reference external" href="https://aclanthology.org/2023.findings-acl.386/">https://aclanthology.org/2023.findings-acl.386/</a>))
+* Entropy Attention Temperature (EAT) scaling ([Zayed et al., 2023](<a class="reference external" href="https://arxiv.org/abs/2305.13088">https://arxiv.org/abs/2305.13088</a>))
+* Entropy Attention Regularizer (EAR) ([Attanasio et al., 2022](<a class="reference external" href="https://arxiv.org/abs/2203.09192">https://arxiv.org/abs/2203.09192</a>))
+* Embedding based regularizer ([Liu et al., 2020](<a class="reference external" href="https://arxiv.org/abs/1910.10486">https://arxiv.org/abs/1910.10486</a>))
+* Selective unfreezing ([Gira et al., 2024](<a class="reference external" href="https://aclanthology.org/2022.ltedi-1.8/">https://aclanthology.org/2022.ltedi-1.8/</a>))</p>
 <section id="subpackages">
 <h2>Subpackages<a class="headerlink" href="#subpackages" title="Link to this heading">¶</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="FairLangProc.algorithms.inprocessors.html">FairLangProc.algorithms.inprocessors package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="FairLangProc.algorithms.inprocessors.html#submodules">Submodules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="FairLangProc.algorithms.inprocessors.html#fairlangproc-algorithms-inprocessors-adapter-module">FairLangProc.algorithms.inprocessors.adapter module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="FairLangProc.algorithms.inprocessors.html#module-FairLangProc.algorithms.inprocessors.regularizers">FairLangProc.algorithms.inprocessors.regularizers module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="FairLangProc.algorithms.inprocessors.html#FairLangProc.algorithms.inprocessors.regularizers.BERTEmbedingReg"><code class="docutils literal notranslate"><span class="pre">BERTEmbedingReg</span></code></a></li>
@@ -55,11 +71,9 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="FairLangProc.algorithms.inprocessors.html#fairlangproc-algorithms-inprocessors-selective-updating-module">FairLangProc.algorithms.inprocessors.selective_updating module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="FairLangProc.algorithms.inprocessors.html#module-contents">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="FairLangProc.algorithms.intraprocessors.html">FairLangProc.algorithms.intraprocessors package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="FairLangProc.algorithms.intraprocessors.html#submodules">Submodules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="FairLangProc.algorithms.intraprocessors.html#module-FairLangProc.algorithms.intraprocessors.modular">FairLangProc.algorithms.intraprocessors.modular module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="FairLangProc.algorithms.intraprocessors.html#FairLangProc.algorithms.intraprocessors.modular.DiffPrunBERT"><code class="docutils literal notranslate"><span class="pre">DiffPrunBERT</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="FairLangProc.algorithms.intraprocessors.html#FairLangProc.algorithms.intraprocessors.modular.DiffPrunDebiasing"><code class="docutils literal notranslate"><span class="pre">DiffPrunDebiasing</span></code></a><ul>
@@ -73,11 +87,9 @@
 <li class="toctree-l3"><a class="reference internal" href="FairLangProc.algorithms.intraprocessors.html#FairLangProc.algorithms.intraprocessors.redistribution.add_EAT_hook"><code class="docutils literal notranslate"><span class="pre">add_EAT_hook()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="FairLangProc.algorithms.intraprocessors.html#module-FairLangProc.algorithms.intraprocessors">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="FairLangProc.algorithms.preprocessors.html">FairLangProc.algorithms.preprocessors package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="FairLangProc.algorithms.preprocessors.html#submodules">Submodules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="FairLangProc.algorithms.preprocessors.html#fairlangproc-algorithms-preprocessors-augmentation-module">FairLangProc.algorithms.preprocessors.augmentation module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="FairLangProc.algorithms.preprocessors.html#module-FairLangProc.algorithms.preprocessors.projection_based">FairLangProc.algorithms.preprocessors.projection_based module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="FairLangProc.algorithms.preprocessors.html#FairLangProc.algorithms.preprocessors.projection_based.SentDebiasForSequenceClassification"><code class="docutils literal notranslate"><span class="pre">SentDebiasForSequenceClassification</span></code></a></li>
@@ -88,41 +100,10 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="FairLangProc.algorithms.preprocessors.html#fairlangproc-algorithms-preprocessors-reweighting-module">FairLangProc.algorithms.preprocessors.reweighting module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="FairLangProc.algorithms.preprocessors.html#module-contents">Module contents</a></li>
 </ul>
 </li>
 </ul>
 </div>
-</section>
-<section id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading">¶</a></h2>
-</section>
-<section id="module-FairLangProc.algorithms.output">
-<span id="fairlangproc-algorithms-output-module"></span><h2>FairLangProc.algorithms.output module<a class="headerlink" href="#module-FairLangProc.algorithms.output" title="Link to this heading">¶</a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="FairLangProc.algorithms.output.CustomOutput">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">FairLangProc.algorithms.output.</span></span><span class="sig-name descname"><span class="pre">CustomOutput</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">loss</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">torch.FloatTensor</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logits</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">torch.FloatTensor</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">last_hidden_state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">torch.FloatTensor</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/FairLangProc/algorithms/output.html#CustomOutput"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#FairLangProc.algorithms.output.CustomOutput" title="Link to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ModelOutput</span></code></p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="FairLangProc.algorithms.output.CustomOutput.last_hidden_state">
-<span class="sig-name descname"><span class="pre">last_hidden_state</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">FloatTensor</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#FairLangProc.algorithms.output.CustomOutput.last_hidden_state" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="FairLangProc.algorithms.output.CustomOutput.logits">
-<span class="sig-name descname"><span class="pre">logits</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">FloatTensor</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#FairLangProc.algorithms.output.CustomOutput.logits" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="FairLangProc.algorithms.output.CustomOutput.loss">
-<span class="sig-name descname"><span class="pre">loss</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">FloatTensor</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#FairLangProc.algorithms.output.CustomOutput.loss" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-</section>
-<section id="module-FairLangProc.algorithms">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-FairLangProc.algorithms" title="Link to this heading">¶</a></h2>
 </section>
 </section>
 
