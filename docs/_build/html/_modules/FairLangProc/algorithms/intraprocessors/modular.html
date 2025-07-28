@@ -733,6 +733,8 @@
 <span class="sd">    &gt;&gt;&gt; print(results)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
+<div class="viewcode-block" id="DiffPrunDebiasing.__init__">
+<a class="viewcode-back" href="../../../../FairLangProc.algorithms.intraprocessors.html#FairLangProc.algorithms.intraprocessors.modular.DiffPrunDebiasing.__init__">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">head</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">,</span>
@@ -804,7 +806,8 @@
             <span class="n">concrete_lower</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lower</span><span class="p">,</span>
             <span class="n">concrete_upper</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">upper</span><span class="p">,</span>
             <span class="n">structured</span> <span class="o">=</span> <span class="n">structured_diff_prunning</span>
-        <span class="p">)</span>
+        <span class="p">)</span></div>
+
         
 
 
@@ -827,8 +830,6 @@
             <span class="n">group_b_mean</span><span class="o">.</span><span class="n">requires_grad_</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
         <span class="p">)</span>
     
-<div class="viewcode-block" id="DiffPrunDebiasing.forward">
-<a class="viewcode-back" href="../../../../FairLangProc.algorithms.intraprocessors.html#FairLangProc.algorithms.intraprocessors.modular.DiffPrunDebiasing.forward">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_ids</span><span class="p">,</span> <span class="n">attention_mask</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">token_type_ids</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Forward pass.&quot;&quot;&quot;</span>
         <span class="n">outputs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_forward</span><span class="p">(</span><span class="n">input_ids</span> <span class="o">=</span> <span class="n">input_ids</span><span class="p">,</span> <span class="n">attention_mask</span> <span class="o">=</span> <span class="n">attention_mask</span><span class="p">,</span> <span class="n">token_type_ids</span> <span class="o">=</span> <span class="n">token_type_ids</span><span class="p">)</span>
@@ -840,15 +841,12 @@
             <span class="n">loss</span> <span class="o">=</span> <span class="n">task_loss</span> <span class="o">+</span> <span class="n">bias_loss</span> <span class="o">+</span> <span class="n">sparse_loss</span>
             <span class="k">return</span> <span class="n">CustomOutput</span><span class="p">(</span><span class="n">loss</span> <span class="o">=</span> <span class="n">loss</span><span class="p">,</span> <span class="n">logits</span> <span class="o">=</span> <span class="n">logits</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">CustomOutput</span><span class="p">(</span><span class="n">logits</span> <span class="o">=</span> <span class="n">logits</span><span class="p">)</span></div>
-
+            <span class="k">return</span> <span class="n">CustomOutput</span><span class="p">(</span><span class="n">logits</span> <span class="o">=</span> <span class="n">logits</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_loss</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Loss function.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">loss_fn</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
     
-<div class="viewcode-block" id="DiffPrunDebiasing.to">
-<a class="viewcode-back" href="../../../../FairLangProc.algorithms.intraprocessors.html#FairLangProc.algorithms.intraprocessors.modular.DiffPrunDebiasing.to">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">to</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">device</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Override to() to handle device transfer consistently&quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
@@ -856,12 +854,9 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">inputs_A</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs_A</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">inputs_B</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs_B</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
         <span class="k">return</span> <span class="bp">self</span></div>
-</div>
 
 
 
-<div class="viewcode-block" id="DiffPrunBERT">
-<a class="viewcode-back" href="../../../../FairLangProc.algorithms.intraprocessors.html#FairLangProc.algorithms.intraprocessors.modular.DiffPrunBERT">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">DiffPrunBERT</span><span class="p">(</span><span class="n">DiffPrunDebiasing</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Concrete implementation for the BERT model.&quot;&quot;&quot;</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_ids</span><span class="p">,</span> <span class="n">attention_mask</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">token_type_ids</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -870,8 +865,7 @@
             <span class="n">attention_mask</span> <span class="o">=</span> <span class="n">attention_mask</span><span class="p">,</span>
             <span class="n">token_type_ids</span> <span class="o">=</span> <span class="n">token_type_ids</span>
             <span class="p">)</span>
-        <span class="k">return</span> <span class="n">outputs</span><span class="o">.</span><span class="n">last_hidden_state</span><span class="p">[:,</span><span class="mi">0</span><span class="p">,:]</span></div>
-
+        <span class="k">return</span> <span class="n">outputs</span><span class="o">.</span><span class="n">last_hidden_state</span><span class="p">[:,</span><span class="mi">0</span><span class="p">,:]</span>
 </pre></div>
 
           </div>

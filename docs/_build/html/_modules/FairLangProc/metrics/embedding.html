@@ -76,6 +76,8 @@
 <span class="sd">        by the model.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
+<div class="viewcode-block" id="WEAT.__init__">
+<a class="viewcode-back" href="../../../FairLangProc.metrics.html#FairLangProc.metrics.embedding.WEAT.__init__">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">model</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">,</span>
@@ -97,10 +99,9 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">tokenizer</span> <span class="o">=</span> <span class="n">tokenizer</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">device</span> <span class="o">=</span> <span class="n">device</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="WEAT.get_embeddings">
-<a class="viewcode-back" href="../../../FairLangProc.metrics.html#FairLangProc.metrics.embedding.WEAT.get_embeddings">[docs]</a>
+
     <span class="k">def</span><span class="w"> </span><span class="nf">get_embeddings</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">words</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get embeddings for a list of words using the LLM.&quot;&quot;&quot;</span>
         <span class="n">embeddings</span> <span class="o">=</span> <span class="p">[]</span>
@@ -115,23 +116,20 @@
             
             <span class="n">embeddings</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">word_embedding</span><span class="p">)</span>
         
-        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">embeddings</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">embeddings</span><span class="p">)</span>
 
-
+<div class="viewcode-block" id="WEAT._get_embedding">
+<a class="viewcode-back" href="../../../FairLangProc.metrics.html#FairLangProc.metrics.embedding.WEAT._get_embedding">[docs]</a>
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_get_embedding</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">outputs</span><span class="p">):</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Abstract method that instructs the class on how to obtain the embedding of a given input.&quot;&quot;&quot;</span>
-        <span class="k">pass</span>
+        <span class="k">pass</span></div>
 
-<div class="viewcode-block" id="WEAT.cosine_similarity">
-<a class="viewcode-back" href="../../../FairLangProc.metrics.html#FairLangProc.metrics.embedding.WEAT.cosine_similarity">[docs]</a>
+
     <span class="k">def</span><span class="w"> </span><span class="nf">cosine_similarity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute cosine similarity between two tensors.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">F</span><span class="o">.</span><span class="n">cosine_similarity</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">y</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">F</span><span class="o">.</span><span class="n">cosine_similarity</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">y</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
 
-
-<div class="viewcode-block" id="WEAT.effect_size">
-<a class="viewcode-back" href="../../../FairLangProc.metrics.html#FairLangProc.metrics.embedding.WEAT.effect_size">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">effect_size</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
         <span class="n">X</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span>
         <span class="n">Y</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> 
@@ -193,11 +191,8 @@
         <span class="n">std_y</span> <span class="o">=</span> <span class="n">y_diffs</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">unbiased</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
         <span class="n">pooled_std</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="n">std_x</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">std_y</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
         
-        <span class="k">return</span> <span class="p">((</span><span class="n">diff_x</span> <span class="o">-</span> <span class="n">diff_y</span><span class="p">)</span> <span class="o">/</span> <span class="n">pooled_std</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">()</span></div>
+        <span class="k">return</span> <span class="p">((</span><span class="n">diff_x</span> <span class="o">-</span> <span class="n">diff_y</span><span class="p">)</span> <span class="o">/</span> <span class="n">pooled_std</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
 
-
-<div class="viewcode-block" id="WEAT.p_value">
-<a class="viewcode-back" href="../../../FairLangProc.metrics.html#FairLangProc.metrics.embedding.WEAT.p_value">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">p_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">Y</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> 
                <span class="n">A</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">B</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> 
                <span class="n">n_perm</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10000</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
@@ -230,8 +225,7 @@
             <span class="k">if</span> <span class="n">effect</span> <span class="o">&gt;</span> <span class="n">observed_effect</span><span class="p">:</span>
                 <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
                 
-        <span class="k">return</span> <span class="p">(</span><span class="n">count</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">n_perm</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>  <span class="c1"># Add 1 for smoothing</span></div>
-
+        <span class="k">return</span> <span class="p">(</span><span class="n">count</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">n_perm</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>  <span class="c1"># Add 1 for smoothing</span>
 
 <div class="viewcode-block" id="WEAT.metric">
 <a class="viewcode-back" href="../../../FairLangProc.metrics.html#FairLangProc.metrics.embedding.WEAT.metric">[docs]</a>
@@ -301,14 +295,11 @@
 
 
 
-<div class="viewcode-block" id="BertWEAT">
-<a class="viewcode-back" href="../../../FairLangProc.metrics.html#FairLangProc.metrics.embedding.BertWEAT">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">BertWEAT</span><span class="p">(</span><span class="n">WEAT</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Class with implementation of _get_embedding for bidirectional transformers</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_get_embedding</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">outputs</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">outputs</span><span class="o">.</span><span class="n">last_hidden_state</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">:]</span></div>
-
+        <span class="k">return</span> <span class="n">outputs</span><span class="o">.</span><span class="n">last_hidden_state</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">:]</span>
 </pre></div>
 
           </div>

@@ -9,6 +9,7 @@ They can be classified depending on their position on the ML pipeline:
 * Intra-processors: Fairness processors that modify the model's behavior without further training.
 
 The supported methods are:
+
 * Counterfactual Data Augmentation (CDA) ([Webster et al. 2020](https://arxiv.org/abs/2010.06032))
 * Projection based debiasing ([Bolukbasi et al., 2023](https://arxiv.org/abs/1607.06520))
 * Bias removaL wIth No Demographics (BLIND) ([Orgad et al., 2023](https://aclanthology.org/2023.acl-long.490/))
@@ -23,7 +24,7 @@ Subpackages
 -----------
 
 .. toctree::
-   :maxdepth: 4
+   :maxdepth: 1
 
    FairLangProc.algorithms.inprocessors
    FairLangProc.algorithms.intraprocessors

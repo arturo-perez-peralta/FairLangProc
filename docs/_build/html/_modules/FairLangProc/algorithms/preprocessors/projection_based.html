@@ -112,6 +112,8 @@
 <span class="sd">    &gt;&gt;&gt; print(results)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
+<div class="viewcode-block" id="SentDebiasModel.__init__">
+<a class="viewcode-back" href="../../../../FairLangProc.algorithms.preprocessors.html#FairLangProc.algorithms.preprocessors.projection_based.SentDebiasModel.__init__">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">model</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
@@ -164,7 +166,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">n_components</span> <span class="o">=</span> <span class="n">n_components</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">bias_subspace</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_compute_bias_subspace</span><span class="p">()</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_get_loss</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs_loss</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_get_loss</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs_loss</span><span class="p">)</span></div>
+
 
 
     <span class="nd">@abstractmethod</span>
@@ -209,8 +212,6 @@
         <span class="k">return</span> <span class="n">v_neutral</span>
     
     
-<div class="viewcode-block" id="SentDebiasModel.forward">
-<a class="viewcode-back" href="../../../../FairLangProc.algorithms.preprocessors.html#FairLangProc.algorithms.preprocessors.projection_based.SentDebiasModel.forward">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>  <span class="n">input_ids</span><span class="p">,</span> <span class="n">attention_mask</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">token_type_ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Forward pass.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -237,14 +238,11 @@
                     <span class="p">)</span>
         
         <span class="k">return</span> <span class="n">CustomOutput</span><span class="p">(</span><span class="n">last_hidden_state</span> <span class="o">=</span> <span class="n">debiased_embeddings</span><span class="p">)</span></div>
-</div>
 
 
 
 
 
-<div class="viewcode-block" id="SentDebiasForSequenceClassification">
-<a class="viewcode-back" href="../../../../FairLangProc.algorithms.preprocessors.html#FairLangProc.algorithms.preprocessors.projection_based.SentDebiasForSequenceClassification">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">SentDebiasForSequenceClassification</span><span class="p">(</span><span class="n">SentDebiasModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Implementation ready for sequence classification, lacks _get_embedding method.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -261,8 +259,7 @@
         <span class="k">return</span> <span class="n">loss</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_load_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model_name</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">AutoModelForSequenceClassification</span><span class="p">(</span><span class="n">model_name</span><span class="p">,</span> <span class="n">config</span> <span class="o">=</span> <span class="n">config</span><span class="p">)</span></div>
-
+        <span class="k">return</span> <span class="n">AutoModelForSequenceClassification</span><span class="p">(</span><span class="n">model_name</span><span class="p">,</span> <span class="n">config</span> <span class="o">=</span> <span class="n">config</span><span class="p">)</span>
 
 </pre></div>
 

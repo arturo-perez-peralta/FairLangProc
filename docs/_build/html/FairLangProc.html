@@ -12,6 +12,7 @@
     <script src="_static/documentation_options.js?v=360bc84d"></script>
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="FairLangProc.algorithms package" href="FairLangProc.algorithms.html" />
@@ -42,20 +43,20 @@
 <li class="toctree-l1"><a class="reference internal" href="FairLangProc.algorithms.html">FairLangProc.algorithms package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="FairLangProc.algorithms.html#subpackages">Subpackages</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="FairLangProc.algorithms.inprocessors.html">FairLangProc.algorithms.inprocessors package</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="FairLangProc.algorithms.inprocessors.html#fairlangproc-algorithms-inprocessors-adapter-module">FairLangProc.algorithms.inprocessors.adapter module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="FairLangProc.algorithms.inprocessors.html#module-FairLangProc.algorithms.inprocessors.regularizers">FairLangProc.algorithms.inprocessors.regularizers module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="FairLangProc.algorithms.inprocessors.html#fairlangproc-algorithms-inprocessors-selective-updating-module">FairLangProc.algorithms.inprocessors.selective_updating module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="FairLangProc.algorithms.inprocessors.html#adele">ADELE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="FairLangProc.algorithms.inprocessors.html#ear">EAR</a></li>
+<li class="toctree-l4"><a class="reference internal" href="FairLangProc.algorithms.inprocessors.html#selective-unfreezing">Selective unfreezing</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="FairLangProc.algorithms.intraprocessors.html">FairLangProc.algorithms.intraprocessors package</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="FairLangProc.algorithms.intraprocessors.html#module-FairLangProc.algorithms.intraprocessors.modular">FairLangProc.algorithms.intraprocessors.modular module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="FairLangProc.algorithms.intraprocessors.html#module-FairLangProc.algorithms.intraprocessors.redistribution">FairLangProc.algorithms.intraprocessors.redistribution module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="FairLangProc.algorithms.intraprocessors.html#moddiffy">MoDDiffy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="FairLangProc.algorithms.intraprocessors.html#eat">EAT</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="FairLangProc.algorithms.preprocessors.html">FairLangProc.algorithms.preprocessors package</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="FairLangProc.algorithms.preprocessors.html#fairlangproc-algorithms-preprocessors-augmentation-module">FairLangProc.algorithms.preprocessors.augmentation module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="FairLangProc.algorithms.preprocessors.html#module-FairLangProc.algorithms.preprocessors.projection_based">FairLangProc.algorithms.preprocessors.projection_based module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="FairLangProc.algorithms.preprocessors.html#fairlangproc-algorithms-preprocessors-reweighting-module">FairLangProc.algorithms.preprocessors.reweighting module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="FairLangProc.algorithms.preprocessors.html#counterfactual-data-augmentation-cda">Counterfactual Data Augmentation (CDA)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="FairLangProc.algorithms.preprocessors.html#projection-based-debiasing">Projection-based debiasing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="FairLangProc.algorithms.preprocessors.html#blind-debiasing">BLIND debiasing</a></li>
 </ul>
 </li>
 </ul>
@@ -63,36 +64,40 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="FairLangProc.datasets.html">FairLangProc.datasets package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="FairLangProc.datasets.html#module-FairLangProc.datasets.fairness_datasets">FairLangProc.datasets.fairness_datasets module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="FairLangProc.datasets.html#biasdataloader">BiasDataLoader</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="FairLangProc.datasets.html#FairLangProc.datasets.fairness_datasets.BiasDataLoader"><code class="docutils literal notranslate"><span class="pre">BiasDataLoader()</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="FairLangProc.metrics.html">FairLangProc.metrics package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="FairLangProc.metrics.html#module-FairLangProc.metrics.embedding">FairLangProc.metrics.embedding module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="FairLangProc.metrics.html#FairLangProc.metrics.embedding.BertWEAT"><code class="docutils literal notranslate"><span class="pre">BertWEAT</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="FairLangProc.metrics.html#FairLangProc.metrics.embedding.WEAT"><code class="docutils literal notranslate"><span class="pre">WEAT</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="FairLangProc.metrics.html#FairLangProc.metrics.embedding.WEAT.cosine_similarity"><code class="docutils literal notranslate"><span class="pre">WEAT.cosine_similarity()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="FairLangProc.metrics.html#FairLangProc.metrics.embedding.WEAT.effect_size"><code class="docutils literal notranslate"><span class="pre">WEAT.effect_size()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="FairLangProc.metrics.html#FairLangProc.metrics.embedding.WEAT.get_embeddings"><code class="docutils literal notranslate"><span class="pre">WEAT.get_embeddings()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="FairLangProc.metrics.html#FairLangProc.metrics.embedding.WEAT.metric"><code class="docutils literal notranslate"><span class="pre">WEAT.metric()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="FairLangProc.metrics.html#FairLangProc.metrics.embedding.WEAT.p_value"><code class="docutils literal notranslate"><span class="pre">WEAT.p_value()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="FairLangProc.metrics.html#module-FairLangProc.metrics.generated_text">FairLangProc.metrics.generated_text module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="FairLangProc.metrics.html#weat">WEAT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="FairLangProc.metrics.html#demographic-representation">Demographic Representation</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="FairLangProc.metrics.html#FairLangProc.metrics.generated_text.DemRep"><code class="docutils literal notranslate"><span class="pre">DemRep()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="FairLangProc.metrics.html#FairLangProc.metrics.generated_text.HONEST"><code class="docutils literal notranslate"><span class="pre">HONEST()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="FairLangProc.metrics.html#stereotypical-association">Stereotypical Association</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="FairLangProc.metrics.html#FairLangProc.metrics.generated_text.StereoAsoc"><code class="docutils literal notranslate"><span class="pre">StereoAsoc()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="FairLangProc.metrics.html#module-FairLangProc.metrics.probability">FairLangProc.metrics.probability module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="FairLangProc.metrics.html#FairLangProc.metrics.probability.AUL"><code class="docutils literal notranslate"><span class="pre">AUL()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="FairLangProc.metrics.html#FairLangProc.metrics.probability.CBS"><code class="docutils literal notranslate"><span class="pre">CBS()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="FairLangProc.metrics.html#FairLangProc.metrics.probability.CPS"><code class="docutils literal notranslate"><span class="pre">CPS()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="FairLangProc.metrics.html#honest">HONEST</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="FairLangProc.metrics.html#FairLangProc.metrics.generated_text.HONEST"><code class="docutils literal notranslate"><span class="pre">HONEST()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="FairLangProc.metrics.html#lpbs">LPBS</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="FairLangProc.metrics.html#FairLangProc.metrics.probability.LPBS"><code class="docutils literal notranslate"><span class="pre">LPBS()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="FairLangProc.metrics.html#cbs">CBS</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="FairLangProc.metrics.html#FairLangProc.metrics.probability.CBS"><code class="docutils literal notranslate"><span class="pre">CBS()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="FairLangProc.metrics.html#cps">CPS</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="FairLangProc.metrics.html#FairLangProc.metrics.probability.CPS"><code class="docutils literal notranslate"><span class="pre">CPS()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="FairLangProc.metrics.html#aul">AUL</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="FairLangProc.metrics.html#FairLangProc.metrics.probability.AUL"><code class="docutils literal notranslate"><span class="pre">AUL()</span></code></a></li>
 </ul>
 </li>
 </ul>
