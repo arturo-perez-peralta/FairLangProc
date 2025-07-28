@@ -24,10 +24,12 @@ where:
  - :math:`\mathcal{L}_{\rho}^{debias}` debiases the outputs by approximating the mutual information of embeddings belonging to different demographic groups.
 
 In particular the sparsity loss takes the form:
+
 .. math:: 
    \mathcal{L}_{\rho}^{0} = \sum_{i=1}^{|\delta_{\rho}|} \sigma\left( \log \alpha_{\rho, i} - \log\left(- \frac{\gamma}{\zeta}\right) \right).
 
 And the debiasing loss:
+
 .. math::
    \mathcal{L}_{\rho}^{debias} = \left(\frac{\sum_{x_A \in X^A_\rho} \phi (M(x_A))}{|X_{\rho}^A |} - \frac{\sum_{x_B \in X^B_\rho} \phi (M(x_B))}{|X_{\rho}^B|} \right)^2,
 

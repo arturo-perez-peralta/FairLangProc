@@ -5,9 +5,9 @@ Pre-processors are fairness processors that modify the model inputs.
 
 The supported methods are:
 
-- Counterfactual Data Augmentation (CDA) `(Webster et al. 2020) https://arxiv.org/abs/2010.06032`_.
-- Projection based debiasing `(Bolukbasi et al., 2023) https://arxiv.org/abs/1607.06520`_.
-- Bias removaL wIth No Demographics (BLIND) `(Orgad et al., 2023) https://aclanthology.org/2023.acl-long.490/`_.
+- Counterfactual Data Augmentation (CDA) `(Webster et al. 2020) <https://arxiv.org/abs/2010.06032>`_.
+- Projection based debiasing `(Bolukbasi et al., 2023) <https://arxiv.org/abs/1607.06520>`_.
+- Bias removaL wIth No Demographics (BLIND) `(Orgad et al., 2023) <https://aclanthology.org/2023.acl-long.490/>`_.
 
 Counterfactual Data Augmentation (CDA)
 ---------------------------------------------------------
@@ -24,6 +24,7 @@ Projection-based debiasing
 
 Projection-based debiasing methods `(Bolukbasi et al., 2023) https://arxiv.org/abs/1607.06520`_ operate on latent space, looking to identify a bias subspace given by an
 orthogonal basis, :math:`\{v_i\}_{i=1}^{n_{bias}}`. Then, the hidden representation of any input can be debiased by removing its projection onto this space, formally
+
 .. math::
     h_{proj} = h - \sum_{i = 1}^{n_{bias} } \langle h, v_i \rangle \, v_i.
 

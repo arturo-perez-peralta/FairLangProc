@@ -15,7 +15,6 @@
     <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="FairLangProc.datasets package" href="FairLangProc.datasets.html" />
     <link rel="prev" title="FairLangProc.algorithms.intraprocessors package" href="FairLangProc.algorithms.intraprocessors.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
@@ -39,25 +38,23 @@
 <p>Pre-processors are fairness processors that modify the model inputs.</p>
 <p>The supported methods are:</p>
 <ul class="simple">
-<li><p>Counterfactual Data Augmentation (CDA) <a href="#id1"><span class="problematic" id="id2">`(Webster et al. 2020) https://arxiv.org/abs/2010.06032`_</span></a>.</p></li>
-<li><p>Projection based debiasing <a href="#id3"><span class="problematic" id="id4">`(Bolukbasi et al., 2023) https://arxiv.org/abs/1607.06520`_</span></a>.</p></li>
-<li><p>Bias removaL wIth No Demographics (BLIND) <a href="#id5"><span class="problematic" id="id6">`(Orgad et al., 2023) https://aclanthology.org/2023.acl-long.490/`_</span></a>.</p></li>
+<li><p>Counterfactual Data Augmentation (CDA) <a class="reference external" href="https://arxiv.org/abs/2010.06032">(Webster et al. 2020)</a>.</p></li>
+<li><p>Projection based debiasing <a class="reference external" href="https://arxiv.org/abs/1607.06520">(Bolukbasi et al., 2023)</a>.</p></li>
+<li><p>Bias removaL wIth No Demographics (BLIND) <a class="reference external" href="https://aclanthology.org/2023.acl-long.490/">(Orgad et al., 2023)</a>.</p></li>
 </ul>
 <section id="counterfactual-data-augmentation-cda">
 <h2>Counterfactual Data Augmentation (CDA)<a class="headerlink" href="#counterfactual-data-augmentation-cda" title="Link to this heading">¶</a></h2>
 <p>Data augmentation is the process of curating or upsampling the dataset to obtain a more representative distribution to train the model on.
-In particular, Counterfactual Data Augmentation (CDA) <a href="#id7"><span class="problematic" id="id8">`(Webster et al. 2020) https://arxiv.org/abs/2010.06032`_</span></a> consists of flipping words with demographic information
+In particular, Counterfactual Data Augmentation (CDA) <a href="#id1"><span class="problematic" id="id2">`(Webster et al. 2020) https://arxiv.org/abs/2010.06032`_</span></a> consists of flipping words with demographic information
 while preserving semantic correctness. This procedure can be one-sided and discard the original sentence or two-sided to consider both the original and its
 augmented version.</p>
 </section>
 <section id="projection-based-debiasing">
 <h2>Projection-based debiasing<a class="headerlink" href="#projection-based-debiasing" title="Link to this heading">¶</a></h2>
-<p>Projection-based debiasing methods <a href="#id9"><span class="problematic" id="id10">`(Bolukbasi et al., 2023) https://arxiv.org/abs/1607.06520`_</span></a> operate on latent space, looking to identify a bias subspace given by an
-orthogonal basis, <span class="math notranslate nohighlight">\(\{v_i\}_{i=1}^{n_{bias}}\)</span>. Then, the hidden representation of any input can be debiased by removing its projection onto this space, formally
-.. math:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">h_</span><span class="p">{</span><span class="n">proj</span><span class="p">}</span> <span class="o">=</span> <span class="n">h</span> <span class="o">-</span> \<span class="n">sum_</span><span class="p">{</span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">}</span><span class="o">^</span><span class="p">{</span><span class="n">n_</span><span class="p">{</span><span class="n">bias</span><span class="p">}</span> <span class="p">}</span> \<span class="n">langle</span> <span class="n">h</span><span class="p">,</span> <span class="n">v_i</span> \<span class="n">rangle</span> \<span class="p">,</span> <span class="n">v_i</span><span class="o">.</span>
-</pre></div>
-</div>
+<p>Projection-based debiasing methods <a href="#id3"><span class="problematic" id="id4">`(Bolukbasi et al., 2023) https://arxiv.org/abs/1607.06520`_</span></a> operate on latent space, looking to identify a bias subspace given by an
+orthogonal basis, <span class="math notranslate nohighlight">\(\{v_i\}_{i=1}^{n_{bias}}\)</span>. Then, the hidden representation of any input can be debiased by removing its projection onto this space, formally</p>
+<div class="math notranslate nohighlight">
+\[h_{proj} = h - \sum_{i = 1}^{n_{bias} } \langle h, v_i \rangle \, v_i.\]</div>
 <p>This can be done either at the word or sentence level. In either case the bias subspace is generally identified through PCA,
 and usually its dimension is one, resulting in the construction of a bias direction.</p>
 <dl class="py class">
@@ -143,7 +140,7 @@ the words/sentences with sensitive attributes.</p>
 </section>
 <section id="blind-debiasing">
 <h2>BLIND debiasing<a class="headerlink" href="#blind-debiasing" title="Link to this heading">¶</a></h2>
-<p>BLIND <a href="#id11"><span class="problematic" id="id12">`(Orgad et al., 2023) https://aclanthology.org/2023.acl-long.490/`_</span></a> is a debiasing procedure based on a complementary classifier
+<p>BLIND <a href="#id5"><span class="problematic" id="id6">`(Orgad et al., 2023) https://aclanthology.org/2023.acl-long.490/`_</span></a> is a debiasing procedure based on a complementary classifier
 <span class="math notranslate nohighlight">\(g_{B} : \mathbb{R}^{d_L} \longrightarrow \mathbb{R}\)</span> with parameters <span class="math notranslate nohighlight">\(\theta_{B}\)</span>, that takes the hidden representation vector
 as inputs and outputs the success probability of the model head for the downstream task. This probability is then used as a weight for said observation
 whose magnitude is controlled through a hyper-parameter <span class="math notranslate nohighlight">\(\gamma \geq 0\)</span>:</p>
@@ -184,12 +181,10 @@ Note that when <span class="math notranslate nohighlight">\(\gamma = 0\)</span> 
 <script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="modules.html">FairLangProc</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="FairLangProc.html">FairLangProc package</a><ul class="current">
-<li class="toctree-l3 current"><a class="reference internal" href="FairLangProc.html#subpackages">Subpackages</a></li>
-<li class="toctree-l3"><a class="reference internal" href="FairLangProc.html#module-FairLangProc">Module contents</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="FairLangProc.datasets.html">FairLangProc.datasets package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="FairLangProc.metrics.html">FairLangProc.metrics package</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="FairLangProc.algorithms.html">FairLangProc.algorithms package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="FairLangProc.algorithms.html#subpackages">Subpackages</a></li>
 </ul>
 </li>
 </ul>
@@ -198,13 +193,8 @@ Note that when <span class="math notranslate nohighlight">\(\gamma = 0\)</span> 
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
-  <li><a href="modules.html">FairLangProc</a><ul>
-  <li><a href="FairLangProc.html">FairLangProc package</a><ul>
   <li><a href="FairLangProc.algorithms.html">FairLangProc.algorithms package</a><ul>
       <li>Previous: <a href="FairLangProc.algorithms.intraprocessors.html" title="previous chapter">FairLangProc.algorithms.intraprocessors package</a></li>
-      <li>Next: <a href="FairLangProc.datasets.html" title="next chapter">FairLangProc.datasets package</a></li>
-  </ul></li>
-  </ul></li>
   </ul></li>
   </ul></li>
 </ul>

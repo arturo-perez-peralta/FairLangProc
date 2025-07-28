@@ -40,8 +40,8 @@
 <p>The supported methods are:</p>
 <ul class="simple">
 <li><p>ADELE <a class="reference external" href="https://arxiv.org/abs/2109.03646">(Lauscher et al., 2021)</a>.</p></li>
-<li><p>Entropy Attention Regularizer (EAR) <a href="#id2"><span class="problematic" id="id3">`(Attanasio et al., 2022) https://arxiv.org/abs/2203.09192`_</span></a>.</p></li>
-<li><p>Selective unfreezing <a href="#id4"><span class="problematic" id="id5">`(Gira et al., 2024) https://aclanthology.org/2022.ltedi-1.8/`_</span></a>.</p></li>
+<li><p>Entropy Attention Regularizer (EAR) <a class="reference external" href="https://arxiv.org/abs/2203.09192">(Attanasio et al., 2022)</a>.</p></li>
+<li><p>Selective unfreezing <a class="reference external" href="https://aclanthology.org/2022.ltedi-1.8/">(Gira et al., 2024)</a>.</p></li>
 </ul>
 <section id="adele">
 <h2>ADELE<a class="headerlink" href="#adele" title="Link to this heading">¶</a></h2>
@@ -57,7 +57,7 @@ forcing the model to discard all irrelevant information.</p>
 </section>
 <section id="ear">
 <h2>EAR<a class="headerlink" href="#ear" title="Link to this heading">¶</a></h2>
-<p>EAR <a href="#id6"><span class="problematic" id="id7">`(Attanasio et al., 2022) https://arxiv.org/abs/2203.09192`_</span></a> tries to maximize the entropy of the attention weights to encourage attention to the broader context
+<p>EAR <a href="#id2"><span class="problematic" id="id3">`(Attanasio et al., 2022) https://arxiv.org/abs/2203.09192`_</span></a> tries to maximize the entropy of the attention weights to encourage attention to the broader context
 of the input,</p>
 <div class="math notranslate nohighlight">
 \[\mathcal{R} = - \sum_{l=1}^L \text{entropy}_l(\mathbf{A})\]</div>
@@ -112,7 +112,7 @@ of the input,</p>
 </section>
 <section id="selective-unfreezing">
 <h2>Selective unfreezing<a class="headerlink" href="#selective-unfreezing" title="Link to this heading">¶</a></h2>
-<p>Selective unfreezing <a href="#id8"><span class="problematic" id="id9">`(Gira et al., 2024) https://aclanthology.org/2022.ltedi-1.8/`_</span></a> aims to circumvent catastrophic forgetting during fine-tuning
+<p>Selective unfreezing <a href="#id4"><span class="problematic" id="id5">`(Gira et al., 2024) https://aclanthology.org/2022.ltedi-1.8/`_</span></a> aims to circumvent catastrophic forgetting during fine-tuning
 by freezing a big amount of the model parameters, which also helps lessening computational expenses.</p>
 </section>
 </section>
@@ -145,12 +145,10 @@ by freezing a big amount of the model parameters, which also helps lessening com
 <script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="modules.html">FairLangProc</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="FairLangProc.html">FairLangProc package</a><ul class="current">
-<li class="toctree-l3 current"><a class="reference internal" href="FairLangProc.html#subpackages">Subpackages</a></li>
-<li class="toctree-l3"><a class="reference internal" href="FairLangProc.html#module-FairLangProc">Module contents</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="FairLangProc.datasets.html">FairLangProc.datasets package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="FairLangProc.metrics.html">FairLangProc.metrics package</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="FairLangProc.algorithms.html">FairLangProc.algorithms package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="FairLangProc.algorithms.html#subpackages">Subpackages</a></li>
 </ul>
 </li>
 </ul>
@@ -159,13 +157,9 @@ by freezing a big amount of the model parameters, which also helps lessening com
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
-  <li><a href="modules.html">FairLangProc</a><ul>
-  <li><a href="FairLangProc.html">FairLangProc package</a><ul>
   <li><a href="FairLangProc.algorithms.html">FairLangProc.algorithms package</a><ul>
       <li>Previous: <a href="FairLangProc.algorithms.html" title="previous chapter">FairLangProc.algorithms package</a></li>
       <li>Next: <a href="FairLangProc.algorithms.intraprocessors.html" title="next chapter">FairLangProc.algorithms.intraprocessors package</a></li>
-  </ul></li>
-  </ul></li>
   </ul></li>
   </ul></li>
 </ul>
