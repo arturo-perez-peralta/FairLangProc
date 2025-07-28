@@ -9,14 +9,16 @@ FairLangProc supports different fairness metrics to measure discrimination in NL
 
 The supported metrics are:
 
-- Generalized association tests (WEAT) `(Caliskan et al., 2016) <https://arxiv.org/abs/1608.07187>`_
-- Log Probability Bias Score (LPBS) `(Kurita et al., 2019) <https://arxiv.org/abs/1906.07337>`_
-- Categorical Bias Score (CBS) `(Ahn et al., 2021) <https://aclanthology.org/2021.emnlp-main.42/>`_
-- CrowS-Pairs Score (CPS) `(Nangia et al., 2020) <https://aclanthology.org/2020.emnlp-main.154/>`_
-- All Unmasked Score (AUL) `(Kaneko et al., 2021) <https://arxiv.org/abs/2104.07496>`_
-- Demographic Representation (DR) `(Liang et al., 2022) <https://arxiv.org/abs/2211.09110>`_
-- Stereotypical Association (SA) `(Liang et al., 2022) <https://arxiv.org/abs/2211.09110>`_
-- HONEST `(Nozza et al., 2021) <https://aclanthology.org/2021.naacl-main.191/>`_
+- :ref:`Generalized association tests (WEAT) <weat>` `(Caliskan et al., 2016) <https://arxiv.org/abs/1608.07187>`_.
+- :ref:`Log Probability Bias Score (LPBS) <lpbs>` `(Kurita et al., 2019) <https://arxiv.org/abs/1906.07337>`_.
+- :ref:`Categorical Bias Score (CBS) <cbs>` `(Ahn et al., 2021) <https://aclanthology.org/2021.emnlp-main.42/>`_.
+- :ref:`CrowS-Pairs Score (CPS) <cps>` `(Nangia et al., 2020) <https://aclanthology.org/2020.emnlp-main.154/>`_.
+- :ref:`All Unmasked Score (AUL) <aul>` `(Kaneko et al., 2021) <https://arxiv.org/abs/2104.07496>`_.
+- :ref:`Demographic Representation (DR) <dr>` `(Liang et al., 2022) <https://arxiv.org/abs/2211.09110>`_.
+- :ref:`Stereotypical Association (SA) <sa>` `(Liang et al., 2022) <https://arxiv.org/abs/2211.09110>`_.
+- :ref:`HONEST <honest>` `(Nozza et al., 2021) <https://aclanthology.org/2021.naacl-main.191/>`_.
+
+.. _weat:
 
 WEAT
 -------------------------------------
@@ -49,6 +51,7 @@ and it can be further generalized to contextualized embeddings. These metrics ar
    :members: __init__, _get_embedding, metric
    :no-index:
 
+.. _dr:
 
 Demographic Representation
 -------------------------------------------
@@ -63,6 +66,7 @@ where :math:`C(w, Y)` denotes the count of how many times word :math:`w` appears
 
 .. autofunction:: FairLangProc.metrics.generated_text.DemRep
 
+.. _sa:
 
 Stereotypical Association
 -------------------------------------------
@@ -77,7 +81,7 @@ where :math:`C(w, Y)` denotes the count of how many times word :math:`w` appears
 
 .. autofunction:: FairLangProc.metrics.generated_text.StereoAsoc
 
-
+.. _honest:
 
 HONEST
 -------------------------------------------
@@ -89,6 +93,7 @@ HONEST `(Nozza et al., 2021) <https://aclanthology.org/2021.naacl-main.191/>`_ m
 
 .. autofunction:: FairLangProc.metrics.generated_text.HONEST
 
+.. _lpbs:
 
 LPBS
 ---------------------------------------
@@ -102,6 +107,7 @@ based on the template "[MASK] is [MASK]". The score is computed as the differenc
 
 .. autofunction:: FairLangProc.metrics.probability.LPBS
 
+.. _cbs:
 
 CBS
 ---------------------------------------
@@ -115,6 +121,7 @@ based on the template "[MASK] is [MASK]". The score is computed as the variance 
 
 .. autofunction:: FairLangProc.metrics.probability.CBS
 
+.. _cps:
 
 CPS
 ---------------------------------------
@@ -128,6 +135,8 @@ CPS `(Nangia et al., 2020) <https://aclanthology.org/2020.emnlp-main.154/>`_ use
 that is, we compute the pseudo-loglikelihood resulting from progessively masking every token but the sensitive ones.
 
 .. autofunction:: FairLangProc.metrics.probability.CPS
+
+.. _aul:
 
 AUL
 ---------------------------------------

@@ -44,17 +44,17 @@
 </ul>
 <p>The supported metrics are:</p>
 <ul class="simple">
-<li><p>Generalized association tests (WEAT) <a class="reference external" href="https://arxiv.org/abs/1608.07187">(Caliskan et al., 2016)</a></p></li>
-<li><p>Log Probability Bias Score (LPBS) <a class="reference external" href="https://arxiv.org/abs/1906.07337">(Kurita et al., 2019)</a></p></li>
-<li><p>Categorical Bias Score (CBS) <a class="reference external" href="https://aclanthology.org/2021.emnlp-main.42/">(Ahn et al., 2021)</a></p></li>
-<li><p>CrowS-Pairs Score (CPS) <a class="reference external" href="https://aclanthology.org/2020.emnlp-main.154/">(Nangia et al., 2020)</a></p></li>
-<li><p>All Unmasked Score (AUL) <a class="reference external" href="https://arxiv.org/abs/2104.07496">(Kaneko et al., 2021)</a></p></li>
-<li><p>Demographic Representation (DR) <a class="reference external" href="https://arxiv.org/abs/2211.09110">(Liang et al., 2022)</a></p></li>
-<li><p>Stereotypical Association (SA) <a class="reference external" href="https://arxiv.org/abs/2211.09110">(Liang et al., 2022)</a></p></li>
-<li><p>HONEST <a class="reference external" href="https://aclanthology.org/2021.naacl-main.191/">(Nozza et al., 2021)</a></p></li>
+<li><p><a class="reference internal" href="#weat"><span class="std std-ref">Generalized association tests (WEAT)</span></a> <a class="reference external" href="https://arxiv.org/abs/1608.07187">(Caliskan et al., 2016)</a>.</p></li>
+<li><p><a class="reference internal" href="#lpbs"><span class="std std-ref">Log Probability Bias Score (LPBS)</span></a> <a class="reference external" href="https://arxiv.org/abs/1906.07337">(Kurita et al., 2019)</a>.</p></li>
+<li><p><a class="reference internal" href="#cbs"><span class="std std-ref">Categorical Bias Score (CBS)</span></a> <a class="reference external" href="https://aclanthology.org/2021.emnlp-main.42/">(Ahn et al., 2021)</a>.</p></li>
+<li><p><a class="reference internal" href="#cps"><span class="std std-ref">CrowS-Pairs Score (CPS)</span></a> <a class="reference external" href="https://aclanthology.org/2020.emnlp-main.154/">(Nangia et al., 2020)</a>.</p></li>
+<li><p><a class="reference internal" href="#aul"><span class="std std-ref">All Unmasked Score (AUL)</span></a> <a class="reference external" href="https://arxiv.org/abs/2104.07496">(Kaneko et al., 2021)</a>.</p></li>
+<li><p><a class="reference internal" href="#dr"><span class="std std-ref">Demographic Representation (DR)</span></a> <a class="reference external" href="https://arxiv.org/abs/2211.09110">(Liang et al., 2022)</a>.</p></li>
+<li><p><a class="reference internal" href="#sa"><span class="std std-ref">Stereotypical Association (SA)</span></a> <a class="reference external" href="https://arxiv.org/abs/2211.09110">(Liang et al., 2022)</a>.</p></li>
+<li><p><a class="reference internal" href="#honest"><span class="std std-ref">HONEST</span></a> <a class="reference external" href="https://aclanthology.org/2021.naacl-main.191/">(Nozza et al., 2021)</a>.</p></li>
 </ul>
 <section id="weat">
-<h2>WEAT<a class="headerlink" href="#weat" title="Link to this heading">¶</a></h2>
+<span id="id2"></span><h2>WEAT<a class="headerlink" href="#weat" title="Link to this heading">¶</a></h2>
 <p>The most famous embedding metric is given the Word Embedding Association Test (WEAT) <a class="reference external" href="https://arxiv.org/abs/1608.07187">(Caliskan et al., 2016)</a>,
 which aims to measure associations between demographic and neutral attributes. Demographic attributes are usually binary and denoted by <span class="math notranslate nohighlight">\(A_1, A_2\)</span>,
 denoting two different societal groups (male and female, christians and atheist,…). Neutral attributes, on the other hand, are denoted by <span class="math notranslate nohighlight">\(W_1, W_2\)</span>
@@ -124,8 +124,8 @@ by the model.</p>
 <dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">metric</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">W1_words</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">W2_words</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A1_words</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A2_words</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_perm</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">10000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pval</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/FairLangProc/metrics/embedding.html#WEAT.metric"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Run WEAT test.</p>
-<section id="id3">
-<h4>Parameters<a class="headerlink" href="#id3" title="Link to this heading">¶</a></h4>
+<section id="id4">
+<h4>Parameters<a class="headerlink" href="#id4" title="Link to this heading">¶</a></h4>
 <dl class="simple">
 <dt>W1_words<span class="classifier">list[str]</span></dt><dd><p>Target concept 1 words/sentences</p>
 </dd>
@@ -156,7 +156,7 @@ the WEAT effect size and the p-value if needed.</p>
 
 </section>
 <section id="demographic-representation">
-<h2>Demographic Representation<a class="headerlink" href="#demographic-representation" title="Link to this heading">¶</a></h2>
+<span id="dr"></span><h2>Demographic Representation<a class="headerlink" href="#demographic-representation" title="Link to this heading">¶</a></h2>
 <p>DR <a class="reference external" href="https://arxiv.org/abs/2211.09110">(Liang et al., 2022)</a> is computed as follows: Given a corpus of sequences of generated text
 <span class="math notranslate nohighlight">\(\hat{\mathbb{Y}}\)</span>, for each societal group <span class="math notranslate nohighlight">\(a\)</span> with associated words <span class="math notranslate nohighlight">\(\mathbb{A}\)</span> its demographic representation is given by</p>
 <div class="math notranslate nohighlight">
@@ -166,8 +166,8 @@ the WEAT effect size and the p-value if needed.</p>
 <dt class="sig sig-object py" id="FairLangProc.metrics.generated_text.DemRep">
 <span class="sig-prename descclassname"><span class="pre">FairLangProc.metrics.generated_text.</span></span><span class="sig-name descname"><span class="pre">DemRep</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">demWords</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sentences</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/FairLangProc/metrics/generated_text.html#DemRep"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#FairLangProc.metrics.generated_text.DemRep" title="Link to this definition">¶</a></dt>
 <dd><p>Computes Demographic representation.</p>
-<section id="id5">
-<h3>Parameters<a class="headerlink" href="#id5" title="Link to this heading">¶</a></h3>
+<section id="id6">
+<h3>Parameters<a class="headerlink" href="#id6" title="Link to this heading">¶</a></h3>
 <dl class="simple">
 <dt>demWords<span class="classifier">dict[str, list[str]]</span></dt><dd><p>Dictionary whose keys represent demographic attributes
 and whose values represent words with demographic meaning.</p>
@@ -176,8 +176,8 @@ and whose values represent words with demographic meaning.</p>
 </dd>
 </dl>
 </section>
-<section id="id6">
-<h3>Returns<a class="headerlink" href="#id6" title="Link to this heading">¶</a></h3>
+<section id="id7">
+<h3>Returns<a class="headerlink" href="#id7" title="Link to this heading">¶</a></h3>
 <dl class="simple">
 <dt>demRepVect<span class="classifier">dict[str, int]</span></dt><dd><p>Dictionary with demographic counts for all considered words and sentences.</p>
 </dd>
@@ -186,17 +186,18 @@ and whose values represent words with demographic meaning.</p>
 <section id="example">
 <h3>Example<a class="headerlink" href="#example" title="Link to this heading">¶</a></h3>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">gendered_words</span> <span class="o">=</span> <span class="p">{</span>
-<span class="go">        &#39;male&#39;: [&#39;he&#39;, &#39;him&#39;, &#39;his&#39;],</span>
-<span class="go">        &#39;female&#39;: [&#39;she&#39;, &#39;her&#39;, &#39;actress&#39;, &#39;hers&#39;]</span>
-<span class="go">        }</span>
+<span class="gp">... </span>    <span class="s1">&#39;male&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;he&#39;</span><span class="p">,</span> <span class="s1">&#39;him&#39;</span><span class="p">,</span> <span class="s1">&#39;his&#39;</span><span class="p">],</span>
+<span class="gp">... </span>    <span class="s1">&#39;female&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;she&#39;</span><span class="p">,</span> <span class="s1">&#39;her&#39;</span><span class="p">,</span> <span class="s1">&#39;actress&#39;</span><span class="p">,</span> <span class="s1">&#39;hers&#39;</span><span class="p">]</span>
+<span class="gp">... </span>    <span class="p">}</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sentences</span> <span class="o">=</span> <span class="p">[</span>
-<span class="go">        &#39;She is such a good match to him.&#39;,</span>
-<span class="go">        &#39;He is trying way too hard to be an actor.&#39;,</span>
-<span class="go">        &#39;Her mother is trying to make ends meet.&#39;</span>
-<span class="go">        &#39;My aunt is baking, do you want to try?&#39;</span>
-<span class="go">        ]</span>
-<span class="gp">&gt;&gt;&gt;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">DR</span> <span class="o">=</span> <span class="n">DemRep</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="s1">&#39;She is such a good match to him.&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">&#39;He is trying way too hard to be an actor.&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">&#39;Her mother is trying to make ends meet.&#39;</span>
+<span class="gp">... </span>    <span class="s1">&#39;My aunt is baking, do you want to try?&#39;</span>
+<span class="gp">... </span>    <span class="p">]</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">DR</span> <span class="o">=</span> <span class="n">DemRep</span><span class="p">(</span>
 <span class="go">        sentences = sentences,</span>
 <span class="go">        demWords = gendered_words</span>
 <span class="go">        )   </span>
@@ -207,7 +208,7 @@ and whose values represent words with demographic meaning.</p>
 
 </section>
 <section id="stereotypical-association">
-<h2>Stereotypical Association<a class="headerlink" href="#stereotypical-association" title="Link to this heading">¶</a></h2>
+<span id="sa"></span><h2>Stereotypical Association<a class="headerlink" href="#stereotypical-association" title="Link to this heading">¶</a></h2>
 <p>ST <a class="reference external" href="https://arxiv.org/abs/2211.09110">(Liang et al., 2022)</a> is computed as follows: Given a specific term <span class="math notranslate nohighlight">\(w\)</span>, a corpus of sequences of generated text
 <span class="math notranslate nohighlight">\(\hat{\mathbb{Y}}\)</span>, for each societal group <span class="math notranslate nohighlight">\(a\)</span> with associated words <span class="math notranslate nohighlight">\(\mathbb{A}\)</span> its stereotypical association is given by</p>
 <div class="math notranslate nohighlight">
@@ -217,8 +218,8 @@ and whose values represent words with demographic meaning.</p>
 <dt class="sig sig-object py" id="FairLangProc.metrics.generated_text.StereoAsoc">
 <span class="sig-prename descclassname"><span class="pre">FairLangProc.metrics.generated_text.</span></span><span class="sig-name descname"><span class="pre">StereoAsoc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">targetWords</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">demWords</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sentences</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/FairLangProc/metrics/generated_text.html#StereoAsoc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#FairLangProc.metrics.generated_text.StereoAsoc" title="Link to this definition">¶</a></dt>
 <dd><p>Computes Stereotypical Association</p>
-<section id="id8">
-<h3>Parameters<a class="headerlink" href="#id8" title="Link to this heading">¶</a></h3>
+<section id="id9">
+<h3>Parameters<a class="headerlink" href="#id9" title="Link to this heading">¶</a></h3>
 <dl class="simple">
 <dt>targetWords<span class="classifier">list[str]</span></dt><dd><p>List of words whose associations we want to compute.</p>
 </dd>
@@ -229,29 +230,30 @@ and whose values represent words with demographic meaning.</p>
 </dd>
 </dl>
 </section>
-<section id="id9">
-<h3>Returns<a class="headerlink" href="#id9" title="Link to this heading">¶</a></h3>
+<section id="id10">
+<h3>Returns<a class="headerlink" href="#id10" title="Link to this heading">¶</a></h3>
 <dl class="simple">
 <dt>steAsocVect<span class="classifier">dict</span></dt><dd><p>Dictionary which stores demographic counts for all considered
 words and sentences indexed by targetWords.</p>
 </dd>
 </dl>
 </section>
-<section id="id10">
-<h3>Example<a class="headerlink" href="#id10" title="Link to this heading">¶</a></h3>
+<section id="id11">
+<h3>Example<a class="headerlink" href="#id11" title="Link to this heading">¶</a></h3>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">gendered_words</span> <span class="o">=</span> <span class="p">{</span>
-<span class="go">        &#39;male&#39;: [&#39;he&#39;, &#39;him&#39;, &#39;his&#39;],</span>
-<span class="go">        &#39;female&#39;: [&#39;she&#39;, &#39;her&#39;, &#39;actress&#39;, &#39;hers&#39;]</span>
-<span class="go">        }</span>
+<span class="gp">... </span>    <span class="s1">&#39;male&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;he&#39;</span><span class="p">,</span> <span class="s1">&#39;him&#39;</span><span class="p">,</span> <span class="s1">&#39;his&#39;</span><span class="p">],</span>
+<span class="gp">... </span>    <span class="s1">&#39;female&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;she&#39;</span><span class="p">,</span> <span class="s1">&#39;her&#39;</span><span class="p">,</span> <span class="s1">&#39;actress&#39;</span><span class="p">,</span> <span class="s1">&#39;hers&#39;</span><span class="p">]</span>
+<span class="gp">... </span>    <span class="p">}</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sentences</span> <span class="o">=</span> <span class="p">[</span>
-<span class="go">        &#39;She is such a good match to him.&#39;,</span>
-<span class="go">        &#39;He is trying way too hard to be an actor.&#39;,</span>
-<span class="go">        &#39;Her mother is trying to make ends meet.&#39;</span>
-<span class="go">        &#39;My aunt is baking, do you want to try?&#39;</span>
-<span class="go">        ]</span>
+<span class="gp">... </span>    <span class="s1">&#39;She is such a good match to him.&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">&#39;He is trying way too hard to be an actor.&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">&#39;Her mother is trying to make ends meet.&#39;</span>
+<span class="gp">... </span>    <span class="s1">&#39;My aunt is baking, do you want to try?&#39;</span>
+<span class="gp">... </span>    <span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">target_words</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;mother&#39;</span><span class="p">,</span> <span class="s1">&#39;baking&#39;</span><span class="p">]</span>
-<span class="gp">&gt;&gt;&gt;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ST</span> <span class="o">=</span> <span class="n">StereoAsoc</span><span class="p">(</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ST</span> <span class="o">=</span> <span class="n">StereoAsoc</span><span class="p">(</span>
 <span class="go">        sentences = sentences,</span>
 <span class="go">        demWords = gendered_words,</span>
 <span class="go">        targetWords = target_words</span>
@@ -263,7 +265,7 @@ words and sentences indexed by targetWords.</p>
 
 </section>
 <section id="honest">
-<h2>HONEST<a class="headerlink" href="#honest" title="Link to this heading">¶</a></h2>
+<span id="id12"></span><h2>HONEST<a class="headerlink" href="#honest" title="Link to this heading">¶</a></h2>
 <p>HONEST <a class="reference external" href="https://aclanthology.org/2021.naacl-main.191/">(Nozza et al., 2021)</a> measures how many of the top <span class="math notranslate nohighlight">\(k`\)</span> completions of a given model,
 <span class="math notranslate nohighlight">\(\hat{\mathbb{Y}}_k\)</span>, contain harmful words measured by:</p>
 <div class="math notranslate nohighlight">
@@ -272,8 +274,8 @@ words and sentences indexed by targetWords.</p>
 <dt class="sig sig-object py" id="FairLangProc.metrics.generated_text.HONEST">
 <span class="sig-prename descclassname"><span class="pre">FairLangProc.metrics.generated_text.</span></span><span class="sig-name descname"><span class="pre">HONEST</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">completions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hurtLex</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/FairLangProc/metrics/generated_text.html#HONEST"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#FairLangProc.metrics.generated_text.HONEST" title="Link to this definition">¶</a></dt>
 <dd><p>Computes HONEST score for a set of completions given a hurt lexicon.</p>
-<section id="id12">
-<h3>Parameters<a class="headerlink" href="#id12" title="Link to this heading">¶</a></h3>
+<section id="id14">
+<h3>Parameters<a class="headerlink" href="#id14" title="Link to this heading">¶</a></h3>
 <dl class="simple">
 <dt>completions<span class="classifier">list[list[str]]</span></dt><dd><p>List of completions given by a model. This is a list of lists: it should contain lists
 of completions of the same size. The lists of completions are lists of constant size
@@ -283,40 +285,41 @@ containing the completions of a given model for a certain prompt.</p>
 </dd>
 </dl>
 </section>
-<section id="id13">
-<h3>Returns<a class="headerlink" href="#id13" title="Link to this heading">¶</a></h3>
+<section id="id15">
+<h3>Returns<a class="headerlink" href="#id15" title="Link to this heading">¶</a></h3>
 <dl class="simple">
 <dt>honestScore<span class="classifier">float</span></dt><dd><p>HONEST score for the given sentences and hurt lexicon.</p>
 </dd>
 </dl>
 </section>
-<section id="id14">
-<h3>Example<a class="headerlink" href="#id14" title="Link to this heading">¶</a></h3>
+<section id="id16">
+<h3>Example<a class="headerlink" href="#id16" title="Link to this heading">¶</a></h3>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">tokenizer</span> <span class="o">=</span> <span class="n">AutoTokenizer</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s1">&#39;gpt2&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">AutoModelForCausalLM</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s1">&#39;gpt2&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">corpus</span> <span class="o">=</span> <span class="p">[</span>
-<span class="go">        &#39;I cannot believe she did that, she is so&#39;,</span>
-<span class="go">        &#39;I cannot believe he did that, he is so&#39;,</span>
-<span class="go">        &#39;She tries and she tries to no avail. She is such a&#39;,</span>
-<span class="go">        &#39;He tries and she tries to no avail. He is such a&#39;,</span>
-<span class="go">        ]</span>
+<span class="gp">... </span>    <span class="s1">&#39;I cannot believe she did that, she is so&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">&#39;I cannot believe he did that, he is so&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">&#39;She tries and she tries to no avail. She is such a&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">&#39;He tries and she tries to no avail. He is such a&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">completions</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">prompt</span> <span class="ow">in</span> <span class="n">corpus</span><span class="p">:</span>
-<span class="go">        input_ids = tokenizer.encode(prompt, return_tensors=&quot;pt&quot;)</span>
-<span class="go">        outputs = model.generate(</span>
-<span class="go">            input_ids,</span>
-<span class="go">            max_length=30,</span>
-<span class="go">            num_return_sequences=3,</span>
-<span class="go">            do_sample=True,</span>
-<span class="go">            early_stopping=True</span>
-<span class="go">        )</span>
-<span class="go">        completions.append([tokenizer.decode(output, skip_special_tokens=True) for output in outputs])</span>
+<span class="gp">... </span>    <span class="n">input_ids</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">prompt</span><span class="p">,</span> <span class="n">return_tensors</span><span class="o">=</span><span class="s2">&quot;pt&quot;</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">outputs</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span>
+<span class="gp">... </span>        <span class="n">input_ids</span><span class="p">,</span>
+<span class="gp">... </span>        <span class="n">max_length</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span>
+<span class="gp">... </span>        <span class="n">num_return_sequences</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+<span class="gp">... </span>        <span class="n">do_sample</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="gp">... </span>        <span class="n">early_stopping</span><span class="o">=</span><span class="kc">True</span>
+<span class="gp">... </span>    <span class="p">)</span>
+<span class="gp">... </span>    <span class="n">completions</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">tokenizer</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="n">skip_special_tokens</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">for</span> <span class="n">output</span> <span class="ow">in</span> <span class="n">outputs</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">hurtLex</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;fool&#39;</span><span class="p">,</span> <span class="s1">&#39;bitch&#39;</span><span class="p">,</span> <span class="s1">&#39;stupid&#39;</span><span class="p">,</span> <span class="s1">&#39;incompetent&#39;</span><span class="p">,</span> <span class="s1">&#39;idiot&#39;</span><span class="p">,</span> <span class="s1">&#39;dumb&#39;</span><span class="p">]</span>
-<span class="gp">&gt;&gt;&gt; </span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">honestScore</span> <span class="o">=</span> <span class="n">HONEST</span><span class="p">(</span>
-<span class="go">        completions = completions,</span>
-<span class="go">        hurtLex = hurtLex</span>
-<span class="go">    )</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">honestScore</span> <span class="o">=</span> <span class="n">HONEST</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">completions</span> <span class="o">=</span> <span class="n">completions</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">hurtLex</span> <span class="o">=</span> <span class="n">hurtLex</span>
+<span class="gp">... </span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
@@ -324,7 +327,7 @@ containing the completions of a given model for a certain prompt.</p>
 
 </section>
 <section id="lpbs">
-<h2>LPBS<a class="headerlink" href="#lpbs" title="Link to this heading">¶</a></h2>
+<span id="id17"></span><h2>LPBS<a class="headerlink" href="#lpbs" title="Link to this heading">¶</a></h2>
 <p>LPBS <a class="reference external" href="https://arxiv.org/abs/1906.07337">(Kurita et al., 2019)</a> measures bias for a binary demographic group. It computes the predicted probability for a token <span class="math notranslate nohighlight">\(a\)</span>, <span class="math notranslate nohighlight">\(p_a\)</span>,
 using the template “[MASK] is [NEUTRAL ATTRIBUTE]”; and normalizes it by computing the model’s prior probability, <span class="math notranslate nohighlight">\(p_{a, prior}\)</span>,
 based on the template “[MASK] is [MASK]”. The score is computed as the difference of the logarithms of the normalized probabilities,</p>
@@ -334,8 +337,8 @@ based on the template “[MASK] is [MASK]”. The score is computed as the diffe
 <dt class="sig sig-object py" id="FairLangProc.metrics.probability.LPBS">
 <span class="sig-prename descclassname"><span class="pre">FairLangProc.metrics.probability.</span></span><span class="sig-name descname"><span class="pre">LPBS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Module</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tokenizer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">TokenizerType</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sentences</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_words</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fill_words</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mask_indices</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tensor</span></span></span><a class="reference internal" href="_modules/FairLangProc/metrics/probability.html#LPBS"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#FairLangProc.metrics.probability.LPBS" title="Link to this definition">¶</a></dt>
 <dd><p>Computes LPBS score for a list of tuples of dimension 2 of target words.</p>
-<section id="id16">
-<h3>Parameters<a class="headerlink" href="#id16" title="Link to this heading">¶</a></h3>
+<section id="id19">
+<h3>Parameters<a class="headerlink" href="#id19" title="Link to this heading">¶</a></h3>
 <dl class="simple">
 <dt>model<span class="classifier">nn.Module                  </span></dt><dd><p>Language model used to compute probabilities.</p>
 </dd>
@@ -352,30 +355,31 @@ target word corresponds (i.e. first (0) or second (1)).</p>
 </dd>
 </dl>
 </section>
-<section id="id17">
-<h3>Returns<a class="headerlink" href="#id17" title="Link to this heading">¶</a></h3>
+<section id="id20">
+<h3>Returns<a class="headerlink" href="#id20" title="Link to this heading">¶</a></h3>
 <dl class="simple">
 <dt>probs<span class="classifier">torch.Tensor               </span></dt><dd><p>List of LPBS scores</p>
 </dd>
 </dl>
 </section>
-<section id="id18">
-<h3>Example<a class="headerlink" href="#id18" title="Link to this heading">¶</a></h3>
+<section id="id21">
+<h3>Example<a class="headerlink" href="#id21" title="Link to this heading">¶</a></h3>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">AutoModelForMaskedLM</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s1">&#39;bert-base-uncased&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">tokenizer</span> <span class="o">=</span> <span class="n">AutoTokenizer</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s1">&#39;bert-base-uncased&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sentences</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;[MASK] is a [MASK].&quot;</span><span class="p">,</span> <span class="s2">&quot;[MASK] is a [MASK].&quot;</span><span class="p">,</span> <span class="s2">&quot;The [MASK] was a [MASK].&quot;</span><span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">target_words</span> <span class="o">=</span> <span class="p">[(</span><span class="s2">&quot;John&quot;</span><span class="p">,</span> <span class="s2">&quot;Mary&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;He&quot;</span><span class="p">,</span> <span class="s2">&quot;She&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;man&quot;</span><span class="p">,</span> <span class="s2">&quot;woman&quot;</span><span class="p">)]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">fill_words</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;engineer&quot;</span><span class="p">,</span><span class="s2">&quot;nurse&quot;</span><span class="p">,</span><span class="s2">&quot;doctor&quot;</span><span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">mask_indices</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
-<span class="gp">&gt;&gt;&gt; </span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">LPBSscore</span> <span class="o">=</span> <span class="n">LPBS</span><span class="p">(</span>
-<span class="go">        model = model,</span>
-<span class="go">        tokenizer = tokenizer,</span>
-<span class="go">        sentences = sentences,</span>
-<span class="go">        target_words = target_words,</span>
-<span class="go">        fill_words = fill_words,</span>
-<span class="go">        mask_indices = mask_indices</span>
-<span class="go">    )</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">LPBSscore</span> <span class="o">=</span> <span class="n">LPBS</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">model</span> <span class="o">=</span> <span class="n">model</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">sentences</span> <span class="o">=</span> <span class="n">sentences</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">target_words</span> <span class="o">=</span> <span class="n">target_words</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">fill_words</span> <span class="o">=</span> <span class="n">fill_words</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">mask_indices</span> <span class="o">=</span> <span class="n">mask_indices</span>
+<span class="gp">... </span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
@@ -383,7 +387,7 @@ target word corresponds (i.e. first (0) or second (1)).</p>
 
 </section>
 <section id="cbs">
-<h2>CBS<a class="headerlink" href="#cbs" title="Link to this heading">¶</a></h2>
+<span id="id22"></span><h2>CBS<a class="headerlink" href="#cbs" title="Link to this heading">¶</a></h2>
 <p>CBS <a class="reference external" href="https://aclanthology.org/2021.emnlp-main.42/">(Ahn et al., 2021)</a> generalizes measurent of bias for non-binary demographic groups. It computes the predicted probability for a token <span class="math notranslate nohighlight">\(a\)</span>, <span class="math notranslate nohighlight">\(p_a\)</span>,
 using the template “[MASK] is [NEUTRAL ATTRIBUTE]”; and normalizes it by computing the model’s prior probability, <span class="math notranslate nohighlight">\(p_{a, prior}\)</span>,
 based on the template “[MASK] is [MASK]”. The score is computed as the variance of the logarithms of the normalized probabilities,</p>
@@ -393,8 +397,8 @@ based on the template “[MASK] is [MASK]”. The score is computed as the varia
 <dt class="sig sig-object py" id="FairLangProc.metrics.probability.CBS">
 <span class="sig-prename descclassname"><span class="pre">FairLangProc.metrics.probability.</span></span><span class="sig-name descname"><span class="pre">CBS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Module</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tokenizer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">TokenizerType</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sentences</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_words</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fill_words</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mask_indices</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tensor</span></span></span><a class="reference internal" href="_modules/FairLangProc/metrics/probability.html#CBS"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#FairLangProc.metrics.probability.CBS" title="Link to this definition">¶</a></dt>
 <dd><p>Computes CBS score for a list of tuples of dimension n of target words.</p>
-<section id="id20">
-<h3>Parameters<a class="headerlink" href="#id20" title="Link to this heading">¶</a></h3>
+<section id="id24">
+<h3>Parameters<a class="headerlink" href="#id24" title="Link to this heading">¶</a></h3>
 <dl class="simple">
 <dt>model<span class="classifier">nn.Module                  </span></dt><dd><p>Language model used to compute probabilities.</p>
 </dd>
@@ -411,30 +415,31 @@ each target word corresponds (i.e. first (0) or second (1))</p>
 </dd>
 </dl>
 </section>
-<section id="id21">
-<h3>Returns<a class="headerlink" href="#id21" title="Link to this heading">¶</a></h3>
+<section id="id25">
+<h3>Returns<a class="headerlink" href="#id25" title="Link to this heading">¶</a></h3>
 <dl class="simple">
 <dt>probs<span class="classifier">torch.Tensor</span></dt><dd><p>List of CBS scores</p>
 </dd>
 </dl>
 </section>
-<section id="id22">
-<h3>Example<a class="headerlink" href="#id22" title="Link to this heading">¶</a></h3>
+<section id="id26">
+<h3>Example<a class="headerlink" href="#id26" title="Link to this heading">¶</a></h3>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">AutoModelForMaskedLM</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s1">&#39;bert-base-uncased&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">tokenizer</span> <span class="o">=</span> <span class="n">AutoTokenizer</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s1">&#39;bert-base-uncased&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">target_words</span> <span class="o">=</span> <span class="p">[(</span><span class="s2">&quot;John&quot;</span><span class="p">,</span> <span class="s2">&quot;Mamadouk&quot;</span><span class="p">,</span> <span class="s2">&quot;Liu&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;white&quot;</span><span class="p">,</span> <span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="s2">&quot;asian&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;white&quot;</span><span class="p">,</span> <span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="s2">&quot;asian&quot;</span><span class="p">)]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sentences</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;[MASK] is a [MASK]&quot;</span><span class="p">,</span> <span class="s2">&quot;The [MASK] kid got [MASK] results&quot;</span><span class="p">,</span> <span class="s2">&quot;The [MASK] kid wanted to be a [MASK]&quot;</span><span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">fill_words</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;engineer&quot;</span><span class="p">,</span> <span class="s2">&quot;outstanding&quot;</span><span class="p">,</span> <span class="s2">&quot;doctor&quot;</span><span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">mask_indices</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
-<span class="gp">&gt;&gt;&gt; </span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">CBSscore</span> <span class="o">=</span> <span class="n">CBS</span><span class="p">(</span>
-<span class="go">        model = model,</span>
-<span class="go">        tokenizer = tokenizer,</span>
-<span class="go">        sentences = sentences,</span>
-<span class="go">        target_words = target_words,</span>
-<span class="go">        fill_words = fill_words,</span>
-<span class="go">        mask_indices = mask_indices</span>
-<span class="go">    )</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">CBSscore</span> <span class="o">=</span> <span class="n">CBS</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">model</span> <span class="o">=</span> <span class="n">model</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">sentences</span> <span class="o">=</span> <span class="n">sentences</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">target_words</span> <span class="o">=</span> <span class="n">target_words</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">fill_words</span> <span class="o">=</span> <span class="n">fill_words</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">mask_indices</span> <span class="o">=</span> <span class="n">mask_indices</span>
+<span class="gp">... </span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
@@ -442,7 +447,7 @@ each target word corresponds (i.e. first (0) or second (1))</p>
 
 </section>
 <section id="cps">
-<h2>CPS<a class="headerlink" href="#cps" title="Link to this heading">¶</a></h2>
+<span id="id27"></span><h2>CPS<a class="headerlink" href="#cps" title="Link to this heading">¶</a></h2>
 <p>CPS <a class="reference external" href="https://aclanthology.org/2020.emnlp-main.154/">(Nangia et al., 2020)</a> uses sentence pairs which coincide in a series of unmodified tokens,
 <span class="math notranslate nohighlight">\(U\)</span>, and only differ on words containing demographic information, <span class="math notranslate nohighlight">\(A\)</span>. The score is given by</p>
 <div class="math notranslate nohighlight">
@@ -452,8 +457,8 @@ each target word corresponds (i.e. first (0) or second (1))</p>
 <dt class="sig sig-object py" id="FairLangProc.metrics.probability.CPS">
 <span class="sig-prename descclassname"><span class="pre">FairLangProc.metrics.probability.</span></span><span class="sig-name descname"><span class="pre">CPS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Module</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tokenizer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">TokenizerType</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sentences</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_words</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/FairLangProc/metrics/probability.html#CPS"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#FairLangProc.metrics.probability.CPS" title="Link to this definition">¶</a></dt>
 <dd><p>Computes the CPS score for list of sentences.</p>
-<section id="id24">
-<h3>Parameters<a class="headerlink" href="#id24" title="Link to this heading">¶</a></h3>
+<section id="id29">
+<h3>Parameters<a class="headerlink" href="#id29" title="Link to this heading">¶</a></h3>
 <dl class="simple">
 <dt>model<span class="classifier">nn.Module</span></dt><dd><p>Language model used to compute probabilities.</p>
 </dd>
@@ -465,26 +470,27 @@ each target word corresponds (i.e. first (0) or second (1))</p>
 </dd>
 </dl>
 </section>
-<section id="id25">
-<h3>Returns<a class="headerlink" href="#id25" title="Link to this heading">¶</a></h3>
+<section id="id30">
+<h3>Returns<a class="headerlink" href="#id30" title="Link to this heading">¶</a></h3>
 <dl class="simple">
 <dt>score<span class="classifier">list[float]</span></dt><dd><p>List of CPS score of the sentences.</p>
 </dd>
 </dl>
 </section>
-<section id="id26">
-<h3>Example<a class="headerlink" href="#id26" title="Link to this heading">¶</a></h3>
+<section id="id31">
+<h3>Example<a class="headerlink" href="#id31" title="Link to this heading">¶</a></h3>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">AutoModelForMaskedLM</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s2">&quot;bert-base-uncased&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">tokenizer</span> <span class="o">=</span> <span class="n">AutoTokenizer</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s2">&quot;bert-base-uncased&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sentences</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;The actor did a terrible job&#39;</span><span class="p">,</span> <span class="s1">&#39;The actress did a terrible job&#39;</span><span class="p">,</span> <span class="s1">&#39;The doctor was an exemplary man&#39;</span><span class="p">,</span> <span class="s1">&#39;The doctor was an exemplary woman&#39;</span><span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">target_words</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;actor&#39;</span><span class="p">,</span> <span class="s1">&#39;actress&#39;</span><span class="p">,</span> <span class="s1">&#39;man&#39;</span><span class="p">,</span> <span class="s1">&#39;woman&#39;</span><span class="p">]</span>
-<span class="gp">&gt;&gt;&gt; </span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">CPSscore</span> <span class="o">=</span> <span class="n">CPS</span><span class="p">(</span>
-<span class="go">        model = model,</span>
-<span class="go">        tokenizer = tokenizer,</span>
-<span class="go">        sentences = sentences,</span>
-<span class="go">        target_words = target_words</span>
-<span class="go">    )</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">CPSscore</span> <span class="o">=</span> <span class="n">CPS</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">model</span> <span class="o">=</span> <span class="n">model</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">sentences</span> <span class="o">=</span> <span class="n">sentences</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">target_words</span> <span class="o">=</span> <span class="n">target_words</span>
+<span class="gp">... </span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
@@ -492,7 +498,7 @@ each target word corresponds (i.e. first (0) or second (1))</p>
 
 </section>
 <section id="aul">
-<h2>AUL<a class="headerlink" href="#aul" title="Link to this heading">¶</a></h2>
+<span id="id32"></span><h2>AUL<a class="headerlink" href="#aul" title="Link to this heading">¶</a></h2>
 <p>AUL <a class="reference external" href="https://arxiv.org/abs/2104.07496">(Kaneko et al., 2021)</a> predicts the probability of all tokens in the sentence without masking to prevent selection bias,</p>
 <div class="math notranslate nohighlight">
 \[\text{AUL}(S) = \frac{1}{|S|} \sum_{s\in S} \log \mathbb{P}(s|S).\]</div>
@@ -500,8 +506,8 @@ each target word corresponds (i.e. first (0) or second (1))</p>
 <dt class="sig sig-object py" id="FairLangProc.metrics.probability.AUL">
 <span class="sig-prename descclassname"><span class="pre">FairLangProc.metrics.probability.</span></span><span class="sig-name descname"><span class="pre">AUL</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Module</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tokenizer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">TokenizerType</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sentences</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/FairLangProc/metrics/probability.html#AUL"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#FairLangProc.metrics.probability.AUL" title="Link to this definition">¶</a></dt>
 <dd><p>Computes the AUL score for list of sentences.</p>
-<section id="id28">
-<h3>Parameters<a class="headerlink" href="#id28" title="Link to this heading">¶</a></h3>
+<section id="id34">
+<h3>Parameters<a class="headerlink" href="#id34" title="Link to this heading">¶</a></h3>
 <dl class="simple">
 <dt>model<span class="classifier">nn.Module</span></dt><dd><p>Language model used to compute probabilities.</p>
 </dd>
@@ -511,24 +517,25 @@ each target word corresponds (i.e. first (0) or second (1))</p>
 </dd>
 </dl>
 </section>
-<section id="id29">
-<h3>Returns<a class="headerlink" href="#id29" title="Link to this heading">¶</a></h3>
+<section id="id35">
+<h3>Returns<a class="headerlink" href="#id35" title="Link to this heading">¶</a></h3>
 <dl class="simple">
 <dt>score<span class="classifier">list[float]</span></dt><dd><p>List of AUL score of the sentences.</p>
 </dd>
 </dl>
 </section>
-<section id="id30">
-<h3>Example<a class="headerlink" href="#id30" title="Link to this heading">¶</a></h3>
+<section id="id36">
+<h3>Example<a class="headerlink" href="#id36" title="Link to this heading">¶</a></h3>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">AutoModelForMaskedLM</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s2">&quot;bert-base-uncased&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">tokenizer</span> <span class="o">=</span> <span class="n">AutoTokenizer</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s2">&quot;bert-base-uncased&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sentences</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;The actor did a terrible job&#39;</span><span class="p">,</span> <span class="s1">&#39;The actress did a terrible job&#39;</span><span class="p">,</span> <span class="s1">&#39;The doctor was an exemplary man&#39;</span><span class="p">,</span> <span class="s1">&#39;The doctor was an exemplary woman&#39;</span><span class="p">]</span>
-<span class="gp">&gt;&gt;&gt; </span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">AULscore</span> <span class="o">=</span> <span class="n">AUL</span><span class="p">(</span>
-<span class="go">        model = model,</span>
-<span class="go">        tokenizer = tokenizer,</span>
-<span class="go">        sentences = sentences</span>
-<span class="go">    )</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">AULscore</span> <span class="o">=</span> <span class="n">AUL</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">model</span> <span class="o">=</span> <span class="n">model</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">sentences</span> <span class="o">=</span> <span class="n">sentences</span>
+<span class="gp">... </span><span class="p">)</span>
 </pre></div>
 </div>
 </section>

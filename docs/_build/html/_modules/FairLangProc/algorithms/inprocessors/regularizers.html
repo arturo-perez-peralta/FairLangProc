@@ -64,28 +64,28 @@
 <span class="sd">    -------</span>
 <span class="sd">    &gt;&gt;&gt; from FairLangProc.algorithms.inprocessors import EmbeddingBasedRegularizer</span>
 <span class="sd">    &gt;&gt;&gt; class BERTEmbedingReg(EmbeddingBasedRegularizer):</span>
-<span class="sd">            def _get_embedding(self, inputs):</span>
-<span class="sd">                return self.model(**inputs).last_hidden_state[:,0,:]</span>
+<span class="sd">    ...     def _get_embedding(self, inputs):</span>
+<span class="sd">    ...         return self.model(**inputs).last_hidden_state[:,0,:]</span>
 <span class="sd">    &gt;&gt;&gt; model = AutoModelForSequenceClassification.from_pretrained(&#39;bert-base-uncased&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; tokenizer = AutoTokenizer.from_pretrained(&#39;bert-base-uncased&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; words = [(&#39;he&#39;, &#39;she&#39;), (&#39;his&#39;, &#39;hers&#39;), (&#39;monk&#39;, &#39;nun&#39;)]</span>
 <span class="sd">    &gt;&gt;&gt; EmbRegularizer = EARModel(</span>
-<span class="sd">             model = model,</span>
-<span class="sd">             tokenizer = tokenizer,</span>
-<span class="sd">             word_pairs = words, </span>
-<span class="sd">             ear_reg_strength = 0.01</span>
-<span class="sd">        )</span>
-<span class="sd">    &gt;&gt;&gt; </span>
+<span class="sd">    ...      model = model,</span>
+<span class="sd">    ...      tokenizer = tokenizer,</span>
+<span class="sd">    ...      word_pairs = words, </span>
+<span class="sd">    ...      ear_reg_strength = 0.01</span>
+<span class="sd">    ... )</span>
+
 <span class="sd">    &gt;&gt;&gt; trainer = Trainer(</span>
-<span class="sd">            model=EARRegularizer,</span>
-<span class="sd">            args=training_args,</span>
-<span class="sd">            train_dataset=train_dataset,</span>
-<span class="sd">            eval_dataset=val_dataset,</span>
-<span class="sd">            optimizers=(</span>
-<span class="sd">                AdamW(EARRegularizer.parameters(), lr=1e-5, weight_decay=0.1),</span>
-<span class="sd">                None</span>
-<span class="sd">                )</span>
-<span class="sd">        )</span>
+<span class="sd">    ...     model=EARRegularizer,</span>
+<span class="sd">    ...     args=training_args,</span>
+<span class="sd">    ...     train_dataset=train_dataset,</span>
+<span class="sd">    ...     eval_dataset=val_dataset,</span>
+<span class="sd">    ...     optimizers=(</span>
+<span class="sd">    ...         AdamW(EARRegularizer.parameters(), lr=1e-5, weight_decay=0.1),</span>
+<span class="sd">    ...         None</span>
+<span class="sd">    ...         )</span>
+<span class="sd">    ... )</span>
 <span class="sd">    &gt;&gt;&gt; trainer.train()</span>
 <span class="sd">    &gt;&gt;&gt; results = trainer.evaluate()</span>
 <span class="sd">    &gt;&gt;&gt; print(results)</span>
@@ -233,23 +233,23 @@
 <span class="sd">    Example</span>
 <span class="sd">    -------</span>
 <span class="sd">    &gt;&gt;&gt; from FairLangProc.algorithms.inprocessors import EARModel</span>
-<span class="sd">    &gt;&gt;&gt; </span>
+
 <span class="sd">    &gt;&gt;&gt; model = AutoModelForSequenceClassification.from_pretrained(&#39;bert-base-uncased&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; EARRegularizer = EARModel(</span>
-<span class="sd">             model = model,</span>
-<span class="sd">             ear_reg_strength = 0.01</span>
-<span class="sd">        )</span>
-<span class="sd">    &gt;&gt;&gt; </span>
+<span class="sd">    ...      model = model,</span>
+<span class="sd">    ...      ear_reg_strength = 0.01</span>
+<span class="sd">    ... )</span>
+
 <span class="sd">    &gt;&gt;&gt; trainer = Trainer(</span>
-<span class="sd">            model=EARRegularizer,</span>
-<span class="sd">            args=training_args,</span>
-<span class="sd">            train_dataset=train_dataset,</span>
-<span class="sd">            eval_dataset=val_dataset,</span>
-<span class="sd">            optimizers=(</span>
-<span class="sd">                AdamW(EARRegularizer.parameters(), lr=1e-5, weight_decay=0.1),</span>
-<span class="sd">                None</span>
-<span class="sd">                )</span>
-<span class="sd">        )</span>
+<span class="sd">    ...     model=EARRegularizer,</span>
+<span class="sd">    ...     args=training_args,</span>
+<span class="sd">    ...     train_dataset=train_dataset,</span>
+<span class="sd">    ...     eval_dataset=val_dataset,</span>
+<span class="sd">    ...     optimizers=(</span>
+<span class="sd">    ...         AdamW(EARRegularizer.parameters(), lr=1e-5, weight_decay=0.1),</span>
+<span class="sd">    ...         None</span>
+<span class="sd">    ...         )</span>
+<span class="sd">    ... )</span>
 <span class="sd">    &gt;&gt;&gt; trainer.train()</span>
 <span class="sd">    &gt;&gt;&gt; results = trainer.evaluate()</span>
 <span class="sd">    &gt;&gt;&gt; print(results)</span>

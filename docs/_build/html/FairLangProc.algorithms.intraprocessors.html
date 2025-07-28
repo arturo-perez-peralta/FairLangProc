@@ -39,11 +39,11 @@
 <p>Intra-processors are fairness processors that modify the model’s behavior without further training.</p>
 <p>The supported methods are:</p>
 <ul class="simple">
-<li><p>Modular Debiasing with Diff Subnetworks (MoDDiffy) <a class="reference external" href="https://aclanthology.org/2023.findings-acl.386/">(Hauzenberger et al., 2023)</a>.</p></li>
-<li><p>Entropy Attention Temperature (EAT) scaling <a class="reference external" href="https://arxiv.org/abs/2305.13088">(Zayed et al., 2023)</a>.</p></li>
+<li><p><a class="reference internal" href="#diff"><span class="std std-ref">Modular Debiasing with Diff Subnetworks</span></a> <a class="reference external" href="https://aclanthology.org/2023.findings-acl.386/">(Hauzenberger et al., 2023)</a>.</p></li>
+<li><p><a class="reference internal" href="#eat"><span class="std std-ref">Entropy Attention Temperature (EAT) scaling</span></a> <a class="reference external" href="https://arxiv.org/abs/2305.13088">(Zayed et al., 2023)</a>.</p></li>
 </ul>
 <section id="moddiffy">
-<h2>MoDDiffy<a class="headerlink" href="#moddiffy" title="Link to this heading">¶</a></h2>
+<span id="diff"></span><h2>MoDDiffy<a class="headerlink" href="#moddiffy" title="Link to this heading">¶</a></h2>
 <p>MoDDiffy <a class="reference external" href="https://aclanthology.org/2023.findings-acl.386/">(Hauzenberger et al., 2023)</a> creates many sparse subnetworks to address bias for different attributes
 (gender, religion,…) through the idea of <em>Diff</em> prunning. Basically, they freeze the model parameters, <span class="math notranslate nohighlight">\(\theta\)</span>,
 and train another network with parameters, <span class="math notranslate nohighlight">\(\delta\)</span>, with a loss function that promotes accuracy, sparsity and debiasing:</p>
@@ -73,52 +73,57 @@ it should compute the embedding given some inputs.</p>
 <section id="example">
 <h3>Example<a class="headerlink" href="#example" title="Link to this heading">¶</a></h3>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">FairLangProc.algorithms.intraprocessors</span><span class="w"> </span><span class="kn">import</span> <span class="n">DiffPrunBERT</span>
-<span class="gp">&gt;&gt;&gt;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">class</span><span class="w"> </span><span class="nc">DiffPrunBERT</span><span class="p">(</span><span class="n">DiffPrunDebiasing</span><span class="p">):</span>
-<span class="gp">&gt;&gt;&gt; </span>    <span class="k">def</span><span class="w"> </span><span class="nf">_forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_ids</span><span class="p">,</span> <span class="n">attention_mask</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">token_type_ids</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="gp">&gt;&gt;&gt; </span>        <span class="n">outputs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">encoder</span><span class="p">(</span>
-<span class="gp">&gt;&gt;&gt; </span>            <span class="n">input_ids</span> <span class="o">=</span> <span class="n">input_ids</span><span class="p">,</span>
-<span class="gp">&gt;&gt;&gt; </span>            <span class="n">attention_mask</span> <span class="o">=</span> <span class="n">attention_mask</span><span class="p">,</span>
-<span class="gp">&gt;&gt;&gt; </span>            <span class="n">token_type_ids</span> <span class="o">=</span> <span class="n">token_type_ids</span>
-<span class="gp">&gt;&gt;&gt; </span>            <span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span>        <span class="k">return</span> <span class="n">outputs</span><span class="o">.</span><span class="n">last_hidden_state</span><span class="p">[:,</span><span class="mi">0</span><span class="p">,:]</span>
-<span class="gp">&gt;&gt;&gt;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">tokenizer</span> <span class="o">=</span> <span class="n">AutoTokenizer</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s1">&#39;bert-base-uncased&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">class</span><span class="w"> </span><span class="nc">DiffPrunBERT</span><span class="p">(</span><span class="n">DiffPrunDebiasing</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">def</span><span class="w"> </span><span class="nf">_forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_ids</span><span class="p">,</span> <span class="n">attention_mask</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">token_type_ids</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="n">outputs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">encoder</span><span class="p">(</span>
+<span class="gp">... </span>            <span class="n">input_ids</span> <span class="o">=</span> <span class="n">input_ids</span><span class="p">,</span>
+<span class="gp">... </span>            <span class="n">attention_mask</span> <span class="o">=</span> <span class="n">attention_mask</span><span class="p">,</span>
+<span class="gp">... </span>            <span class="n">token_type_ids</span> <span class="o">=</span> <span class="n">token_type_ids</span>
+<span class="gp">... </span>            <span class="p">)</span>
+<span class="gp">... </span>        <span class="k">return</span> <span class="n">outputs</span><span class="o">.</span><span class="n">last_hidden_state</span><span class="p">[:,</span><span class="mi">0</span><span class="p">,:]</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">tokenizer</span> <span class="o">=</span> <span class="n">AutoTokenizer</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s1">&#39;bert-base-uncased&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">AutoModelForSequenceClassification</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s1">&#39;bert-base-uncased&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">gendered_pairs</span> <span class="o">=</span> <span class="p">[(</span><span class="s2">&quot;manager&quot;</span><span class="p">,</span> <span class="s2">&quot;manageress&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;nephew&quot;</span><span class="p">,</span> <span class="s2">&quot;niece&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;prince&quot;</span><span class="p">,</span> <span class="s2">&quot;princess&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;baron&quot;</span><span class="p">,</span> <span class="s2">&quot;baroness&quot;</span><span class="p">)]</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">gendered_pairs</span> <span class="o">=</span> <span class="p">[(</span><span class="s2">&quot;manager&quot;</span><span class="p">,</span> <span class="s2">&quot;manageress&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;nephew&quot;</span><span class="p">,</span> <span class="s2">&quot;niece&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;prince&quot;</span><span class="p">,</span> <span class="s2">&quot;princess&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;baron&quot;</span><span class="p">,</span> <span class="s2">&quot;baroness&quot;</span><span class="p">)]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">tokens_male</span> <span class="o">=</span> <span class="p">[</span><span class="n">words</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">words</span> <span class="ow">in</span> <span class="n">gendered_pairs</span><span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">tokens_female</span> <span class="o">=</span> <span class="p">[</span><span class="n">words</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">words</span> <span class="ow">in</span> <span class="n">gendered_pairs</span><span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">inputs_male</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="p">(</span><span class="n">tokens_male</span><span class="p">,</span> <span class="n">padding</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">return_tensors</span> <span class="o">=</span> <span class="s2">&quot;pt&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">inputs_female</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="p">(</span><span class="n">tokens_female</span><span class="p">,</span> <span class="n">padding</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">return_tensors</span> <span class="o">=</span> <span class="s2">&quot;pt&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span><span class="w"> </span><span class="nf">normalize_by_column</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">eps</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-8</span><span class="p">):</span>
-<span class="gp">&gt;&gt;&gt; </span>    <span class="n">mean</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">keepdim</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span>    <span class="n">std</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">keepdim</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span>    <span class="k">return</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">mean</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">std</span> <span class="o">+</span> <span class="n">eps</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ModularDebiasingBERT</span> <span class="o">=</span> <span class="n">DiffPrunBERT</span><span class="p">(</span>
-<span class="go">        head = model.classifier,</span>
-<span class="go">        encoder = model.bert,</span>
-<span class="go">        loss_fn = torch.nn.CrossEntropyLoss(),</span>
-<span class="go">        input_ids_A = inputs_male,</span>
-<span class="go">        input_ids_B = inputs_female,</span>
-<span class="go">        bias_kernel = normalize_by_column,</span>
-<span class="go">        upper = 10,</span>
-<span class="go">        lower = -0.001,</span>
-<span class="go">        lambda_bias = 0.5,</span>
-<span class="go">        lambda_sparse = 0.00001</span>
-<span class="go">    )</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span><span class="w"> </span><span class="nf">normalize_by_column</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">eps</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-8</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="n">mean</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">keepdim</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">std</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">keepdim</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="k">return</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">mean</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">std</span> <span class="o">+</span> <span class="n">eps</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ModularDebiasingBERT</span> <span class="o">=</span> <span class="n">DiffPrunBERT</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">head</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">classifier</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">encoder</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">bert</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">loss_fn</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">CrossEntropyLoss</span><span class="p">(),</span>
+<span class="gp">... </span>    <span class="n">input_ids_A</span> <span class="o">=</span> <span class="n">inputs_male</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">input_ids_B</span> <span class="o">=</span> <span class="n">inputs_female</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">bias_kernel</span> <span class="o">=</span> <span class="n">normalize_by_column</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">upper</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">lower</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.001</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">lambda_bias</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">lambda_sparse</span> <span class="o">=</span> <span class="mf">0.00001</span>
+<span class="gp">... </span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">trainer</span> <span class="o">=</span> <span class="n">Trainer</span><span class="p">(</span>
-<span class="go">        model=ModularDebiasingBERT,</span>
-<span class="go">        args=training_args,</span>
-<span class="go">        train_dataset=train_dataset,</span>
-<span class="go">        eval_dataset=val_dataset,</span>
-<span class="go">        optimizers=(</span>
-<span class="go">            AdamW(ModularDebiasingBERT.parameters(), lr=1e-5, weight_decay=0.1),</span>
-<span class="go">            None</span>
-<span class="go">            )</span>
-<span class="go">    )</span>
+<span class="gp">... </span>    <span class="n">model</span><span class="o">=</span><span class="n">ModularDebiasingBERT</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">args</span><span class="o">=</span><span class="n">training_args</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">train_dataset</span><span class="o">=</span><span class="n">train_dataset</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">eval_dataset</span><span class="o">=</span><span class="n">val_dataset</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">optimizers</span><span class="o">=</span><span class="p">(</span>
+<span class="gp">... </span>        <span class="n">AdamW</span><span class="p">(</span><span class="n">ModularDebiasingBERT</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-5</span><span class="p">,</span> <span class="n">weight_decay</span><span class="o">=</span><span class="mf">0.1</span><span class="p">),</span>
+<span class="gp">... </span>        <span class="kc">None</span>
+<span class="gp">... </span>        <span class="p">)</span>
+<span class="gp">... </span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">trainer</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">results</span> <span class="o">=</span> <span class="n">trainer</span><span class="o">.</span><span class="n">evaluate</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
@@ -166,7 +171,7 @@ it should compute the embedding given some inputs.</p>
 
 </section>
 <section id="eat">
-<h2>EAT<a class="headerlink" href="#eat" title="Link to this heading">¶</a></h2>
+<span id="id2"></span><h2>EAT<a class="headerlink" href="#eat" title="Link to this heading">¶</a></h2>
 <p>EAT scaling <a class="reference external" href="https://arxiv.org/abs/2305.13088">(Zayed et al., 2023)</a> modifies the distribution of the attention scores with a temperature-related parameter,
 <span class="math notranslate nohighlight">\(\beta \in [0, \infty)\)</span>:</p>
 <div class="math notranslate nohighlight">
@@ -177,8 +182,8 @@ When <span class="math notranslate nohighlight">\(\beta = 1\)</span> the attenti
 <dt class="sig sig-object py" id="FairLangProc.algorithms.intraprocessors.redistribution.add_EAT_hook">
 <span class="sig-prename descclassname"><span class="pre">FairLangProc.algorithms.intraprocessors.redistribution.</span></span><span class="sig-name descname"><span class="pre">add_EAT_hook</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Module</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/FairLangProc/algorithms/intraprocessors/redistribution.html#add_EAT_hook"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#FairLangProc.algorithms.intraprocessors.redistribution.add_EAT_hook" title="Link to this definition">¶</a></dt>
 <dd><p>Insert hook to modify attention scores.</p>
-<section id="id3">
-<h3>Parameters<a class="headerlink" href="#id3" title="Link to this heading">¶</a></h3>
+<section id="id4">
+<h3>Parameters<a class="headerlink" href="#id4" title="Link to this heading">¶</a></h3>
 <dl class="simple">
 <dt>model<span class="classifier">nn.Module</span></dt><dd><p>Model whose attention scores we want to modify.</p>
 </dd>
@@ -186,24 +191,26 @@ When <span class="math notranslate nohighlight">\(\beta = 1\)</span> the attenti
 </dd>
 </dl>
 </section>
-<section id="id4">
-<h3>Example<a class="headerlink" href="#id4" title="Link to this heading">¶</a></h3>
+<section id="id5">
+<h3>Example<a class="headerlink" href="#id5" title="Link to this heading">¶</a></h3>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">FairLangProc.algorithms.intraprocessors</span><span class="w"> </span><span class="kn">import</span> <span class="n">add_EAT_hook</span>
-<span class="gp">&gt;&gt;&gt; </span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">EATBert</span> <span class="o">=</span> <span class="n">AutoModelForSequenceClassification</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s1">&#39;bert-base-uncased&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">EATBert</span> <span class="o">=</span> <span class="n">AutoModelForSequenceClassification</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s1">&#39;bert-base-uncased&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">beta</span> <span class="o">=</span> <span class="mf">1.5</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">add_EAT_hook</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">EATBert</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="n">beta</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">trainer</span> <span class="o">=</span> <span class="n">Trainer</span><span class="p">(</span>
-<span class="go">        model=EATBert,</span>
-<span class="go">        args=training_args,</span>
-<span class="go">        train_dataset=train_dataset,</span>
-<span class="go">        eval_dataset=val_dataset,</span>
-<span class="go">        optimizers=(</span>
-<span class="go">            AdamW(EATBert.parameters(), lr=1e-5, weight_decay=0.1),</span>
-<span class="go">            None</span>
-<span class="go">            )</span>
-<span class="go">    )</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">trainer</span> <span class="o">=</span> <span class="n">Trainer</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">model</span><span class="o">=</span><span class="n">EATBert</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">args</span><span class="o">=</span><span class="n">training_args</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">train_dataset</span><span class="o">=</span><span class="n">train_dataset</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">eval_dataset</span><span class="o">=</span><span class="n">val_dataset</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">optimizers</span><span class="o">=</span><span class="p">(</span>
+<span class="gp">... </span>        <span class="n">AdamW</span><span class="p">(</span><span class="n">EATBert</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-5</span><span class="p">,</span> <span class="n">weight_decay</span><span class="o">=</span><span class="mf">0.1</span><span class="p">),</span>
+<span class="gp">... </span>        <span class="kc">None</span>
+<span class="gp">... </span>        <span class="p">)</span>
+<span class="gp">... </span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">results</span> <span class="o">=</span> <span class="n">trainer</span><span class="o">.</span><span class="n">evaluate</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
 </pre></div>

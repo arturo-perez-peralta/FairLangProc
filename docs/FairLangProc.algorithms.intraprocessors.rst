@@ -5,8 +5,10 @@ Intra-processors are fairness processors that modify the model's behavior withou
 
 The supported methods are:
 
-- Modular Debiasing with Diff Subnetworks (MoDDiffy) `(Hauzenberger et al., 2023) <https://aclanthology.org/2023.findings-acl.386/>`_.
-- Entropy Attention Temperature (EAT) scaling `(Zayed et al., 2023) <https://arxiv.org/abs/2305.13088>`_.
+- :ref:`Modular Debiasing with Diff Subnetworks <diff>` `(Hauzenberger et al., 2023) <https://aclanthology.org/2023.findings-acl.386/>`_.
+- :ref:`Entropy Attention Temperature (EAT) scaling <eat>` `(Zayed et al., 2023) <https://arxiv.org/abs/2305.13088>`_.
+
+.. _diff:
 
 MoDDiffy
 ------------------------------------------------------
@@ -38,6 +40,8 @@ where :math:`\phi` is a transformation kernel.
 .. autoclass:: FairLangProc.algorithms.intraprocessors.modular.DiffPrunDebiasing
    :members: __init__
    :no-index:
+
+.. _eat:
 
 EAT
 -------------------------------------------------------------

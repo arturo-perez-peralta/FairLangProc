@@ -94,8 +94,8 @@ def CDA(
     -------
     >>> from FairLangProc.algorithms.preprocessors import CDA
     >>> gendered_pairs = [('he', 'she'), ('him', 'her'), ('his', 'hers'), ('actor', 'actress'), ('priest', 'nun'),
-        ('father', 'mother'), ('dad', 'mom'), ('daddy', 'mommy'), ('waiter', 'waitress'), ('James', 'Jane')]
-    >>>     
+    ... ('father', 'mother'), ('dad', 'mom'), ('daddy', 'mommy'), ('waiter', 'waitress'), ('James', 'Jane')]
+     
     >>> cda_train = Dataset.from_dict(CDA(imdb['train'][:], pairs = dict(gendered_pairs)))
     >>> train_CDA = cda_train.map(tokenize_function, batched=True)
     >>> train_CDA.set_format(type="torch", columns=["input_ids", "attention_mask", "label"])

@@ -39,12 +39,13 @@
 <p>In-processors are fairness processors that modify the training process.</p>
 <p>The supported methods are:</p>
 <ul class="simple">
-<li><p>ADELE <a class="reference external" href="https://arxiv.org/abs/2109.03646">(Lauscher et al., 2021)</a>.</p></li>
-<li><p>Entropy Attention Regularizer (EAR) <a class="reference external" href="https://arxiv.org/abs/2203.09192">(Attanasio et al., 2022)</a>.</p></li>
-<li><p>Selective unfreezing <a class="reference external" href="https://aclanthology.org/2022.ltedi-1.8/">(Gira et al., 2024)</a>.</p></li>
+<li><p><a class="reference internal" href="#adele"><span class="std std-ref">Adapter-based DEbiasing of LanguagE models (ADELE)</span></a> <a class="reference external" href="https://arxiv.org/abs/2109.03646">(Lauscher et al., 2021)</a>.</p></li>
+<li><p><a class="reference internal" href="#ear"><span class="std std-ref">Entropy Attention Regularizer (EAR)</span></a> <a class="reference external" href="https://arxiv.org/abs/2203.09192">(Attanasio et al., 2022)</a>.</p></li>
+<li><p><a class="reference internal" href="#embreg"><span class="std std-ref">Embedding based regularizer</span></a> <a class="reference external" href="https://arxiv.org/abs/1910.10486">(Liu et al., 2020)</a>.</p></li>
+<li><p><a class="reference internal" href="#selective"><span class="std std-ref">Selective unfreezing</span></a> <a class="reference external" href="https://aclanthology.org/2022.ltedi-1.8/">(Gira et al., 2024)</a>.</p></li>
 </ul>
 <section id="adele">
-<h2>ADELE<a class="headerlink" href="#adele" title="Link to this heading">¶</a></h2>
+<span id="id1"></span><h2>ADELE<a class="headerlink" href="#adele" title="Link to this heading">¶</a></h2>
 <p>The ADELE procedure <a class="reference external" href="https://arxiv.org/abs/2109.03646">(Lauscher et al., 2021)</a> is based on the adapter framework.
 A single adapter module is included to each transformer layer after the feed-forward sub-layer, where the outputs are compressed to a bottleneck dimension
 <span class="math notranslate nohighlight">\(m\)</span> and then decompressed back to the hidden size of the transformer, <span class="math notranslate nohighlight">\(d_L\)</span>. The adapter module itself consists of a two-layer feed-forward network:</p>
@@ -55,9 +56,15 @@ A single adapter module is included to each transformer layer after the feed-for
 The idea behind the adapter layer is to introduce an information bottleneck which compresses the latent representation of the inputs,
 forcing the model to discard all irrelevant information.</p>
 </section>
+<section id="embedding-based-regularizer">
+<span id="embreg"></span><h2>Embedding based regularizer<a class="headerlink" href="#embedding-based-regularizer" title="Link to this heading">¶</a></h2>
+<p>Embedding based regularizers <a class="reference external" href="https://arxiv.org/abs/1910.10486">(Liu et al., 2020)</a> are based on the distance between the embeddings of counterfactual pairs given by $A$,</p>
+<div class="math notranslate nohighlight">
+\[\mathcal{R} = \sum_{(a_i, a_j)\in A} || M(a_i) - M(a_j)||_2 .\]</div>
+</section>
 <section id="ear">
-<h2>EAR<a class="headerlink" href="#ear" title="Link to this heading">¶</a></h2>
-<p>EAR <a href="#id2"><span class="problematic" id="id3">`(Attanasio et al., 2022) https://arxiv.org/abs/2203.09192`_</span></a> tries to maximize the entropy of the attention weights to encourage attention to the broader context
+<span id="id4"></span><h2>EAR<a class="headerlink" href="#ear" title="Link to this heading">¶</a></h2>
+<p>EAR <a href="#id5"><span class="problematic" id="id6">`(Attanasio et al., 2022) https://arxiv.org/abs/2203.09192`_</span></a> tries to maximize the entropy of the attention weights to encourage attention to the broader context
 of the input,</p>
 <div class="math notranslate nohighlight">
 \[\mathcal{R} = - \sum_{l=1}^L \text{entropy}_l(\mathbf{A})\]</div>
@@ -69,23 +76,25 @@ of the input,</p>
 <section id="example">
 <h3>Example<a class="headerlink" href="#example" title="Link to this heading">¶</a></h3>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">FairLangProc.algorithms.inprocessors</span><span class="w"> </span><span class="kn">import</span> <span class="n">EARModel</span>
-<span class="gp">&gt;&gt;&gt; </span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">AutoModelForSequenceClassification</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s1">&#39;bert-base-uncased&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">AutoModelForSequenceClassification</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s1">&#39;bert-base-uncased&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">EARRegularizer</span> <span class="o">=</span> <span class="n">EARModel</span><span class="p">(</span>
-<span class="go">         model = model,</span>
-<span class="go">         ear_reg_strength = 0.01</span>
-<span class="go">    )</span>
-<span class="gp">&gt;&gt;&gt; </span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">trainer</span> <span class="o">=</span> <span class="n">Trainer</span><span class="p">(</span>
-<span class="go">        model=EARRegularizer,</span>
-<span class="go">        args=training_args,</span>
-<span class="go">        train_dataset=train_dataset,</span>
-<span class="go">        eval_dataset=val_dataset,</span>
-<span class="go">        optimizers=(</span>
-<span class="go">            AdamW(EARRegularizer.parameters(), lr=1e-5, weight_decay=0.1),</span>
-<span class="go">            None</span>
-<span class="go">            )</span>
-<span class="go">    )</span>
+<span class="gp">... </span>     <span class="n">model</span> <span class="o">=</span> <span class="n">model</span><span class="p">,</span>
+<span class="gp">... </span>     <span class="n">ear_reg_strength</span> <span class="o">=</span> <span class="mf">0.01</span>
+<span class="gp">... </span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">trainer</span> <span class="o">=</span> <span class="n">Trainer</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">model</span><span class="o">=</span><span class="n">EARRegularizer</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">args</span><span class="o">=</span><span class="n">training_args</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">train_dataset</span><span class="o">=</span><span class="n">train_dataset</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">eval_dataset</span><span class="o">=</span><span class="n">val_dataset</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">optimizers</span><span class="o">=</span><span class="p">(</span>
+<span class="gp">... </span>        <span class="n">AdamW</span><span class="p">(</span><span class="n">EARRegularizer</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-5</span><span class="p">,</span> <span class="n">weight_decay</span><span class="o">=</span><span class="mf">0.1</span><span class="p">),</span>
+<span class="gp">... </span>        <span class="kc">None</span>
+<span class="gp">... </span>        <span class="p">)</span>
+<span class="gp">... </span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">trainer</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">results</span> <span class="o">=</span> <span class="n">trainer</span><span class="o">.</span><span class="n">evaluate</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
@@ -111,8 +120,8 @@ of the input,</p>
 
 </section>
 <section id="selective-unfreezing">
-<h2>Selective unfreezing<a class="headerlink" href="#selective-unfreezing" title="Link to this heading">¶</a></h2>
-<p>Selective unfreezing <a href="#id4"><span class="problematic" id="id5">`(Gira et al., 2024) https://aclanthology.org/2022.ltedi-1.8/`_</span></a> aims to circumvent catastrophic forgetting during fine-tuning
+<span id="selective"></span><h2>Selective unfreezing<a class="headerlink" href="#selective-unfreezing" title="Link to this heading">¶</a></h2>
+<p>Selective unfreezing <a href="#id7"><span class="problematic" id="id8">`(Gira et al., 2024) https://aclanthology.org/2022.ltedi-1.8/`_</span></a> aims to circumvent catastrophic forgetting during fine-tuning
 by freezing a big amount of the model parameters, which also helps lessening computational expenses.</p>
 </section>
 </section>

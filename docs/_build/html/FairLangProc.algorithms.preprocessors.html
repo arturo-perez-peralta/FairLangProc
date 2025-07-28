@@ -38,19 +38,19 @@
 <p>Pre-processors are fairness processors that modify the model inputs.</p>
 <p>The supported methods are:</p>
 <ul class="simple">
-<li><p>Counterfactual Data Augmentation (CDA) <a class="reference external" href="https://arxiv.org/abs/2010.06032">(Webster et al. 2020)</a>.</p></li>
-<li><p>Projection based debiasing <a class="reference external" href="https://arxiv.org/abs/1607.06520">(Bolukbasi et al., 2023)</a>.</p></li>
-<li><p>Bias removaL wIth No Demographics (BLIND) <a class="reference external" href="https://aclanthology.org/2023.acl-long.490/">(Orgad et al., 2023)</a>.</p></li>
+<li><p><a class="reference internal" href="#cda"><span class="std std-ref">Counterfactual Data Augmentation (CDA)</span></a> <a class="reference external" href="https://arxiv.org/abs/2010.06032">(Webster et al. 2020)</a>.</p></li>
+<li><p><a class="reference internal" href="#emb"><span class="std std-ref">Projection based debiasing</span></a> <a class="reference external" href="https://arxiv.org/abs/1607.06520">(Bolukbasi et al., 2023)</a>.</p></li>
+<li><p><a class="reference internal" href="#blind"><span class="std std-ref">Bias removaL wIth No Demographics (BLIND)</span></a> <a class="reference external" href="https://aclanthology.org/2023.acl-long.490/">(Orgad et al., 2023)</a>.</p></li>
 </ul>
 <section id="counterfactual-data-augmentation-cda">
-<h2>Counterfactual Data Augmentation (CDA)<a class="headerlink" href="#counterfactual-data-augmentation-cda" title="Link to this heading">¶</a></h2>
+<span id="cda"></span><h2>Counterfactual Data Augmentation (CDA)<a class="headerlink" href="#counterfactual-data-augmentation-cda" title="Link to this heading">¶</a></h2>
 <p>Data augmentation is the process of curating or upsampling the dataset to obtain a more representative distribution to train the model on.
 In particular, Counterfactual Data Augmentation (CDA) <a class="reference external" href="https://arxiv.org/abs/2010.06032">(Webster et al. 2020)</a> consists of flipping words with demographic information
 while preserving semantic correctness. This procedure can be one-sided and discard the original sentence or two-sided to consider both the original and its
 augmented version.</p>
 </section>
 <section id="projection-based-debiasing">
-<h2>Projection-based debiasing<a class="headerlink" href="#projection-based-debiasing" title="Link to this heading">¶</a></h2>
+<span id="emb"></span><h2>Projection-based debiasing<a class="headerlink" href="#projection-based-debiasing" title="Link to this heading">¶</a></h2>
 <p>Projection-based debiasing methods <a class="reference external" href="https://arxiv.org/abs/1607.06520">(Bolukbasi et al., 2023)</a> operate on latent space, looking to identify a bias subspace given by an
 orthogonal basis, <span class="math notranslate nohighlight">\(\{v_i\}_{i=1}^{n_{bias}}\)</span>. Then, the hidden representation of any input can be debiased by removing its projection onto this space, formally</p>
 <div class="math notranslate nohighlight">
@@ -74,38 +74,40 @@ the words/sentences with sensitive attributes.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">FairLangProc.algorithms.preprocessors</span><span class="w"> </span><span class="kn">import</span> <span class="n">SentDebiasForSequenceClassification</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">gendered_pairs</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;he&#39;</span><span class="p">,</span> <span class="s1">&#39;she&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;his&#39;</span><span class="p">,</span> <span class="s1">&#39;hers&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;monk&#39;</span><span class="p">,</span> <span class="s1">&#39;nun&#39;</span><span class="p">)]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">AutoModelForSequenceClassification</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s1">&#39;bert-base-uncased&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">class</span><span class="w"> </span><span class="nc">SentDebiasBert</span><span class="p">(</span><span class="n">SentDebiasForSequenceClassification</span><span class="p">):</span>        
-<span class="go">        def _get_embedding(</span>
-<span class="go">                self,</span>
-<span class="go">                input_ids,</span>
-<span class="go">                attention_mask = None,</span>
-<span class="go">                token_type_ids = None</span>
-<span class="go">                ):</span>
-<span class="go">            return self.model.bert(</span>
-<span class="go">                input_ids,</span>
-<span class="go">                attention_mask = attention_mask,</span>
-<span class="go">                token_type_ids = token_type_ids</span>
-<span class="go">                ).last_hidden_state[:,0,:]</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">class</span><span class="w"> </span><span class="nc">SentDebiasBert</span><span class="p">(</span><span class="n">SentDebiasForSequenceClassification</span><span class="p">):</span>        
+<span class="gp">... </span>    <span class="k">def</span><span class="w"> </span><span class="nf">_get_embedding</span><span class="p">(</span>
+<span class="gp">... </span>            <span class="bp">self</span><span class="p">,</span>
+<span class="gp">... </span>            <span class="n">input_ids</span><span class="p">,</span>
+<span class="gp">... </span>            <span class="n">attention_mask</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="gp">... </span>            <span class="n">token_type_ids</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="gp">... </span>            <span class="p">):</span>
+<span class="gp">... </span>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">bert</span><span class="p">(</span>
+<span class="gp">... </span>            <span class="n">input_ids</span><span class="p">,</span>
+<span class="gp">... </span>            <span class="n">attention_mask</span> <span class="o">=</span> <span class="n">attention_mask</span><span class="p">,</span>
+<span class="gp">... </span>            <span class="n">token_type_ids</span> <span class="o">=</span> <span class="n">token_type_ids</span>
+<span class="gp">... </span>            <span class="p">)</span><span class="o">.</span><span class="n">last_hidden_state</span><span class="p">[:,</span><span class="mi">0</span><span class="p">,:]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">EmbedModel</span> <span class="o">=</span> <span class="n">SentDebiasBert</span><span class="p">(</span>
-<span class="go">        model = model,</span>
-<span class="go">        config = None,</span>
-<span class="go">        tokenizer = TOKENIZER,</span>
-<span class="go">        word_pairs = gendered_pairs,</span>
-<span class="go">        n_components = 1,</span>
-<span class="go">        n_labels = 2</span>
-<span class="go">    )</span>
-<span class="gp">&gt;&gt;&gt; </span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">trainer</span> <span class="o">=</span> <span class="n">Trainer</span><span class="p">(</span>
-<span class="go">        model=EmbedModel,</span>
-<span class="go">        args=training_args,</span>
-<span class="go">        train_dataset=train_dataset,</span>
-<span class="go">        eval_dataset=val_dataset,</span>
-<span class="go">        optimizers=(</span>
-<span class="go">            AdamW(EmbedModel.parameters(), lr=1e-5, weight_decay=0.1),</span>
-<span class="go">            None</span>
-<span class="go">            )</span>
-<span class="go">    )</span>
+<span class="gp">... </span>    <span class="n">model</span> <span class="o">=</span> <span class="n">model</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">config</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">TOKENIZER</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">word_pairs</span> <span class="o">=</span> <span class="n">gendered_pairs</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">n_components</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">n_labels</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="gp">... </span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">trainer</span> <span class="o">=</span> <span class="n">Trainer</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">model</span><span class="o">=</span><span class="n">EmbedModel</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">args</span><span class="o">=</span><span class="n">training_args</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">train_dataset</span><span class="o">=</span><span class="n">train_dataset</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">eval_dataset</span><span class="o">=</span><span class="n">val_dataset</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">optimizers</span><span class="o">=</span><span class="p">(</span>
+<span class="gp">... </span>        <span class="n">AdamW</span><span class="p">(</span><span class="n">EmbedModel</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-5</span><span class="p">,</span> <span class="n">weight_decay</span><span class="o">=</span><span class="mf">0.1</span><span class="p">),</span>
+<span class="gp">... </span>        <span class="kc">None</span>
+<span class="gp">... </span>        <span class="p">)</span>
+<span class="gp">... </span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">trainer</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">results</span> <span class="o">=</span> <span class="n">trainer</span><span class="o">.</span><span class="n">evaluate</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
@@ -139,7 +141,7 @@ the words/sentences with sensitive attributes.</p>
 
 </section>
 <section id="blind-debiasing">
-<h2>BLIND debiasing<a class="headerlink" href="#blind-debiasing" title="Link to this heading">¶</a></h2>
+<span id="blind"></span><h2>BLIND debiasing<a class="headerlink" href="#blind-debiasing" title="Link to this heading">¶</a></h2>
 <p>BLIND <a class="reference external" href="https://aclanthology.org/2023.acl-long.490/">(Orgad et al., 2023)</a> is a debiasing procedure based on a complementary classifier
 <span class="math notranslate nohighlight">\(g_{B} : \mathbb{R}^{d_L} \longrightarrow \mathbb{R}\)</span> with parameters <span class="math notranslate nohighlight">\(\theta_{B}\)</span>, that takes the hidden representation vector
 as inputs and outputs the success probability of the model head for the downstream task. This probability is then used as a weight for said observation

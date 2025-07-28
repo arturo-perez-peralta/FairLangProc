@@ -40,38 +40,38 @@ class SentDebiasModel(nn.Module, ABC):
     >>> from FairLangProc.algorithms.preprocessors import SentDebiasForSequenceClassification
     >>> gendered_pairs = [('he', 'she'), ('his', 'hers'), ('monk', 'nun')]
     >>> model = AutoModelForSequenceClassification.from_pretrained('bert-base-uncased')
-    >>> 
+
     >>> class SentDebiasBert(SentDebiasForSequenceClassification):        
-            def _get_embedding(
-                    self,
-                    input_ids,
-                    attention_mask = None,
-                    token_type_ids = None
-                    ):
-                return self.model.bert(
-                    input_ids,
-                    attention_mask = attention_mask,
-                    token_type_ids = token_type_ids
-                    ).last_hidden_state[:,0,:]
+    ...     def _get_embedding(
+    ...             self,
+    ...             input_ids,
+    ...             attention_mask = None,
+    ...             token_type_ids = None
+    ...             ):
+    ...         return self.model.bert(
+    ...             input_ids,
+    ...             attention_mask = attention_mask,
+    ...             token_type_ids = token_type_ids
+    ...             ).last_hidden_state[:,0,:]
     >>> EmbedModel = SentDebiasBert(
-            model = model,
-            config = None,
-            tokenizer = TOKENIZER,
-            word_pairs = gendered_pairs,
-            n_components = 1,
-            n_labels = 2
-        )
-    >>> 
+    ...     model = model,
+    ...     config = None,
+    ...     tokenizer = TOKENIZER,
+    ...     word_pairs = gendered_pairs,
+    ...     n_components = 1,
+    ...     n_labels = 2
+    ... )
+
     >>> trainer = Trainer(
-            model=EmbedModel,
-            args=training_args,
-            train_dataset=train_dataset,
-            eval_dataset=val_dataset,
-            optimizers=(
-                AdamW(EmbedModel.parameters(), lr=1e-5, weight_decay=0.1),
-                None
-                )
-        )
+    ...     model=EmbedModel,
+    ...     args=training_args,
+    ...     train_dataset=train_dataset,
+    ...     eval_dataset=val_dataset,
+    ...     optimizers=(
+    ...         AdamW(EmbedModel.parameters(), lr=1e-5, weight_decay=0.1),
+    ...         None
+    ...         )
+    ... )
     >>> trainer.train()
     >>> results = trainer.evaluate()
     >>> print(results)

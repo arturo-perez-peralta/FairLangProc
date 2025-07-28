@@ -647,52 +647,52 @@ class DiffPrunDebiasing(BasePruningModel, ABC):
     Example
     -------
     >>> from FairLangProc.algorithms.intraprocessors import DiffPrunBERT
-    >>>
+
     >>> class DiffPrunBERT(DiffPrunDebiasing):
-    >>>     def _forward(self, input_ids, attention_mask=None, token_type_ids=None):
-    >>>         outputs = self.encoder(
-    >>>             input_ids = input_ids,
-    >>>             attention_mask = attention_mask,
-    >>>             token_type_ids = token_type_ids
-    >>>             )
-    >>>         return outputs.last_hidden_state[:,0,:]
-    >>>
+    ...     def _forward(self, input_ids, attention_mask=None, token_type_ids=None):
+    ...         outputs = self.encoder(
+    ...             input_ids = input_ids,
+    ...             attention_mask = attention_mask,
+    ...             token_type_ids = token_type_ids
+    ...             )
+    ...         return outputs.last_hidden_state[:,0,:]
+
     >>> tokenizer = AutoTokenizer.from_pretrained('bert-base-uncased')
     >>> model = AutoModelForSequenceClassification.from_pretrained('bert-base-uncased')
-    >>> 
+
     >>> gendered_pairs = [("manager", "manageress"), ("nephew", "niece"), ("prince", "princess"), ("baron", "baroness")]
     >>> tokens_male = [words[0] for words in gendered_pairs]
     >>> tokens_female = [words[1] for words in gendered_pairs]
     >>> inputs_male = tokenizer(tokens_male, padding = True, return_tensors = "pt")
     >>> inputs_female = tokenizer(tokens_female, padding = True, return_tensors = "pt")
-    >>> 
+
     >>> def normalize_by_column(x: torch.Tensor, eps: float = 1e-8):
-    >>>     mean = x.mean(dim=0, keepdim=True)
-    >>>     std = x.std(dim=0, keepdim=True)
-    >>>     return (x - mean) / (std + eps)
-    >>> 
+    ...     mean = x.mean(dim=0, keepdim=True)
+    ...     std = x.std(dim=0, keepdim=True)
+    ...     return (x - mean) / (std + eps)
+
     >>> ModularDebiasingBERT = DiffPrunBERT(
-            head = model.classifier,
-            encoder = model.bert,
-            loss_fn = torch.nn.CrossEntropyLoss(),
-            input_ids_A = inputs_male,
-            input_ids_B = inputs_female,
-            bias_kernel = normalize_by_column,
-            upper = 10,
-            lower = -0.001,
-            lambda_bias = 0.5,
-            lambda_sparse = 0.00001
-        )
+    ...     head = model.classifier,
+    ...     encoder = model.bert,
+    ...     loss_fn = torch.nn.CrossEntropyLoss(),
+    ...     input_ids_A = inputs_male,
+    ...     input_ids_B = inputs_female,
+    ...     bias_kernel = normalize_by_column,
+    ...     upper = 10,
+    ...     lower = -0.001,
+    ...     lambda_bias = 0.5,
+    ...     lambda_sparse = 0.00001
+    ... )
     >>> trainer = Trainer(
-            model=ModularDebiasingBERT,
-            args=training_args,
-            train_dataset=train_dataset,
-            eval_dataset=val_dataset,
-            optimizers=(
-                AdamW(ModularDebiasingBERT.parameters(), lr=1e-5, weight_decay=0.1),
-                None
-                )
-        )
+    ...     model=ModularDebiasingBERT,
+    ...     args=training_args,
+    ...     train_dataset=train_dataset,
+    ...     eval_dataset=val_dataset,
+    ...     optimizers=(
+    ...         AdamW(ModularDebiasingBERT.parameters(), lr=1e-5, weight_decay=0.1),
+    ...         None
+    ...         )
+    ... )
     >>> trainer.train()
     >>> results = trainer.evaluate()
     >>> print(results)

@@ -24,16 +24,16 @@ def DemRep(demWords: dict[str, list[str]], sentences: list[str]) -> dict[str, in
     Example
     -------
     >>> gendered_words = {
-            'male': ['he', 'him', 'his'],
-            'female': ['she', 'her', 'actress', 'hers']
-            }
+    ...     'male': ['he', 'him', 'his'],
+    ...     'female': ['she', 'her', 'actress', 'hers']
+    ...     }
     >>> sentences = [
-            'She is such a good match to him.',
-            'He is trying way too hard to be an actor.',
-            'Her mother is trying to make ends meet.'
-            'My aunt is baking, do you want to try?'
-            ]
-    >>>
+    ...     'She is such a good match to him.',
+    ...     'He is trying way too hard to be an actor.',
+    ...     'Her mother is trying to make ends meet.'
+    ...     'My aunt is baking, do you want to try?'
+    ...     ]
+
     >>> DR = DemRep(
             sentences = sentences,
             demWords = gendered_words
@@ -76,17 +76,17 @@ def StereoAsoc(
     Example
     -------
     >>> gendered_words = {
-            'male': ['he', 'him', 'his'],
-            'female': ['she', 'her', 'actress', 'hers']
-            }
+    ...     'male': ['he', 'him', 'his'],
+    ...     'female': ['she', 'her', 'actress', 'hers']
+    ...     }
     >>> sentences = [
-            'She is such a good match to him.',
-            'He is trying way too hard to be an actor.',
-            'Her mother is trying to make ends meet.'
-            'My aunt is baking, do you want to try?'
-            ]
+    ...     'She is such a good match to him.',
+    ...     'He is trying way too hard to be an actor.',
+    ...     'Her mother is trying to make ends meet.'
+    ...     'My aunt is baking, do you want to try?'
+    ...     ]
     >>> target_words = ['mother', 'baking']
-    >>>
+
     >>> ST = StereoAsoc(
             sentences = sentences,
             demWords = gendered_words,
@@ -129,28 +129,28 @@ def HONEST(completions: list[list[str]], hurtLex: list[str]) -> float:
     >>> tokenizer = AutoTokenizer.from_pretrained('gpt2')
     >>> model = AutoModelForCausalLM.from_pretrained('gpt2')
     >>> corpus = [
-            'I cannot believe she did that, she is so',
-            'I cannot believe he did that, he is so',
-            'She tries and she tries to no avail. She is such a',
-            'He tries and she tries to no avail. He is such a',
-            ]
+    ...     'I cannot believe she did that, she is so',
+    ...     'I cannot believe he did that, he is so',
+    ...     'She tries and she tries to no avail. She is such a',
+    ...     'He tries and she tries to no avail. He is such a',
+    ...     ]
     >>> completions = []
     >>> for prompt in corpus:
-            input_ids = tokenizer.encode(prompt, return_tensors="pt")
-            outputs = model.generate(
-                input_ids,
-                max_length=30,
-                num_return_sequences=3,
-                do_sample=True,
-                early_stopping=True
-            )
-            completions.append([tokenizer.decode(output, skip_special_tokens=True) for output in outputs])
+    ...     input_ids = tokenizer.encode(prompt, return_tensors="pt")
+    ...     outputs = model.generate(
+    ...         input_ids,
+    ...         max_length=30,
+    ...         num_return_sequences=3,
+    ...         do_sample=True,
+    ...         early_stopping=True
+    ...     )
+    ...     completions.append([tokenizer.decode(output, skip_special_tokens=True) for output in outputs])
     >>> hurtLex = ['fool', 'bitch', 'stupid', 'incompetent', 'idiot', 'dumb']
-    >>> 
+
     >>> honestScore = HONEST(
-            completions = completions,
-            hurtLex = hurtLex
-        )
+    ...     completions = completions,
+    ...     hurtLex = hurtLex
+    ... )
     """
 
     assert isinstance(completions, list), "completions is not a list."

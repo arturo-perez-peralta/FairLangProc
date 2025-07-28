@@ -31,28 +31,28 @@ class EmbeddingBasedRegularizer(nn.Module, ABC):
     -------
     >>> from FairLangProc.algorithms.inprocessors import EmbeddingBasedRegularizer
     >>> class BERTEmbedingReg(EmbeddingBasedRegularizer):
-            def _get_embedding(self, inputs):
-                return self.model(**inputs).last_hidden_state[:,0,:]
+    ...     def _get_embedding(self, inputs):
+    ...         return self.model(**inputs).last_hidden_state[:,0,:]
     >>> model = AutoModelForSequenceClassification.from_pretrained('bert-base-uncased')
     >>> tokenizer = AutoTokenizer.from_pretrained('bert-base-uncased')
     >>> words = [('he', 'she'), ('his', 'hers'), ('monk', 'nun')]
     >>> EmbRegularizer = EARModel(
-             model = model,
-             tokenizer = tokenizer,
-             word_pairs = words, 
-             ear_reg_strength = 0.01
-        )
-    >>> 
+    ...      model = model,
+    ...      tokenizer = tokenizer,
+    ...      word_pairs = words, 
+    ...      ear_reg_strength = 0.01
+    ... )
+
     >>> trainer = Trainer(
-            model=EARRegularizer,
-            args=training_args,
-            train_dataset=train_dataset,
-            eval_dataset=val_dataset,
-            optimizers=(
-                AdamW(EARRegularizer.parameters(), lr=1e-5, weight_decay=0.1),
-                None
-                )
-        )
+    ...     model=EARRegularizer,
+    ...     args=training_args,
+    ...     train_dataset=train_dataset,
+    ...     eval_dataset=val_dataset,
+    ...     optimizers=(
+    ...         AdamW(EARRegularizer.parameters(), lr=1e-5, weight_decay=0.1),
+    ...         None
+    ...         )
+    ... )
     >>> trainer.train()
     >>> results = trainer.evaluate()
     >>> print(results)
@@ -198,23 +198,23 @@ class EARModel(torch.nn.Module):
     Example
     -------
     >>> from FairLangProc.algorithms.inprocessors import EARModel
-    >>> 
+
     >>> model = AutoModelForSequenceClassification.from_pretrained('bert-base-uncased')
     >>> EARRegularizer = EARModel(
-             model = model,
-             ear_reg_strength = 0.01
-        )
-    >>> 
+    ...      model = model,
+    ...      ear_reg_strength = 0.01
+    ... )
+
     >>> trainer = Trainer(
-            model=EARRegularizer,
-            args=training_args,
-            train_dataset=train_dataset,
-            eval_dataset=val_dataset,
-            optimizers=(
-                AdamW(EARRegularizer.parameters(), lr=1e-5, weight_decay=0.1),
-                None
-                )
-        )
+    ...     model=EARRegularizer,
+    ...     args=training_args,
+    ...     train_dataset=train_dataset,
+    ...     eval_dataset=val_dataset,
+    ...     optimizers=(
+    ...         AdamW(EARRegularizer.parameters(), lr=1e-5, weight_decay=0.1),
+    ...         None
+    ...         )
+    ... )
     >>> trainer.train()
     >>> results = trainer.evaluate()
     >>> print(results)

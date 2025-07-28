@@ -5,9 +5,11 @@ Pre-processors are fairness processors that modify the model inputs.
 
 The supported methods are:
 
-- Counterfactual Data Augmentation (CDA) `(Webster et al. 2020) <https://arxiv.org/abs/2010.06032>`_.
-- Projection based debiasing `(Bolukbasi et al., 2023) <https://arxiv.org/abs/1607.06520>`_.
-- Bias removaL wIth No Demographics (BLIND) `(Orgad et al., 2023) <https://aclanthology.org/2023.acl-long.490/>`_.
+- :ref:`Counterfactual Data Augmentation (CDA) <cda>` `(Webster et al. 2020) <https://arxiv.org/abs/2010.06032>`_.
+- :ref:`Projection based debiasing <emb>` `(Bolukbasi et al., 2023) <https://arxiv.org/abs/1607.06520>`_.
+- :ref:`Bias removaL wIth No Demographics (BLIND) <blind>` `(Orgad et al., 2023) <https://aclanthology.org/2023.acl-long.490/>`_.
+
+.. _cda:
 
 Counterfactual Data Augmentation (CDA)
 ---------------------------------------------------------
@@ -18,6 +20,8 @@ while preserving semantic correctness. This procedure can be one-sided and disca
 augmented version.
 
 .. autofunction:: FairLangProc.algorithms.preprocessors.augmentation.CDA
+
+.. _emb:
 
 Projection-based debiasing
 --------------------------------------------------------------
@@ -34,6 +38,8 @@ and usually its dimension is one, resulting in the construction of a bias direct
 .. autoclass:: FairLangProc.algorithms.preprocessors.projection_based.SentDebiasModel
    :members: __init__
    :no-index:
+
+.. _blind:
 
 BLIND debiasing
 --------------------------------------------------------

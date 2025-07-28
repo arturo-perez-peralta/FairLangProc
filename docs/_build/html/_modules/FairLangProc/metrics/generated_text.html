@@ -59,16 +59,16 @@
 <span class="sd">    Example</span>
 <span class="sd">    -------</span>
 <span class="sd">    &gt;&gt;&gt; gendered_words = {</span>
-<span class="sd">            &#39;male&#39;: [&#39;he&#39;, &#39;him&#39;, &#39;his&#39;],</span>
-<span class="sd">            &#39;female&#39;: [&#39;she&#39;, &#39;her&#39;, &#39;actress&#39;, &#39;hers&#39;]</span>
-<span class="sd">            }</span>
+<span class="sd">    ...     &#39;male&#39;: [&#39;he&#39;, &#39;him&#39;, &#39;his&#39;],</span>
+<span class="sd">    ...     &#39;female&#39;: [&#39;she&#39;, &#39;her&#39;, &#39;actress&#39;, &#39;hers&#39;]</span>
+<span class="sd">    ...     }</span>
 <span class="sd">    &gt;&gt;&gt; sentences = [</span>
-<span class="sd">            &#39;She is such a good match to him.&#39;,</span>
-<span class="sd">            &#39;He is trying way too hard to be an actor.&#39;,</span>
-<span class="sd">            &#39;Her mother is trying to make ends meet.&#39;</span>
-<span class="sd">            &#39;My aunt is baking, do you want to try?&#39;</span>
-<span class="sd">            ]</span>
-<span class="sd">    &gt;&gt;&gt;</span>
+<span class="sd">    ...     &#39;She is such a good match to him.&#39;,</span>
+<span class="sd">    ...     &#39;He is trying way too hard to be an actor.&#39;,</span>
+<span class="sd">    ...     &#39;Her mother is trying to make ends meet.&#39;</span>
+<span class="sd">    ...     &#39;My aunt is baking, do you want to try?&#39;</span>
+<span class="sd">    ...     ]</span>
+
 <span class="sd">    &gt;&gt;&gt; DR = DemRep(</span>
 <span class="sd">            sentences = sentences,</span>
 <span class="sd">            demWords = gendered_words</span>
@@ -114,17 +114,17 @@
 <span class="sd">    Example</span>
 <span class="sd">    -------</span>
 <span class="sd">    &gt;&gt;&gt; gendered_words = {</span>
-<span class="sd">            &#39;male&#39;: [&#39;he&#39;, &#39;him&#39;, &#39;his&#39;],</span>
-<span class="sd">            &#39;female&#39;: [&#39;she&#39;, &#39;her&#39;, &#39;actress&#39;, &#39;hers&#39;]</span>
-<span class="sd">            }</span>
+<span class="sd">    ...     &#39;male&#39;: [&#39;he&#39;, &#39;him&#39;, &#39;his&#39;],</span>
+<span class="sd">    ...     &#39;female&#39;: [&#39;she&#39;, &#39;her&#39;, &#39;actress&#39;, &#39;hers&#39;]</span>
+<span class="sd">    ...     }</span>
 <span class="sd">    &gt;&gt;&gt; sentences = [</span>
-<span class="sd">            &#39;She is such a good match to him.&#39;,</span>
-<span class="sd">            &#39;He is trying way too hard to be an actor.&#39;,</span>
-<span class="sd">            &#39;Her mother is trying to make ends meet.&#39;</span>
-<span class="sd">            &#39;My aunt is baking, do you want to try?&#39;</span>
-<span class="sd">            ]</span>
+<span class="sd">    ...     &#39;She is such a good match to him.&#39;,</span>
+<span class="sd">    ...     &#39;He is trying way too hard to be an actor.&#39;,</span>
+<span class="sd">    ...     &#39;Her mother is trying to make ends meet.&#39;</span>
+<span class="sd">    ...     &#39;My aunt is baking, do you want to try?&#39;</span>
+<span class="sd">    ...     ]</span>
 <span class="sd">    &gt;&gt;&gt; target_words = [&#39;mother&#39;, &#39;baking&#39;]</span>
-<span class="sd">    &gt;&gt;&gt;</span>
+
 <span class="sd">    &gt;&gt;&gt; ST = StereoAsoc(</span>
 <span class="sd">            sentences = sentences,</span>
 <span class="sd">            demWords = gendered_words,</span>
@@ -170,28 +170,28 @@
 <span class="sd">    &gt;&gt;&gt; tokenizer = AutoTokenizer.from_pretrained(&#39;gpt2&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; model = AutoModelForCausalLM.from_pretrained(&#39;gpt2&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; corpus = [</span>
-<span class="sd">            &#39;I cannot believe she did that, she is so&#39;,</span>
-<span class="sd">            &#39;I cannot believe he did that, he is so&#39;,</span>
-<span class="sd">            &#39;She tries and she tries to no avail. She is such a&#39;,</span>
-<span class="sd">            &#39;He tries and she tries to no avail. He is such a&#39;,</span>
-<span class="sd">            ]</span>
+<span class="sd">    ...     &#39;I cannot believe she did that, she is so&#39;,</span>
+<span class="sd">    ...     &#39;I cannot believe he did that, he is so&#39;,</span>
+<span class="sd">    ...     &#39;She tries and she tries to no avail. She is such a&#39;,</span>
+<span class="sd">    ...     &#39;He tries and she tries to no avail. He is such a&#39;,</span>
+<span class="sd">    ...     ]</span>
 <span class="sd">    &gt;&gt;&gt; completions = []</span>
 <span class="sd">    &gt;&gt;&gt; for prompt in corpus:</span>
-<span class="sd">            input_ids = tokenizer.encode(prompt, return_tensors=&quot;pt&quot;)</span>
-<span class="sd">            outputs = model.generate(</span>
-<span class="sd">                input_ids,</span>
-<span class="sd">                max_length=30,</span>
-<span class="sd">                num_return_sequences=3,</span>
-<span class="sd">                do_sample=True,</span>
-<span class="sd">                early_stopping=True</span>
-<span class="sd">            )</span>
-<span class="sd">            completions.append([tokenizer.decode(output, skip_special_tokens=True) for output in outputs])</span>
+<span class="sd">    ...     input_ids = tokenizer.encode(prompt, return_tensors=&quot;pt&quot;)</span>
+<span class="sd">    ...     outputs = model.generate(</span>
+<span class="sd">    ...         input_ids,</span>
+<span class="sd">    ...         max_length=30,</span>
+<span class="sd">    ...         num_return_sequences=3,</span>
+<span class="sd">    ...         do_sample=True,</span>
+<span class="sd">    ...         early_stopping=True</span>
+<span class="sd">    ...     )</span>
+<span class="sd">    ...     completions.append([tokenizer.decode(output, skip_special_tokens=True) for output in outputs])</span>
 <span class="sd">    &gt;&gt;&gt; hurtLex = [&#39;fool&#39;, &#39;bitch&#39;, &#39;stupid&#39;, &#39;incompetent&#39;, &#39;idiot&#39;, &#39;dumb&#39;]</span>
-<span class="sd">    &gt;&gt;&gt; </span>
+
 <span class="sd">    &gt;&gt;&gt; honestScore = HONEST(</span>
-<span class="sd">            completions = completions,</span>
-<span class="sd">            hurtLex = hurtLex</span>
-<span class="sd">        )</span>
+<span class="sd">    ...     completions = completions,</span>
+<span class="sd">    ...     hurtLex = hurtLex</span>
+<span class="sd">    ... )</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">completions</span><span class="p">,</span> <span class="nb">list</span><span class="p">),</span> <span class="s2">&quot;completions is not a list.&quot;</span>

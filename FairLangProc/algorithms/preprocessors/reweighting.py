@@ -26,36 +26,36 @@ class BLINDTrainer(Trainer, ABC):
     Example
     -------
     >>> from FairLangProc.algorithms.preprocessors import BLINDTrainer
-    >>> 
+
     >>> BLINDModel = AutoModelForSequenceClassification.from_pretrained('bert-base-uncased')
     >>> BLINDClassifier = nn.Sequential(
-              nn.Linear(HIDDEN_DIM_BERT, HIDDEN_DIM_BERT),
-              nn.ReLU(),
-              nn.Linear(HIDDEN_DIM_BERT, 2)
-        )
+    ...       nn.Linear(HIDDEN_DIM_BERT, HIDDEN_DIM_BERT),
+    ...       nn.ReLU(),
+    ...       nn.Linear(HIDDEN_DIM_BERT, 2)
+    ... )
     >>> class BLINDBERTTrainer(BLINDTrainer):
-            def _get_embedding(self, inputs):
-                return self.model.bert(
-                    input_ids = inputs.get("input_ids"),
-                    attention_mask = inputs.get("attention_mask"),
-                    token_type_ids = inputs.get("token_type_ids")
-                    ).last_hidden_state[:,0,:]
-    >>>     
+    ...     def _get_embedding(self, inputs):
+    ...         return self.model.bert(
+    ...             input_ids = inputs.get("input_ids"),
+    ...             attention_mask = inputs.get("attention_mask"),
+    ...             token_type_ids = inputs.get("token_type_ids")
+    ...             ).last_hidden_state[:,0,:]
+ 
     >>> trainer = BLINDBERTTrainer(
-            blind_model = BLINDClassifier,
-            blind_optimizer = lambda x: AdamW(x, lr=1e-5, weight_decay=0.1),
-            temperature = 1.0,
-            gamma = 2.0,
-            alpha = 1.0,
-            model = BLINDModel,
-            args = training_args,
-            train_dataset = train_dataset,
-            eval_dataset = val_dataset,
-            optimizers=(
-                AdamW(BLINDModel.parameters(), lr=1e-5, weight_decay=0.1),
-                None
-                )
-        )
+    ...     blind_model = BLINDClassifier,
+    ...     blind_optimizer = lambda x: AdamW(x, lr=1e-5, weight_decay=0.1),
+    ...     temperature = 1.0,
+    ...     gamma = 2.0,
+    ...     alpha = 1.0,
+    ...     model = BLINDModel,
+    ...     args = training_args,
+    ...     train_dataset = train_dataset,
+    ...     eval_dataset = val_dataset,
+    ...     optimizers=(
+    ...         AdamW(BLINDModel.parameters(), lr=1e-5, weight_decay=0.1),
+    ...         None
+    ...         )
+    ... )
     >>> trainer.train()
     >>> results = trainer.evaluate()
     """

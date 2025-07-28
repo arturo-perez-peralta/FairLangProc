@@ -22,23 +22,23 @@ class DebiasAdapter(nn.Module):
     -------
     >>> from adapters import AdapterTrainer
     >>> from FairLangProc.algorithms.inprocessors import DebiasAdapter
-    >>> 
+
     >>> DebiasAdapter = DebiasAdapter(
-    >>>     model = AutoModel.from_pretrained('bert-base-uncased'),
-    >>>     adapter_config = "seq_bn"
-    >>>     )
+    ...     model = AutoModel.from_pretrained('bert-base-uncased'),
+    ...     adapter_config = "seq_bn"
+    ...     )
     >>> AdeleModel = DebiasAdapter.get_model()
-    >>> 
+
     >>> trainer = AdapterTrainer(
-    >>>     model=AdeleModel,
-    >>>     args=training_args,
-    >>>     train_dataset=train_CDA,
-    >>>     eval_dataset=val_dataset,
-    >>>     optimizers=(
-    >>>         AdamW(AdeleModel.parameters(),lr=1e-5, weight_decay=0.1),
-    >>>         None
-    >>>         )
-    >>> )
+    ...     model=AdeleModel,
+    ...     args=training_args,
+    ...     train_dataset=train_CDA,
+    ...     eval_dataset=val_dataset,
+    ...     optimizers=(
+    ...         AdamW(AdeleModel.parameters(),lr=1e-5, weight_decay=0.1),
+    ...         None
+    ...         )
+    ... )
     >>> trainer.train()
     >>> results = trainer.evaluate()
     >>> print(results)

@@ -5,9 +5,12 @@ In-processors are fairness processors that modify the training process.
 
 The supported methods are:
 
-- ADELE `(Lauscher et al., 2021) <https://arxiv.org/abs/2109.03646>`_.
-- Entropy Attention Regularizer (EAR) `(Attanasio et al., 2022) <https://arxiv.org/abs/2203.09192>`_.
-- Selective unfreezing `(Gira et al., 2024) <https://aclanthology.org/2022.ltedi-1.8/>`_.
+- :ref:`Adapter-based DEbiasing of LanguagE models (ADELE) <adele>` `(Lauscher et al., 2021) <https://arxiv.org/abs/2109.03646>`_.
+- :ref:`Entropy Attention Regularizer (EAR) <ear>` `(Attanasio et al., 2022) <https://arxiv.org/abs/2203.09192>`_.
+- :ref:`Embedding based regularizer <embreg>` `(Liu et al., 2020) <https://arxiv.org/abs/1910.10486>`_.
+- :ref:`Selective unfreezing <selective>` `(Gira et al., 2024) <https://aclanthology.org/2022.ltedi-1.8/>`_.
+
+.. _ADELE:
 
 ADELE
 ---------------------------------------------------
@@ -28,6 +31,18 @@ forcing the model to discard all irrelevant information.
    :members: __init__
    :no-index:
    
+.. _embreg:
+
+Embedding based regularizer
+--------------------------------------------------------
+
+Embedding based regularizers `(Liu et al., 2020) <https://arxiv.org/abs/1910.10486>`_ are based on the distance between the embeddings of counterfactual pairs given by $A$,
+
+.. math::
+    \mathcal{R} = \sum_{(a_i, a_j)\in A} || M(a_i) - M(a_j)||_2 .
+
+.. _EAR:
+
 EAR
 --------------------------------------------------------
 
@@ -42,6 +57,8 @@ where :math:`\text{entropy}_l(\cdot)` denotes the entropy of the l-th layer.
 .. autoclass:: FairLangProc.algorithms.inprocessors.regularizers.EARModel
    :members: __init__
    :no-index:
+
+.. _selective:
 
 Selective unfreezing
 ---------------------------------------------------------------

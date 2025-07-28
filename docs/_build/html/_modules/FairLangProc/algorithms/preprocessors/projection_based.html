@@ -75,38 +75,38 @@
 <span class="sd">    &gt;&gt;&gt; from FairLangProc.algorithms.preprocessors import SentDebiasForSequenceClassification</span>
 <span class="sd">    &gt;&gt;&gt; gendered_pairs = [(&#39;he&#39;, &#39;she&#39;), (&#39;his&#39;, &#39;hers&#39;), (&#39;monk&#39;, &#39;nun&#39;)]</span>
 <span class="sd">    &gt;&gt;&gt; model = AutoModelForSequenceClassification.from_pretrained(&#39;bert-base-uncased&#39;)</span>
-<span class="sd">    &gt;&gt;&gt; </span>
+
 <span class="sd">    &gt;&gt;&gt; class SentDebiasBert(SentDebiasForSequenceClassification):        </span>
-<span class="sd">            def _get_embedding(</span>
-<span class="sd">                    self,</span>
-<span class="sd">                    input_ids,</span>
-<span class="sd">                    attention_mask = None,</span>
-<span class="sd">                    token_type_ids = None</span>
-<span class="sd">                    ):</span>
-<span class="sd">                return self.model.bert(</span>
-<span class="sd">                    input_ids,</span>
-<span class="sd">                    attention_mask = attention_mask,</span>
-<span class="sd">                    token_type_ids = token_type_ids</span>
-<span class="sd">                    ).last_hidden_state[:,0,:]</span>
+<span class="sd">    ...     def _get_embedding(</span>
+<span class="sd">    ...             self,</span>
+<span class="sd">    ...             input_ids,</span>
+<span class="sd">    ...             attention_mask = None,</span>
+<span class="sd">    ...             token_type_ids = None</span>
+<span class="sd">    ...             ):</span>
+<span class="sd">    ...         return self.model.bert(</span>
+<span class="sd">    ...             input_ids,</span>
+<span class="sd">    ...             attention_mask = attention_mask,</span>
+<span class="sd">    ...             token_type_ids = token_type_ids</span>
+<span class="sd">    ...             ).last_hidden_state[:,0,:]</span>
 <span class="sd">    &gt;&gt;&gt; EmbedModel = SentDebiasBert(</span>
-<span class="sd">            model = model,</span>
-<span class="sd">            config = None,</span>
-<span class="sd">            tokenizer = TOKENIZER,</span>
-<span class="sd">            word_pairs = gendered_pairs,</span>
-<span class="sd">            n_components = 1,</span>
-<span class="sd">            n_labels = 2</span>
-<span class="sd">        )</span>
-<span class="sd">    &gt;&gt;&gt; </span>
+<span class="sd">    ...     model = model,</span>
+<span class="sd">    ...     config = None,</span>
+<span class="sd">    ...     tokenizer = TOKENIZER,</span>
+<span class="sd">    ...     word_pairs = gendered_pairs,</span>
+<span class="sd">    ...     n_components = 1,</span>
+<span class="sd">    ...     n_labels = 2</span>
+<span class="sd">    ... )</span>
+
 <span class="sd">    &gt;&gt;&gt; trainer = Trainer(</span>
-<span class="sd">            model=EmbedModel,</span>
-<span class="sd">            args=training_args,</span>
-<span class="sd">            train_dataset=train_dataset,</span>
-<span class="sd">            eval_dataset=val_dataset,</span>
-<span class="sd">            optimizers=(</span>
-<span class="sd">                AdamW(EmbedModel.parameters(), lr=1e-5, weight_decay=0.1),</span>
-<span class="sd">                None</span>
-<span class="sd">                )</span>
-<span class="sd">        )</span>
+<span class="sd">    ...     model=EmbedModel,</span>
+<span class="sd">    ...     args=training_args,</span>
+<span class="sd">    ...     train_dataset=train_dataset,</span>
+<span class="sd">    ...     eval_dataset=val_dataset,</span>
+<span class="sd">    ...     optimizers=(</span>
+<span class="sd">    ...         AdamW(EmbedModel.parameters(), lr=1e-5, weight_decay=0.1),</span>
+<span class="sd">    ...         None</span>
+<span class="sd">    ...         )</span>
+<span class="sd">    ... )</span>
 <span class="sd">    &gt;&gt;&gt; trainer.train()</span>
 <span class="sd">    &gt;&gt;&gt; results = trainer.evaluate()</span>
 <span class="sd">    &gt;&gt;&gt; print(results)</span>
