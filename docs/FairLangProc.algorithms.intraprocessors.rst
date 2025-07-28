@@ -39,6 +39,7 @@ where :math:`\phi` is a transformation kernel.
  
 .. autoclass:: FairLangProc.algorithms.intraprocessors.modular.DiffPrunDebiasing
    :members: __init__
+   :no-index:
 
 .. _eat:
 
@@ -55,3 +56,4 @@ the idea being that when :math:`\beta >> 1` the head attends only to the tokens 
 When :math:`\beta = 1` the attention head remains unmodified.
 
 .. autofunction:: FairLangProc.algorithms.intraprocessors.redistribution.add_EAT_hook
+   :no-index:

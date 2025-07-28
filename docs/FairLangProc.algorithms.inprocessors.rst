@@ -29,6 +29,7 @@ forcing the model to discard all irrelevant information.
 
 .. autoclass:: FairLangProc.algorithms.inprocessors.adapter.DebiasAdapter
    :members: __init__
+   :no-index:
    
 .. _embreg:
 
@@ -42,6 +43,7 @@ Embedding based regularizers `(Liu et al., 2020) <https://arxiv.org/abs/1910.104
 
 .. autoclass:: FairLangProc.algorithms.inprocessors.regularizers.EmbeddingBasedRegularizer
    :members: __init__
+   :no-index:
 
 .. _EAR:
 
@@ -58,6 +60,7 @@ where :math:`\text{entropy}_l(\cdot)` denotes the entropy of the l-th layer.
 
 .. autoclass:: FairLangProc.algorithms.inprocessors.regularizers.EARModel
    :members: __init__
+   :no-index:
 
 .. _selective:
 
@@ -68,3 +71,4 @@ Selective unfreezing `(Gira et al., 2024) https://aclanthology.org/2022.ltedi-1.
 by freezing a big amount of the model parameters, which also helps lessening computational expenses.
 
 .. autofunction:: FairLangProc.algorithms.inprocessors.selective_updating.selective_unfreezing
+    :no-index:

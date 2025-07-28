@@ -20,6 +20,7 @@ while preserving semantic correctness. This procedure can be one-sided and disca
 augmented version.
 
 .. autofunction:: FairLangProc.algorithms.preprocessors.augmentation.CDA
+    :no-index:
 
 .. _emb:
 
@@ -37,6 +38,7 @@ and usually its dimension is one, resulting in the construction of a bias direct
 
 .. autoclass:: FairLangProc.algorithms.preprocessors.projection_based.SentDebiasModel
    :members: __init__
+   :no-index:
 
 .. _blind:
 
@@ -58,3 +60,4 @@ Note that when :math:`\gamma = 0` the original loss function is restored, while 
 
 .. autoclass:: FairLangProc.algorithms.preprocessors.reweighting.BLINDTrainer
    :members: __init__
+   :no-index:

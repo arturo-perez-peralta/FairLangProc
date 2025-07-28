@@ -56,3 +56,4 @@ BiasDataLoader
 -----------------------------------------------
 
 .. autofunction:: FairLangProc.datasets.fairness_datasets.BiasDataLoader
+  :no-index:

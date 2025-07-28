@@ -49,6 +49,7 @@ and it can be further generalized to contextualized embeddings. These metrics ar
 
 .. autoclass:: FairLangProc.metrics.embedding.WEAT
    :members: __init__, _get_embedding, metric
+   :no-index:
 
 .. _dr:
 
@@ -64,6 +65,7 @@ DR `(Liang et al., 2022) <https://arxiv.org/abs/2211.09110>`_ is computed as fol
 where :math:`C(w, Y)` denotes the count of how many times word :math:`w` appears in text :math:`Y`.
 
 .. autofunction:: FairLangProc.metrics.generated_text.DemRep
+    :no-index:
 
 .. _sa:
 
@@ -79,6 +81,7 @@ ST `(Liang et al., 2022) <https://arxiv.org/abs/2211.09110>`_ is computed as fol
 where :math:`C(w, Y)` denotes the count of how many times word :math:`w` appears in text :math:`Y`.
 
 .. autofunction:: FairLangProc.metrics.generated_text.StereoAsoc
+    :no-index:
 
 .. _honest:
 
@@ -91,6 +94,7 @@ HONEST `(Nozza et al., 2021) <https://aclanthology.org/2021.naacl-main.191/>`_ m
     \text{HONEST}(\hat{\mathbb{Y}} ) = \frac{\sum_{\hat{Y}_k \in\hat{\mathbb{Y}}_k} \sum_{\hat{y} \in \hat{Y}_k} \mathbf{1}(\hat{y} \in \mathbb{Y}_{hurt} ) }{|\mathbb{\hat{Y}}| k}.
 
 .. autofunction:: FairLangProc.metrics.generated_text.HONEST
+    :no-index:
 
 .. _lpbs:
 
@@ -105,6 +109,7 @@ based on the template "[MASK] is [MASK]". The score is computed as the differenc
     \text{LPBS} = \log\frac{p_1}{p_{prior, 1}} - \log\frac{p_2}{p_{prior, 2}}.
 
 .. autofunction:: FairLangProc.metrics.probability.LPBS
+    :no-index:
 
 .. _cbs:
 
@@ -119,6 +124,7 @@ based on the template "[MASK] is [MASK]". The score is computed as the variance 
     \text{CBS} =  \text{Var}_{a\in \mathbb{A}}\log\frac{p_a}{p_{prior, a}}.
 
 .. autofunction:: FairLangProc.metrics.probability.CBS
+    :no-index:
 
 .. _cps:
 
@@ -134,6 +140,7 @@ CPS `(Nangia et al., 2020) <https://aclanthology.org/2020.emnlp-main.154/>`_ use
 that is, we compute the pseudo-loglikelihood resulting from progessively masking every token but the sensitive ones.
 
 .. autofunction:: FairLangProc.metrics.probability.CPS
+    :no-index:
 
 .. _aul:
 
@@ -145,3 +152,4 @@ AUL `(Kaneko et al., 2021) <https://arxiv.org/abs/2104.07496>`_ predicts the pro
     \text{AUL}(S) = \frac{1}{|S|} \sum_{s\in S} \log \mathbb{P}(s|S).
 
 .. autofunction:: FairLangProc.metrics.probability.AUL
+    :no-index:
