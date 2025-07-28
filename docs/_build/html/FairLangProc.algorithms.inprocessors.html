@@ -61,20 +61,80 @@ forcing the model to discard all irrelevant information.</p>
 <p>Embedding based regularizers <a class="reference external" href="https://arxiv.org/abs/1910.10486">(Liu et al., 2020)</a> are based on the distance between the embeddings of counterfactual pairs given by $A$,</p>
 <div class="math notranslate nohighlight">
 \[\mathcal{R} = \sum_{(a_i, a_j)\in A} || M(a_i) - M(a_j)||_2 .\]</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="FairLangProc.algorithms.inprocessors.regularizers.EmbeddingBasedRegularizer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">FairLangProc.algorithms.inprocessors.regularizers.</span></span><span class="sig-name descname"><span class="pre">EmbeddingBasedRegularizer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Module</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tokenizer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">TokenizerType</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">word_pairs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ear_reg_strength</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.01</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/FairLangProc/algorithms/inprocessors/regularizers.html#EmbeddingBasedRegularizer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#FairLangProc.algorithms.inprocessors.regularizers.EmbeddingBasedRegularizer" title="Link to this definition">¶</a></dt>
+<dd><p>Class for adding a regularizer based on the embeddings of counterfactual pairs.
+Requires the implementation of the _get_embedding method</p>
+<section id="example">
+<h3>Example<a class="headerlink" href="#example" title="Link to this heading">¶</a></h3>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">FairLangProc.algorithms.inprocessors</span><span class="w"> </span><span class="kn">import</span> <span class="n">EmbeddingBasedRegularizer</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">class</span><span class="w"> </span><span class="nc">BERTEmbedingReg</span><span class="p">(</span><span class="n">EmbeddingBasedRegularizer</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">def</span><span class="w"> </span><span class="nf">_get_embedding</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">(</span><span class="o">**</span><span class="n">inputs</span><span class="p">)</span><span class="o">.</span><span class="n">last_hidden_state</span><span class="p">[:,</span><span class="mi">0</span><span class="p">,:]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">AutoModelForSequenceClassification</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s1">&#39;bert-base-uncased&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tokenizer</span> <span class="o">=</span> <span class="n">AutoTokenizer</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s1">&#39;bert-base-uncased&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">words</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;he&#39;</span><span class="p">,</span> <span class="s1">&#39;she&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;his&#39;</span><span class="p">,</span> <span class="s1">&#39;hers&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;monk&#39;</span><span class="p">,</span> <span class="s1">&#39;nun&#39;</span><span class="p">)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">EmbRegularizer</span> <span class="o">=</span> <span class="n">EARModel</span><span class="p">(</span>
+<span class="gp">... </span>     <span class="n">model</span> <span class="o">=</span> <span class="n">model</span><span class="p">,</span>
+<span class="gp">... </span>     <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="p">,</span>
+<span class="gp">... </span>     <span class="n">word_pairs</span> <span class="o">=</span> <span class="n">words</span><span class="p">,</span> 
+<span class="gp">... </span>     <span class="n">ear_reg_strength</span> <span class="o">=</span> <span class="mf">0.01</span>
+<span class="gp">... </span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">trainer</span> <span class="o">=</span> <span class="n">Trainer</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">model</span><span class="o">=</span><span class="n">EARRegularizer</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">args</span><span class="o">=</span><span class="n">training_args</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">train_dataset</span><span class="o">=</span><span class="n">train_dataset</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">eval_dataset</span><span class="o">=</span><span class="n">val_dataset</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">optimizers</span><span class="o">=</span><span class="p">(</span>
+<span class="gp">... </span>        <span class="n">AdamW</span><span class="p">(</span><span class="n">EARRegularizer</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-5</span><span class="p">,</span> <span class="n">weight_decay</span><span class="o">=</span><span class="mf">0.1</span><span class="p">),</span>
+<span class="gp">... </span>        <span class="kc">None</span>
+<span class="gp">... </span>        <span class="p">)</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">trainer</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">results</span> <span class="o">=</span> <span class="n">trainer</span><span class="o">.</span><span class="n">evaluate</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="FairLangProc.algorithms.inprocessors.regularizers.EmbeddingBasedRegularizer.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Module</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tokenizer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">TokenizerType</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">word_pairs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ear_reg_strength</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.01</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/FairLangProc/algorithms/inprocessors/regularizers.html#EmbeddingBasedRegularizer.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#FairLangProc.algorithms.inprocessors.regularizers.EmbeddingBasedRegularizer.__init__" title="Link to this definition">¶</a></dt>
+<dd><p>Constructor of the EmbeddingBasedRegularizer class.</p>
+<section id="parameters">
+<h4>Parameters<a class="headerlink" href="#parameters" title="Link to this heading">¶</a></h4>
+<dl class="simple">
+<dt>model<span class="classifier">nn.Module   </span></dt><dd><p>A language model</p>
+</dd>
+<dt>tokenizer<span class="classifier">TokenizerType</span></dt><dd><p>Tokenizer of the model</p>
+</dd>
+<dt>word_pairs<span class="classifier">list[tuple[str]]</span></dt><dd><p>List of tuples of counterfactual pairs whose embeddings should be close together
+(e.g. daughter and son, he and she,…).</p>
+</dd>
+<dt>ear_reg_strength<span class="classifier">float</span></dt><dd><p>Hyper-parameter containing the strength of the regularization term.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+</section>
+</dd></dl>
+
 </section>
 <section id="ear">
 <span id="id4"></span><h2>EAR<a class="headerlink" href="#ear" title="Link to this heading">¶</a></h2>
-<p>EAR <a href="#id5"><span class="problematic" id="id6">`(Attanasio et al., 2022) https://arxiv.org/abs/2203.09192`_</span></a> tries to maximize the entropy of the attention weights to encourage attention to the broader context
+<p>EAR <a href="#id7"><span class="problematic" id="id8">`(Attanasio et al., 2022) https://arxiv.org/abs/2203.09192`_</span></a> tries to maximize the entropy of the attention weights to encourage attention to the broader context
 of the input,</p>
 <div class="math notranslate nohighlight">
 \[\mathcal{R} = - \sum_{l=1}^L \text{entropy}_l(\mathbf{A})\]</div>
 <p>where <span class="math notranslate nohighlight">\(\text{entropy}_l(\cdot)\)</span> denotes the entropy of the l-th layer.</p>
 <dl class="py class">
-<dt class="sig sig-object py">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">FairLangProc.algorithms.inprocessors.regularizers.</span></span><span class="sig-name descname"><span class="pre">EARModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Module</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ear_reg_strength</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.01</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/FairLangProc/algorithms/inprocessors/regularizers.html#EARModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dt class="sig sig-object py" id="FairLangProc.algorithms.inprocessors.regularizers.EARModel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">FairLangProc.algorithms.inprocessors.regularizers.</span></span><span class="sig-name descname"><span class="pre">EARModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Module</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ear_reg_strength</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.01</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/FairLangProc/algorithms/inprocessors/regularizers.html#EARModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#FairLangProc.algorithms.inprocessors.regularizers.EARModel" title="Link to this definition">¶</a></dt>
 <dd><p>Class for adding a regularizer based on entropy attention.</p>
-<section id="example">
-<h3>Example<a class="headerlink" href="#example" title="Link to this heading">¶</a></h3>
+<section id="id5">
+<h3>Example<a class="headerlink" href="#id5" title="Link to this heading">¶</a></h3>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">FairLangProc.algorithms.inprocessors</span><span class="w"> </span><span class="kn">import</span> <span class="n">EARModel</span>
 </pre></div>
 </div>
@@ -101,11 +161,11 @@ of the input,</p>
 </pre></div>
 </div>
 <dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Module</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ear_reg_strength</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.01</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/FairLangProc/algorithms/inprocessors/regularizers.html#EARModel.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dt class="sig sig-object py" id="FairLangProc.algorithms.inprocessors.regularizers.EARModel.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Module</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ear_reg_strength</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.01</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/FairLangProc/algorithms/inprocessors/regularizers.html#EARModel.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#FairLangProc.algorithms.inprocessors.regularizers.EARModel.__init__" title="Link to this definition">¶</a></dt>
 <dd><p>Constructor for the EARModel class</p>
-<section id="parameters">
-<h4>Parameters<a class="headerlink" href="#parameters" title="Link to this heading">¶</a></h4>
+<section id="id6">
+<h4>Parameters<a class="headerlink" href="#id6" title="Link to this heading">¶</a></h4>
 <dl class="simple">
 <dt>model<span class="classifier">nn.Module </span></dt><dd><p>A language model.</p>
 </dd>
@@ -121,7 +181,7 @@ of the input,</p>
 </section>
 <section id="selective-unfreezing">
 <span id="selective"></span><h2>Selective unfreezing<a class="headerlink" href="#selective-unfreezing" title="Link to this heading">¶</a></h2>
-<p>Selective unfreezing <a href="#id7"><span class="problematic" id="id8">`(Gira et al., 2024) https://aclanthology.org/2022.ltedi-1.8/`_</span></a> aims to circumvent catastrophic forgetting during fine-tuning
+<p>Selective unfreezing <a href="#id9"><span class="problematic" id="id10">`(Gira et al., 2024) https://aclanthology.org/2022.ltedi-1.8/`_</span></a> aims to circumvent catastrophic forgetting during fine-tuning
 by freezing a big amount of the model parameters, which also helps lessening computational expenses.</p>
 </section>
 </section>
@@ -160,8 +220,20 @@ by freezing a big amount of the model parameters, which also helps lessening com
 <li class="toctree-l2 current"><a class="reference internal" href="FairLangProc.algorithms.html#subpackages">Subpackages</a><ul class="current">
 <li class="toctree-l3 current"><a class="current reference internal" href="#">FairLangProc.algorithms.inprocessors package</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#adele">ADELE</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#embedding-based-regularizer">Embedding based regularizer</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#ear">EAR</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#embedding-based-regularizer">Embedding based regularizer</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="#FairLangProc.algorithms.inprocessors.regularizers.EmbeddingBasedRegularizer"><code class="docutils literal notranslate"><span class="pre">EmbeddingBasedRegularizer</span></code></a><ul>
+<li class="toctree-l6"><a class="reference internal" href="#FairLangProc.algorithms.inprocessors.regularizers.EmbeddingBasedRegularizer.__init__"><code class="docutils literal notranslate"><span class="pre">EmbeddingBasedRegularizer.__init__()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="#ear">EAR</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="#FairLangProc.algorithms.inprocessors.regularizers.EARModel"><code class="docutils literal notranslate"><span class="pre">EARModel</span></code></a><ul>
+<li class="toctree-l6"><a class="reference internal" href="#FairLangProc.algorithms.inprocessors.regularizers.EARModel.__init__"><code class="docutils literal notranslate"><span class="pre">EARModel.__init__()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l4"><a class="reference internal" href="#selective-unfreezing">Selective unfreezing</a></li>
 </ul>
 </li>

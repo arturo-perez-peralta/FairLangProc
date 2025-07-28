@@ -55,6 +55,8 @@
 <span class="c1">#              Embedding based Regularizer</span>
 <span class="c1">#===================================================================================</span>
 
+<div class="viewcode-block" id="EmbeddingBasedRegularizer">
+<a class="viewcode-back" href="../../../../FairLangProc.algorithms.inprocessors.html#FairLangProc.algorithms.inprocessors.regularizers.EmbeddingBasedRegularizer">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">EmbeddingBasedRegularizer</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Class for adding a regularizer based on the embeddings of counterfactual pairs.</span>
@@ -91,6 +93,8 @@
 <span class="sd">    &gt;&gt;&gt; print(results)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
+<div class="viewcode-block" id="EmbeddingBasedRegularizer.__init__">
+<a class="viewcode-back" href="../../../../FairLangProc.algorithms.inprocessors.html#FairLangProc.algorithms.inprocessors.regularizers.EmbeddingBasedRegularizer.__init__">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">model</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">,</span>
@@ -122,7 +126,8 @@
             <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">female_ids</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tokenizer</span><span class="p">(</span>
             <span class="p">[</span><span class="n">female</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">female</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">word_pairs</span><span class="p">],</span> <span class="n">return_tensors</span><span class="o">=</span><span class="s2">&quot;pt&quot;</span><span class="p">,</span> <span class="n">padding</span> <span class="o">=</span> <span class="kc">True</span>
-            <span class="p">)</span>
+            <span class="p">)</span></div>
+
 
 
     <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span>
@@ -163,7 +168,8 @@
 
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_get_embedding</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">):</span>
-        <span class="k">pass</span>
+        <span class="k">pass</span></div>
+
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">BERTEmbedingReg</span><span class="p">(</span><span class="n">EmbeddingBasedRegularizer</span><span class="p">):</span>

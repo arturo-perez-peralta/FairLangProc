@@ -29,7 +29,6 @@ forcing the model to discard all irrelevant information.
 
 .. autoclass:: FairLangProc.algorithms.inprocessors.adapter.DebiasAdapter
    :members: __init__
-   :no-index:
    
 .. _embreg:
 
@@ -40,6 +39,9 @@ Embedding based regularizers `(Liu et al., 2020) <https://arxiv.org/abs/1910.104
 
 .. math::
     \mathcal{R} = \sum_{(a_i, a_j)\in A} || M(a_i) - M(a_j)||_2 .
+
+.. autoclass:: FairLangProc.algorithms.inprocessors.regularizers.EmbeddingBasedRegularizer
+   :members: __init__
 
 .. _EAR:
 
@@ -56,7 +58,6 @@ where :math:`\text{entropy}_l(\cdot)` denotes the entropy of the l-th layer.
 
 .. autoclass:: FairLangProc.algorithms.inprocessors.regularizers.EARModel
    :members: __init__
-   :no-index:
 
 .. _selective:
 

@@ -49,7 +49,6 @@ and it can be further generalized to contextualized embeddings. These metrics ar
 
 .. autoclass:: FairLangProc.metrics.embedding.WEAT
    :members: __init__, _get_embedding, metric
-   :no-index:
 
 .. _dr:
 

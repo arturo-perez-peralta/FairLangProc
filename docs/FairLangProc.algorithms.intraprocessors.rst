@@ -39,7 +39,6 @@ where :math:`\phi` is a transformation kernel.
  
 .. autoclass:: FairLangProc.algorithms.intraprocessors.modular.DiffPrunDebiasing
    :members: __init__
-   :no-index:
 
 .. _eat:
 
