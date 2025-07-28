@@ -198,7 +198,7 @@ class EARModel(torch.nn.Module):
     Example
     -------
     >>> from FairLangProc.algorithms.inprocessors import EARModel
-
+    >>> 
     >>> model = AutoModelForSequenceClassification.from_pretrained('bert-base-uncased')
     >>> EARRegularizer = EARModel(
     ...      model = model,

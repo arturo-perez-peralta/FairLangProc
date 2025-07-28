@@ -117,8 +117,8 @@ class WEAT(ABC):
         >>> from transformers import AutoTokenizer, AutoModel
         >>> from FairLangProc.metrics import WEAT
         >>> class BertWEAT(WEAT):
-            def _get_embedding(self, outputs):
-                return outputs.last_hidden_state[:, 0, :]
+        ...     def _get_embedding(self, outputs):
+        ...         return outputs.last_hidden_state[:, 0, :]
         >>> tokenizer = AutoTokenizer.from_pretrained('bert-base-uncased')
         >>> model = AutoModel.from_pretrained('bert-base-uncased')
         >>> math = ['math', 'algebra', 'geometry', 'calculus', 'equations']

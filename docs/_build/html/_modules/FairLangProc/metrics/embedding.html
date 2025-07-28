@@ -158,8 +158,8 @@
 <span class="sd">        &gt;&gt;&gt; from transformers import AutoTokenizer, AutoModel</span>
 <span class="sd">        &gt;&gt;&gt; from FairLangProc.metrics import WEAT</span>
 <span class="sd">        &gt;&gt;&gt; class BertWEAT(WEAT):</span>
-<span class="sd">            def _get_embedding(self, outputs):</span>
-<span class="sd">                return outputs.last_hidden_state[:, 0, :]</span>
+<span class="sd">        ...     def _get_embedding(self, outputs):</span>
+<span class="sd">        ...         return outputs.last_hidden_state[:, 0, :]</span>
 <span class="sd">        &gt;&gt;&gt; tokenizer = AutoTokenizer.from_pretrained(&#39;bert-base-uncased&#39;)</span>
 <span class="sd">        &gt;&gt;&gt; model = AutoModel.from_pretrained(&#39;bert-base-uncased&#39;)</span>
 <span class="sd">        &gt;&gt;&gt; math = [&#39;math&#39;, &#39;algebra&#39;, &#39;geometry&#39;, &#39;calculus&#39;, &#39;equations&#39;]</span>
