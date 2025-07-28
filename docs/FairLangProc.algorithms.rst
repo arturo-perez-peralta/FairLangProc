@@ -24,7 +24,7 @@ Subpackages
 -----------
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 3
 
    FairLangProc.algorithms.inprocessors
    FairLangProc.algorithms.intraprocessors
