@@ -13,7 +13,7 @@ Counterfactual Data Augmentation (CDA)
 ---------------------------------------------------------
 
 Data augmentation is the process of curating or upsampling the dataset to obtain a more representative distribution to train the model on.
-In particular, Counterfactual Data Augmentation (CDA) `(Webster et al. 2020) https://arxiv.org/abs/2010.06032`_ consists of flipping words with demographic information
+In particular, Counterfactual Data Augmentation (CDA) `(Webster et al. 2020) <https://arxiv.org/abs/2010.06032>`_ consists of flipping words with demographic information
 while preserving semantic correctness. This procedure can be one-sided and discard the original sentence or two-sided to consider both the original and its
 augmented version.
 
@@ -22,7 +22,7 @@ augmented version.
 Projection-based debiasing
 --------------------------------------------------------------
 
-Projection-based debiasing methods `(Bolukbasi et al., 2023) https://arxiv.org/abs/1607.06520`_ operate on latent space, looking to identify a bias subspace given by an
+Projection-based debiasing methods `(Bolukbasi et al., 2023) <https://arxiv.org/abs/1607.06520>`_ operate on latent space, looking to identify a bias subspace given by an
 orthogonal basis, :math:`\{v_i\}_{i=1}^{n_{bias}}`. Then, the hidden representation of any input can be debiased by removing its projection onto this space, formally
 
 .. math::
@@ -38,7 +38,7 @@ and usually its dimension is one, resulting in the construction of a bias direct
 BLIND debiasing
 --------------------------------------------------------
 
-BLIND `(Orgad et al., 2023) https://aclanthology.org/2023.acl-long.490/`_ is a debiasing procedure based on a complementary classifier 
+BLIND `(Orgad et al., 2023) <https://aclanthology.org/2023.acl-long.490/>`_ is a debiasing procedure based on a complementary classifier 
 :math:`g_{B} : \mathbb{R}^{d_L} \longrightarrow \mathbb{R}` with parameters :math:`\theta_{B}`, that takes the hidden representation vector
 as inputs and outputs the success probability of the model head for the downstream task. This probability is then used as a weight for said observation
 whose magnitude is controlled through a hyper-parameter :math:`\gamma \geq 0`:

@@ -64,9 +64,7 @@ or related to prejudice (competence and incompetence, insults and praises,..), a
 Embedding metrics measure this association through the cosine similarity of the embeddings of words belonging to text corpora associated with each neutral attribute,
 <span class="math notranslate nohighlight">\(\mathbb{W}_i\)</span>:</p>
 <div class="math notranslate nohighlight">
-\[s(a, W_1, W_2) = \sum_{w_1\in \mathbb{W}_1} \frac{\]</div>
-<p>cos(a, w_1)}{<a href="#id31"><span class="problematic" id="id32">|\mathbb{W}_1|</span></a>} - sum_{w_2in mathbb{W}_2} frac{
-cos(a, w_2)}{<a href="#id33"><span class="problematic" id="id34">|\mathbb{W}_2|</span></a>},</p>
+\[s(a, W_1, W_2) = \sum_{w_1\in \mathbb{W}_1} \frac{\cos(a, w_1)}{|\mathbb{W}_1|} - \sum_{w_2\in \mathbb{W}_2} \frac{\cos(a, w_2)}{|\mathbb{W}_2|},\]</div>
 <p>where <span class="math notranslate nohighlight">\(a\)</span> represents the embedding of an arbitrary word and $s$ represents its similarity to the neutral attributes,
 with a positive score signifying an association with <span class="math notranslate nohighlight">\(W_1\)</span> while a negative score implies a correlation with <span class="math notranslate nohighlight">\(W_2\)</span>.
 WEAT then measures bias through the effect size, which computes the average similarity between a corpora of text related to each sensitive attribute,

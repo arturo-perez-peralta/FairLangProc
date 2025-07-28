@@ -31,9 +31,7 @@ Embedding metrics measure this association through the cosine similarity of the 
 :math:`\mathbb{W}_i`:
 
 .. math::
-    s(a, W_1, W_2) = \sum_{w_1\in \mathbb{W}_1} \frac{
-\cos(a, w_1)}{|\mathbb{W}_1|} - \sum_{w_2\in \mathbb{W}_2} \frac{
-\cos(a, w_2)}{|\mathbb{W}_2|},
+    s(a, W_1, W_2) = \sum_{w_1\in \mathbb{W}_1} \frac{\cos(a, w_1)}{|\mathbb{W}_1|} - \sum_{w_2\in \mathbb{W}_2} \frac{\cos(a, w_2)}{|\mathbb{W}_2|},
 
 where :math:`a` represents the embedding of an arbitrary word and $s$ represents its similarity to the neutral attributes,
 with a positive score signifying an association with :math:`W_1` while a negative score implies a correlation with :math:`W_2`.

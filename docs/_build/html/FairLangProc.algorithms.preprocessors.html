@@ -45,13 +45,13 @@
 <section id="counterfactual-data-augmentation-cda">
 <h2>Counterfactual Data Augmentation (CDA)<a class="headerlink" href="#counterfactual-data-augmentation-cda" title="Link to this heading">¶</a></h2>
 <p>Data augmentation is the process of curating or upsampling the dataset to obtain a more representative distribution to train the model on.
-In particular, Counterfactual Data Augmentation (CDA) <a href="#id1"><span class="problematic" id="id2">`(Webster et al. 2020) https://arxiv.org/abs/2010.06032`_</span></a> consists of flipping words with demographic information
+In particular, Counterfactual Data Augmentation (CDA) <a class="reference external" href="https://arxiv.org/abs/2010.06032">(Webster et al. 2020)</a> consists of flipping words with demographic information
 while preserving semantic correctness. This procedure can be one-sided and discard the original sentence or two-sided to consider both the original and its
 augmented version.</p>
 </section>
 <section id="projection-based-debiasing">
 <h2>Projection-based debiasing<a class="headerlink" href="#projection-based-debiasing" title="Link to this heading">¶</a></h2>
-<p>Projection-based debiasing methods <a href="#id3"><span class="problematic" id="id4">`(Bolukbasi et al., 2023) https://arxiv.org/abs/1607.06520`_</span></a> operate on latent space, looking to identify a bias subspace given by an
+<p>Projection-based debiasing methods <a class="reference external" href="https://arxiv.org/abs/1607.06520">(Bolukbasi et al., 2023)</a> operate on latent space, looking to identify a bias subspace given by an
 orthogonal basis, <span class="math notranslate nohighlight">\(\{v_i\}_{i=1}^{n_{bias}}\)</span>. Then, the hidden representation of any input can be debiased by removing its projection onto this space, formally</p>
 <div class="math notranslate nohighlight">
 \[h_{proj} = h - \sum_{i = 1}^{n_{bias} } \langle h, v_i \rangle \, v_i.\]</div>
@@ -140,7 +140,7 @@ the words/sentences with sensitive attributes.</p>
 </section>
 <section id="blind-debiasing">
 <h2>BLIND debiasing<a class="headerlink" href="#blind-debiasing" title="Link to this heading">¶</a></h2>
-<p>BLIND <a href="#id5"><span class="problematic" id="id6">`(Orgad et al., 2023) https://aclanthology.org/2023.acl-long.490/`_</span></a> is a debiasing procedure based on a complementary classifier
+<p>BLIND <a class="reference external" href="https://aclanthology.org/2023.acl-long.490/">(Orgad et al., 2023)</a> is a debiasing procedure based on a complementary classifier
 <span class="math notranslate nohighlight">\(g_{B} : \mathbb{R}^{d_L} \longrightarrow \mathbb{R}\)</span> with parameters <span class="math notranslate nohighlight">\(\theta_{B}\)</span>, that takes the hidden representation vector
 as inputs and outputs the success probability of the model head for the downstream task. This probability is then used as a weight for said observation
 whose magnitude is controlled through a hyper-parameter <span class="math notranslate nohighlight">\(\gamma \geq 0\)</span>:</p>
