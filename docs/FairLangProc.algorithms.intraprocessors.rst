@@ -4,6 +4,7 @@ FairLangProc.algorithms.intraprocessors package
 Intra-processors are fairness processors that modify the model's behavior without further training.
 
 The supported methods are:
+
 * Modular Debiasing with Diff Subnetworks ([Hauzenberger et al., 2023](https://aclanthology.org/2023.findings-acl.386/)).
 * Entropy Attention Temperature (EAT) scaling ([Zayed et al., 2023](https://arxiv.org/abs/2305.13088)).
 

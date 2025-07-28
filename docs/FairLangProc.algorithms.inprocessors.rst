@@ -4,6 +4,7 @@ FairLangProc.algorithms.inprocessors package
 In-processors are fairness processors that modify the training process.
 
 The supported methods are:
+
 * ADELE ([Lauscher et al., 2021](https://arxiv.org/abs/2109.03646)).
 * Entropy Attention Regularizer (EAR) ([Attanasio et al., 2022](https://arxiv.org/abs/2203.09192)).
 * Selective unfreezing ([Gira et al., 2024](https://aclanthology.org/2022.ltedi-1.8/)).

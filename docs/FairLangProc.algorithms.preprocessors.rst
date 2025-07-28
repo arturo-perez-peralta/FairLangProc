@@ -4,6 +4,7 @@ FairLangProc.algorithms.preprocessors package
 Pre-processors are fairness processors that modify the model inputs.
 
 The supported methods are:
+
 * Counterfactual Data Augmentation (CDA) ([Webster et al. 2020](https://arxiv.org/abs/2010.06032)).
 * Projection based debiasing ([Bolukbasi et al., 2023](https://arxiv.org/abs/1607.06520)).
 * Bias removaL wIth No Demographics (BLIND) ([Orgad et al., 2023](https://aclanthology.org/2023.acl-long.490/)).
