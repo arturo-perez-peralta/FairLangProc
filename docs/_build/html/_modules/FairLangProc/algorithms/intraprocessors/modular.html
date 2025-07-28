@@ -682,7 +682,7 @@
 <span class="sd">    Example</span>
 <span class="sd">    -------</span>
 <span class="sd">    &gt;&gt;&gt; from FairLangProc.algorithms.intraprocessors import DiffPrunBERT</span>
-
+<span class="sd">    &gt;&gt;&gt; </span>
 <span class="sd">    &gt;&gt;&gt; class DiffPrunBERT(DiffPrunDebiasing):</span>
 <span class="sd">    ...     def _forward(self, input_ids, attention_mask=None, token_type_ids=None):</span>
 <span class="sd">    ...         outputs = self.encoder(</span>
@@ -691,21 +691,21 @@
 <span class="sd">    ...             token_type_ids = token_type_ids</span>
 <span class="sd">    ...             )</span>
 <span class="sd">    ...         return outputs.last_hidden_state[:,0,:]</span>
-
+<span class="sd">    &gt;&gt;&gt; </span>
 <span class="sd">    &gt;&gt;&gt; tokenizer = AutoTokenizer.from_pretrained(&#39;bert-base-uncased&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; model = AutoModelForSequenceClassification.from_pretrained(&#39;bert-base-uncased&#39;)</span>
-
+<span class="sd">    &gt;&gt;&gt;</span>
 <span class="sd">    &gt;&gt;&gt; gendered_pairs = [(&quot;manager&quot;, &quot;manageress&quot;), (&quot;nephew&quot;, &quot;niece&quot;), (&quot;prince&quot;, &quot;princess&quot;), (&quot;baron&quot;, &quot;baroness&quot;)]</span>
 <span class="sd">    &gt;&gt;&gt; tokens_male = [words[0] for words in gendered_pairs]</span>
 <span class="sd">    &gt;&gt;&gt; tokens_female = [words[1] for words in gendered_pairs]</span>
 <span class="sd">    &gt;&gt;&gt; inputs_male = tokenizer(tokens_male, padding = True, return_tensors = &quot;pt&quot;)</span>
 <span class="sd">    &gt;&gt;&gt; inputs_female = tokenizer(tokens_female, padding = True, return_tensors = &quot;pt&quot;)</span>
-
+<span class="sd">    &gt;&gt;&gt; </span>
 <span class="sd">    &gt;&gt;&gt; def normalize_by_column(x: torch.Tensor, eps: float = 1e-8):</span>
 <span class="sd">    ...     mean = x.mean(dim=0, keepdim=True)</span>
 <span class="sd">    ...     std = x.std(dim=0, keepdim=True)</span>
 <span class="sd">    ...     return (x - mean) / (std + eps)</span>
-
+<span class="sd">    &gt;&gt;&gt; </span>
 <span class="sd">    &gt;&gt;&gt; ModularDebiasingBERT = DiffPrunBERT(</span>
 <span class="sd">    ...     head = model.classifier,</span>
 <span class="sd">    ...     encoder = model.bert,</span>

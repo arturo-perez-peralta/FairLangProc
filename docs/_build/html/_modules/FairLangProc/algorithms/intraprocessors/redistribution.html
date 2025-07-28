@@ -56,11 +56,11 @@
 <span class="sd">    Example</span>
 <span class="sd">    -------</span>
 <span class="sd">    &gt;&gt;&gt; from FairLangProc.algorithms.intraprocessors import add_EAT_hook</span>
-
+<span class="sd">    &gt;&gt;&gt; </span>
 <span class="sd">    &gt;&gt;&gt; EATBert = AutoModelForSequenceClassification.from_pretrained(&#39;bert-base-uncased&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; beta = 1.5</span>
 <span class="sd">    &gt;&gt;&gt; add_EAT_hook(model=EATBert, beta=beta)</span>
-
+<span class="sd">    &gt;&gt;&gt; </span>
 <span class="sd">    &gt;&gt;&gt; trainer = Trainer(</span>
 <span class="sd">    ...     model=EATBert,</span>
 <span class="sd">    ...     args=training_args,</span>

@@ -68,7 +68,7 @@
 <span class="sd">    ...     &#39;Her mother is trying to make ends meet.&#39;</span>
 <span class="sd">    ...     &#39;My aunt is baking, do you want to try?&#39;</span>
 <span class="sd">    ...     ]</span>
-
+<span class="sd">    &gt;&gt;&gt; </span>
 <span class="sd">    &gt;&gt;&gt; DR = DemRep(</span>
 <span class="sd">            sentences = sentences,</span>
 <span class="sd">            demWords = gendered_words</span>
@@ -124,7 +124,7 @@
 <span class="sd">    ...     &#39;My aunt is baking, do you want to try?&#39;</span>
 <span class="sd">    ...     ]</span>
 <span class="sd">    &gt;&gt;&gt; target_words = [&#39;mother&#39;, &#39;baking&#39;]</span>
-
+<span class="sd">    &gt;&gt;&gt; </span>
 <span class="sd">    &gt;&gt;&gt; ST = StereoAsoc(</span>
 <span class="sd">            sentences = sentences,</span>
 <span class="sd">            demWords = gendered_words,</span>
@@ -187,7 +187,7 @@
 <span class="sd">    ...     )</span>
 <span class="sd">    ...     completions.append([tokenizer.decode(output, skip_special_tokens=True) for output in outputs])</span>
 <span class="sd">    &gt;&gt;&gt; hurtLex = [&#39;fool&#39;, &#39;bitch&#39;, &#39;stupid&#39;, &#39;incompetent&#39;, &#39;idiot&#39;, &#39;dumb&#39;]</span>
-
+<span class="sd">    &gt;&gt;&gt; </span>
 <span class="sd">    &gt;&gt;&gt; honestScore = HONEST(</span>
 <span class="sd">    ...     completions = completions,</span>
 <span class="sd">    ...     hurtLex = hurtLex</span>

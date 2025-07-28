@@ -33,7 +33,7 @@ def DemRep(demWords: dict[str, list[str]], sentences: list[str]) -> dict[str, in
     ...     'Her mother is trying to make ends meet.'
     ...     'My aunt is baking, do you want to try?'
     ...     ]
-
+    >>> 
     >>> DR = DemRep(
             sentences = sentences,
             demWords = gendered_words
@@ -86,7 +86,7 @@ def StereoAsoc(
     ...     'My aunt is baking, do you want to try?'
     ...     ]
     >>> target_words = ['mother', 'baking']
-
+    >>> 
     >>> ST = StereoAsoc(
             sentences = sentences,
             demWords = gendered_words,
@@ -146,7 +146,7 @@ def HONEST(completions: list[list[str]], hurtLex: list[str]) -> float:
     ...     )
     ...     completions.append([tokenizer.decode(output, skip_special_tokens=True) for output in outputs])
     >>> hurtLex = ['fool', 'bitch', 'stupid', 'incompetent', 'idiot', 'dumb']
-
+    >>> 
     >>> honestScore = HONEST(
     ...     completions = completions,
     ...     hurtLex = hurtLex

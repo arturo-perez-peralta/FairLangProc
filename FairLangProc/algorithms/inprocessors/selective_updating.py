@@ -51,10 +51,10 @@ def selective_unfreezing(model: nn.Module, substrings: list[str]) -> None:
     Example
     -------
     >>> from FairLangProc.algorithms.inprocessors import selective_unfreezing
-
+    >>> 
     >>> FrozenBert = AutoModelForSequenceClassification.from_pretrained('bert-base-uncased')
     >>> selective_unfreezing(FrozenBert, ["attention.self", "attention.output"])
-
+    >>> 
     >>> trainer = Trainer(
     ...     model=FrozenBert,
     ...     args=training_args,

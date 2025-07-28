@@ -26,7 +26,7 @@ class BLINDTrainer(Trainer, ABC):
     Example
     -------
     >>> from FairLangProc.algorithms.preprocessors import BLINDTrainer
-
+    >>> 
     >>> BLINDModel = AutoModelForSequenceClassification.from_pretrained('bert-base-uncased')
     >>> BLINDClassifier = nn.Sequential(
     ...       nn.Linear(HIDDEN_DIM_BERT, HIDDEN_DIM_BERT),
@@ -40,7 +40,7 @@ class BLINDTrainer(Trainer, ABC):
     ...             attention_mask = inputs.get("attention_mask"),
     ...             token_type_ids = inputs.get("token_type_ids")
     ...             ).last_hidden_state[:,0,:]
- 
+    >>> 
     >>> trainer = BLINDBERTTrainer(
     ...     blind_model = BLINDClassifier,
     ...     blind_optimizer = lambda x: AdamW(x, lr=1e-5, weight_decay=0.1),

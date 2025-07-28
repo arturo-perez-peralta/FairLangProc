@@ -42,7 +42,7 @@ class EmbeddingBasedRegularizer(nn.Module, ABC):
     ...      word_pairs = words, 
     ...      ear_reg_strength = 0.01
     ... )
-
+    >>>
     >>> trainer = Trainer(
     ...     model=EARRegularizer,
     ...     args=training_args,
@@ -204,7 +204,7 @@ class EARModel(torch.nn.Module):
     ...      model = model,
     ...      ear_reg_strength = 0.01
     ... )
-
+    >>> 
     >>> trainer = Trainer(
     ...     model=EARRegularizer,
     ...     args=training_args,

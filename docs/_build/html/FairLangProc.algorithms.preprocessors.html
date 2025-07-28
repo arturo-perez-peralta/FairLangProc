@@ -74,9 +74,8 @@ the words/sentences with sensitive attributes.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">FairLangProc.algorithms.preprocessors</span><span class="w"> </span><span class="kn">import</span> <span class="n">SentDebiasForSequenceClassification</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">gendered_pairs</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;he&#39;</span><span class="p">,</span> <span class="s1">&#39;she&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;his&#39;</span><span class="p">,</span> <span class="s1">&#39;hers&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;monk&#39;</span><span class="p">,</span> <span class="s1">&#39;nun&#39;</span><span class="p">)]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">AutoModelForSequenceClassification</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s1">&#39;bert-base-uncased&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">class</span><span class="w"> </span><span class="nc">SentDebiasBert</span><span class="p">(</span><span class="n">SentDebiasForSequenceClassification</span><span class="p">):</span>        
+<span class="gp">&gt;&gt;&gt; </span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">class</span><span class="w"> </span><span class="nc">SentDebiasBert</span><span class="p">(</span><span class="n">SentDebiasForSequenceClassification</span><span class="p">):</span>        
 <span class="gp">... </span>    <span class="k">def</span><span class="w"> </span><span class="nf">_get_embedding</span><span class="p">(</span>
 <span class="gp">... </span>            <span class="bp">self</span><span class="p">,</span>
 <span class="gp">... </span>            <span class="n">input_ids</span><span class="p">,</span>
@@ -96,9 +95,8 @@ the words/sentences with sensitive attributes.</p>
 <span class="gp">... </span>    <span class="n">n_components</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
 <span class="gp">... </span>    <span class="n">n_labels</span> <span class="o">=</span> <span class="mi">2</span>
 <span class="gp">... </span><span class="p">)</span>
-</pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">trainer</span> <span class="o">=</span> <span class="n">Trainer</span><span class="p">(</span>
+<span class="gp">&gt;&gt;&gt; </span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">trainer</span> <span class="o">=</span> <span class="n">Trainer</span><span class="p">(</span>
 <span class="gp">... </span>    <span class="n">model</span><span class="o">=</span><span class="n">EmbedModel</span><span class="p">,</span>
 <span class="gp">... </span>    <span class="n">args</span><span class="o">=</span><span class="n">training_args</span><span class="p">,</span>
 <span class="gp">... </span>    <span class="n">train_dataset</span><span class="o">=</span><span class="n">train_dataset</span><span class="p">,</span>

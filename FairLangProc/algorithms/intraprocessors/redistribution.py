@@ -21,11 +21,11 @@ def add_EAT_hook(model: nn.Module, beta: float = 1.1):
     Example
     -------
     >>> from FairLangProc.algorithms.intraprocessors import add_EAT_hook
-
+    >>> 
     >>> EATBert = AutoModelForSequenceClassification.from_pretrained('bert-base-uncased')
     >>> beta = 1.5
     >>> add_EAT_hook(model=EATBert, beta=beta)
-
+    >>> 
     >>> trainer = Trainer(
     ...     model=EATBert,
     ...     args=training_args,

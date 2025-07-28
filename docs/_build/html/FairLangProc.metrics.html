@@ -195,9 +195,8 @@ and whose values represent words with demographic meaning.</p>
 <span class="gp">... </span>    <span class="s1">&#39;Her mother is trying to make ends meet.&#39;</span>
 <span class="gp">... </span>    <span class="s1">&#39;My aunt is baking, do you want to try?&#39;</span>
 <span class="gp">... </span>    <span class="p">]</span>
-</pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">DR</span> <span class="o">=</span> <span class="n">DemRep</span><span class="p">(</span>
+<span class="gp">&gt;&gt;&gt; </span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">DR</span> <span class="o">=</span> <span class="n">DemRep</span><span class="p">(</span>
 <span class="go">        sentences = sentences,</span>
 <span class="go">        demWords = gendered_words</span>
 <span class="go">        )   </span>
@@ -251,9 +250,8 @@ words and sentences indexed by targetWords.</p>
 <span class="gp">... </span>    <span class="s1">&#39;My aunt is baking, do you want to try?&#39;</span>
 <span class="gp">... </span>    <span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">target_words</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;mother&#39;</span><span class="p">,</span> <span class="s1">&#39;baking&#39;</span><span class="p">]</span>
-</pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ST</span> <span class="o">=</span> <span class="n">StereoAsoc</span><span class="p">(</span>
+<span class="gp">&gt;&gt;&gt; </span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ST</span> <span class="o">=</span> <span class="n">StereoAsoc</span><span class="p">(</span>
 <span class="go">        sentences = sentences,</span>
 <span class="go">        demWords = gendered_words,</span>
 <span class="go">        targetWords = target_words</span>
@@ -314,9 +312,8 @@ containing the completions of a given model for a certain prompt.</p>
 <span class="gp">... </span>    <span class="p">)</span>
 <span class="gp">... </span>    <span class="n">completions</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">tokenizer</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="n">skip_special_tokens</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">for</span> <span class="n">output</span> <span class="ow">in</span> <span class="n">outputs</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">hurtLex</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;fool&#39;</span><span class="p">,</span> <span class="s1">&#39;bitch&#39;</span><span class="p">,</span> <span class="s1">&#39;stupid&#39;</span><span class="p">,</span> <span class="s1">&#39;incompetent&#39;</span><span class="p">,</span> <span class="s1">&#39;idiot&#39;</span><span class="p">,</span> <span class="s1">&#39;dumb&#39;</span><span class="p">]</span>
-</pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">honestScore</span> <span class="o">=</span> <span class="n">HONEST</span><span class="p">(</span>
+<span class="gp">&gt;&gt;&gt; </span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">honestScore</span> <span class="o">=</span> <span class="n">HONEST</span><span class="p">(</span>
 <span class="gp">... </span>    <span class="n">completions</span> <span class="o">=</span> <span class="n">completions</span><span class="p">,</span>
 <span class="gp">... </span>    <span class="n">hurtLex</span> <span class="o">=</span> <span class="n">hurtLex</span>
 <span class="gp">... </span><span class="p">)</span>
@@ -370,9 +367,8 @@ target word corresponds (i.e. first (0) or second (1)).</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">target_words</span> <span class="o">=</span> <span class="p">[(</span><span class="s2">&quot;John&quot;</span><span class="p">,</span> <span class="s2">&quot;Mary&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;He&quot;</span><span class="p">,</span> <span class="s2">&quot;She&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;man&quot;</span><span class="p">,</span> <span class="s2">&quot;woman&quot;</span><span class="p">)]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">fill_words</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;engineer&quot;</span><span class="p">,</span><span class="s2">&quot;nurse&quot;</span><span class="p">,</span><span class="s2">&quot;doctor&quot;</span><span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">mask_indices</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
-</pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">LPBSscore</span> <span class="o">=</span> <span class="n">LPBS</span><span class="p">(</span>
+<span class="gp">&gt;&gt;&gt; </span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">LPBSscore</span> <span class="o">=</span> <span class="n">LPBS</span><span class="p">(</span>
 <span class="gp">... </span>    <span class="n">model</span> <span class="o">=</span> <span class="n">model</span><span class="p">,</span>
 <span class="gp">... </span>    <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="p">,</span>
 <span class="gp">... </span>    <span class="n">sentences</span> <span class="o">=</span> <span class="n">sentences</span><span class="p">,</span>
@@ -430,9 +426,8 @@ each target word corresponds (i.e. first (0) or second (1))</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sentences</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;[MASK] is a [MASK]&quot;</span><span class="p">,</span> <span class="s2">&quot;The [MASK] kid got [MASK] results&quot;</span><span class="p">,</span> <span class="s2">&quot;The [MASK] kid wanted to be a [MASK]&quot;</span><span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">fill_words</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;engineer&quot;</span><span class="p">,</span> <span class="s2">&quot;outstanding&quot;</span><span class="p">,</span> <span class="s2">&quot;doctor&quot;</span><span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">mask_indices</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
-</pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">CBSscore</span> <span class="o">=</span> <span class="n">CBS</span><span class="p">(</span>
+<span class="gp">&gt;&gt;&gt; </span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">CBSscore</span> <span class="o">=</span> <span class="n">CBS</span><span class="p">(</span>
 <span class="gp">... </span>    <span class="n">model</span> <span class="o">=</span> <span class="n">model</span><span class="p">,</span>
 <span class="gp">... </span>    <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="p">,</span>
 <span class="gp">... </span>    <span class="n">sentences</span> <span class="o">=</span> <span class="n">sentences</span><span class="p">,</span>
@@ -483,9 +478,8 @@ each target word corresponds (i.e. first (0) or second (1))</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">tokenizer</span> <span class="o">=</span> <span class="n">AutoTokenizer</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s2">&quot;bert-base-uncased&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sentences</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;The actor did a terrible job&#39;</span><span class="p">,</span> <span class="s1">&#39;The actress did a terrible job&#39;</span><span class="p">,</span> <span class="s1">&#39;The doctor was an exemplary man&#39;</span><span class="p">,</span> <span class="s1">&#39;The doctor was an exemplary woman&#39;</span><span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">target_words</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;actor&#39;</span><span class="p">,</span> <span class="s1">&#39;actress&#39;</span><span class="p">,</span> <span class="s1">&#39;man&#39;</span><span class="p">,</span> <span class="s1">&#39;woman&#39;</span><span class="p">]</span>
-</pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">CPSscore</span> <span class="o">=</span> <span class="n">CPS</span><span class="p">(</span>
+<span class="gp">&gt;&gt;&gt; </span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">CPSscore</span> <span class="o">=</span> <span class="n">CPS</span><span class="p">(</span>
 <span class="gp">... </span>    <span class="n">model</span> <span class="o">=</span> <span class="n">model</span><span class="p">,</span>
 <span class="gp">... </span>    <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="p">,</span>
 <span class="gp">... </span>    <span class="n">sentences</span> <span class="o">=</span> <span class="n">sentences</span><span class="p">,</span>
@@ -529,9 +523,8 @@ each target word corresponds (i.e. first (0) or second (1))</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">AutoModelForMaskedLM</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s2">&quot;bert-base-uncased&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">tokenizer</span> <span class="o">=</span> <span class="n">AutoTokenizer</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s2">&quot;bert-base-uncased&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sentences</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;The actor did a terrible job&#39;</span><span class="p">,</span> <span class="s1">&#39;The actress did a terrible job&#39;</span><span class="p">,</span> <span class="s1">&#39;The doctor was an exemplary man&#39;</span><span class="p">,</span> <span class="s1">&#39;The doctor was an exemplary woman&#39;</span><span class="p">]</span>
-</pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">AULscore</span> <span class="o">=</span> <span class="n">AUL</span><span class="p">(</span>
+<span class="gp">&gt;&gt;&gt; </span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">AULscore</span> <span class="o">=</span> <span class="n">AUL</span><span class="p">(</span>
 <span class="gp">... </span>    <span class="n">model</span> <span class="o">=</span> <span class="n">model</span><span class="p">,</span>
 <span class="gp">... </span>    <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="p">,</span>
 <span class="gp">... </span>    <span class="n">sentences</span> <span class="o">=</span> <span class="n">sentences</span>

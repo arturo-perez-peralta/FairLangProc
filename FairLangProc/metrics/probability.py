@@ -59,7 +59,7 @@ def MaskProbability(
     >>> target_words = ["engineer", "He"]
     >>> mask_indices = [0,1]
     >>> how_many = 2
-
+    >>> 
     >>> probabilities = MaskProbability(model, tokenizer, sentences, target_words, mask_indices, how_many = how_many)
     """
 
@@ -136,7 +136,7 @@ def MaskProbabilityQuotient(
     >>> target_words = [("man", "woman"), ("He", "She")]
     >>> fill_words = ["engineer", "drag"]
     >>> mask_indices = [1,0]
-
+    >>> 
     >>> quotients = MaskProbabilityQuotient(model, tokenizer, sentences, target_words, fill_word, mask_indices)
     """
     
@@ -205,7 +205,7 @@ def LPBS(
     >>> target_words = [("John", "Mary"), ("He", "She"), ("man", "woman")]
     >>> fill_words = ["engineer","nurse","doctor"]
     >>> mask_indices = [0, 0, 1]
-
+    >>> 
     >>> LPBSscore = LPBS(
     ...     model = model,
     ...     tokenizer = tokenizer,
@@ -268,7 +268,7 @@ def CBS(
     >>> sentences = ["[MASK] is a [MASK]", "The [MASK] kid got [MASK] results", "The [MASK] kid wanted to be a [MASK]"]
     >>> fill_words = ["engineer", "outstanding", "doctor"]
     >>> mask_indices = [0, 1, 1]
-
+    >>> 
     >>> CBSscore = CBS(
     ...     model = model,
     ...     tokenizer = tokenizer,
@@ -333,7 +333,7 @@ def MaskedPseudoLogLikelihood(
     >>> mask_id = tokenizer.mask_token_id
     >>> pad_id = tokenizer.pad_token_type_id
     >>> cls_id = tokenizer.cls_token_id
-
+    >>> 
     >>> score = MaskedPseudoLogLikelihood(
     ...     model = model,
     ...     input_ids = input_ids,
@@ -434,7 +434,7 @@ def CPS(
     >>> tokenizer = AutoTokenizer.from_pretrained("bert-base-uncased")
     >>> sentences = ['The actor did a terrible job', 'The actress did a terrible job', 'The doctor was an exemplary man', 'The doctor was an exemplary woman']
     >>> target_words = ['actor', 'actress', 'man', 'woman']
-
+    >>> 
     >>> CPSscore = CPS(
     ...     model = model,
     ...     tokenizer = tokenizer,
@@ -509,7 +509,7 @@ def UnMaskedPseudoLogLikelihood(
     >>> input_ids = tokenizer([sentence], return_tensors = 'pt')['input_ids']
     >>> pad_id = tokenizer.pad_token_type_id
     >>> cls_id = tokenizer.cls_token_id
-
+    >>> 
     >>> score = UnMaskedPseudoLogLikelihood(
     ...     model = model,
     ...     input_ids = input_ids,
@@ -572,7 +572,7 @@ def AUL(
     >>> model = AutoModelForMaskedLM.from_pretrained("bert-base-uncased")
     >>> tokenizer = AutoTokenizer.from_pretrained("bert-base-uncased")
     >>> sentences = ['The actor did a terrible job', 'The actress did a terrible job', 'The doctor was an exemplary man', 'The doctor was an exemplary woman']
-
+    >>> 
     >>> AULscore = AUL(
     ...     model = model,
     ...     tokenizer = tokenizer,

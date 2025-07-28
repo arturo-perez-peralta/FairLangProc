@@ -40,7 +40,7 @@ class SentDebiasModel(nn.Module, ABC):
     >>> from FairLangProc.algorithms.preprocessors import SentDebiasForSequenceClassification
     >>> gendered_pairs = [('he', 'she'), ('his', 'hers'), ('monk', 'nun')]
     >>> model = AutoModelForSequenceClassification.from_pretrained('bert-base-uncased')
-
+    >>> 
     >>> class SentDebiasBert(SentDebiasForSequenceClassification):        
     ...     def _get_embedding(
     ...             self,
@@ -61,7 +61,7 @@ class SentDebiasModel(nn.Module, ABC):
     ...     n_components = 1,
     ...     n_labels = 2
     ... )
-
+    >>> 
     >>> trainer = Trainer(
     ...     model=EmbedModel,
     ...     args=training_args,
