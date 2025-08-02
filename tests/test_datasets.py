@@ -111,16 +111,19 @@ def test_format(dataset, config, format):
 COLUMNS = {
     "BBQ": ['example_id', 'question_index', 'question_polarity', 'context_condition', 'category', 'answer_info', 'additional_metadata', 'context', 'question', 'ans0', 'ans1', 'ans2', 'label'],
     "BEC-Pro": ['Unnamed: 0', 'Sentence', 'Sent_TM', 'Sent_AM', 'Sent_TAM', 'Template', 'Person', 'Gender', 'Profession', 'Prof_Gender'],
-    "BOLD": ['gender_prompt.json', 'political_ideology_prompt.json', 'profession_prompt.json', 'race_prompt.json', 'religious_ideology_prompt.json'],
+#    "BOLD": ['gender_prompt.json', 'political_ideology_prompt.json', 'profession_prompt.json', 'race_prompt.json', 'religious_ideology_prompt.json'],
     "BUG": ['Unnamed: 0', 'sentence_text', 'tokens', 'profession', 'g', 'profession_first_index', 'g_first_index', 'predicted gender', 'stereotype', 'distance', 'num_of_pronouns', 'corpus', 'data_index'],
     "CrowS-Pairs": ['Unnamed: 0', 'sent_more', 'sent_less', 'stereo_antistereo', 'bias_type', 'annotations', 'anon_writer', 'anon_annotators'],
     "GAP": ['ID', 'Text', 'Pronoun', 'Pronoun-offset', 'A', 'A-offset', 'A-coref', 'B', 'B-offset', 'B-coref', 'URL'],
-    "HolisticBias": None,
+#    "HolisticBias": None,
     "StereoSet": ['options', 'context', 'target', 'bias_type', 'labels'],
     "WinoBias+": ['gendered', 'neutral'],
     "WinoBias": ['sentence', 'entity', 'pronoun'],
     "Winogender": ['sentid', 'sentence']
 }
+
+BOLD_PROMPT_COLUMNS = ['gender_prompt.json', 'political_ideology_prompt.json', 'profession_prompt.json', 'race_prompt.json', 'religious_ideology_prompt.json']
+BOLD_WIKIPEDIA_COLUMNS = ['gender_wiki.json', 'political_ideology_wiki.json', 'profession_wiki.json', 'race_wiki.json', 'religious_ideology_wiki.json']
 
 TEST_CASES_COLUMNS = list(COLUMNS.keys())
 
@@ -131,6 +134,15 @@ def test_columns(dataset):
     assert len(COLUMNS[dataset]) == len(data.columns), f"Different number of columns: found {len(data.columns)} expected {len(COLUMNS[dataset])}"
     for column in COLUMNS[dataset]:
         assert column in data.columns, f"Missing column {column}"
+
+def test_columns_BOLD():
+    result = BiasDataLoader(dataset = 'BOLD', config = 'all', format = 'raw')
+    assert len(BOLD_PROMPT_COLUMNS) == len(list(result['prompts'].keys())), f"Different number of columns: found {len(list(result['prompts'].keys()))} expected {len(BOLD_PROMPT_COLUMNS)}"
+    assert len(BOLD_WIKIPEDIA_COLUMNS) == len(list(result['wikipedia'].keys())), f"Different number of columns: found {len(list(result['wikipedia'].keys()))} expected {len(BOLD_WIKIPEDIA_COLUMNS)}"
+    for column in BOLD_PROMPT_COLUMNS:
+        assert column in result['prompts'].keys(), f"Missing column {column}"
+    for column in BOLD_WIKIPEDIA_COLUMNS:
+        assert column in result['wikipedia'].keys(), f"Missing column {column}"
 
 
 ROWS = {
