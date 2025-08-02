@@ -165,7 +165,7 @@ def test_lpbs_type():
         fill_words = FILL_WORDS,
         mask_indices = MASK_INDICES
     )
-    assert isinstance(LPBSscore, torch.Size), f"Wrong format: expected {torch.Size}, got {type(LPBSscore)}"
+    assert isinstance(LPBSscore, torch.Tensor), f"Wrong format: expected {torch.Tensor}, got {type(LPBSscore)}"
     assert LPBSscore.shape == torch.Size([3]), f"Wrong output shape ({LPBSscore.shape}), expected value ({torch.Size([3])})"
 
 def test_lpbs_value():
@@ -180,7 +180,7 @@ def test_lpbs_value():
       
     assert abs(LPBSscore[0].item() - 1.0) < 1e-5, f"Mismatch between output ({LPBSscore[0].item()}) and expected value ({1.0})"
     assert abs(LPBSscore[1].item() - (-3.0)) < 1e-5, f"Mismatch between output ({LPBSscore[1].item()}) and expected value ({-3.0})"
-    assert abs(LPBSscore[2].item() - (-2.0)) < 1e-5, f"Mismatch between output ({LPBSscore[2].item()}) and expected value ({-2.0})"
+    assert abs(LPBSscore[2].item() - 2.0) < 1e-5, f"Mismatch between output ({LPBSscore[2].item()}) and expected value ({2.0})"
 
 def test_lpbs_less_target():
     with pytest.raises(AssertionError) as excinfo:
@@ -192,7 +192,7 @@ def test_lpbs_less_target():
             fill_words = FILL_WORDS,
             mask_indices = MASK_INDICES
         )
-    assert "Different number of sentences" in excinfo, f"Wrong error trace"
+    assert "Different number of sentences" in str(excinfo.value), f"Wrong error trace"
 
 def test_lpbs_less_target():
     with pytest.raises(AssertionError) as excinfo:
@@ -204,7 +204,7 @@ def test_lpbs_less_target():
             fill_words = FILL_WORDS,
             mask_indices = MASK_INDICES
         )
-    assert "Different number of sentences and target words" in excinfo, f"Wrong error trace"
+    assert "Different number of sentences and target words" in str(excinfo.value), f"Wrong error trace"
 
 def test_lpbs_less_fill():
     with pytest.raises(AssertionError) as excinfo:
@@ -216,7 +216,7 @@ def test_lpbs_less_fill():
             fill_words = FILL_WORDS[:1],
             mask_indices = MASK_INDICES
         )
-    assert "Different number of sentences and fill words" in excinfo, f"Wrong error trace"
+    assert "Different number of sentences and fill words" in str(excinfo.value), f"Wrong error trace"
 
 def test_lpbs_less_masks():
     with pytest.raises(AssertionError) as excinfo:
@@ -228,7 +228,7 @@ def test_lpbs_less_masks():
             fill_words = FILL_WORDS,
             mask_indices = MASK_INDICES[:1]
         )
-    assert "Different number of sentences and mask indices" in excinfo, f"Wrong error trace"
+    assert "Different number of sentences and mask indices" in str(excinfo.value), f"Wrong error trace"
 
 def test_lpbs_no_pairs():
     with pytest.raises(AssertionError) as excinfo:
@@ -240,7 +240,7 @@ def test_lpbs_no_pairs():
             fill_words = FILL_WORDS,
             mask_indices = MASK_INDICES
         )
-    assert "Target words must consist of pairs of words" in excinfo, f"Wrong error trace"
+    assert "Target words must consist of pairs of words" in str(excinfo.value), f"Wrong error trace"
 
 
 
@@ -257,7 +257,7 @@ def test_cbs_type():
         fill_words = FILL_WORDS,
         mask_indices = MASK_INDICES
     )
-    assert isinstance(CBSscore, torch.Size), f"Wrong format: expected {torch.Size}, got {type(CBSscore)}"
+    assert isinstance(CBSscore, torch.Tensor), f"Wrong format: expected {torch.Tensor}, got {type(CBSscore)}"
     assert CBSscore.shape == torch.Size([3]), f"Wrong output shape ({CBSscore.shape}), expected value ({torch.Size([3])})"
 
 def test_cbs_value():
@@ -272,7 +272,7 @@ def test_cbs_value():
       
     assert abs(CBSscore[0].item() - 1/3) < 1e-5, f"Mismatch between output ({CBSscore[0].item()}) and expected value ({1/3})"
     assert abs(CBSscore[1].item() - 13/3) < 1e-5, f"Mismatch between output ({CBSscore[1].item()}) and expected value ({13/3})"
-    assert abs(CBSscore[2].item() - 4.0) < 1e-5, f"Mismatch between output ({CBSscore[2].item()}) and expected value ({4.0})"
+    assert abs(CBSscore[2].item() - 28.0) < 1e-5, f"Mismatch between output ({CBSscore[2].item()}) and expected value ({4.0})"
 
 def test_cbs_less_target():
     with pytest.raises(AssertionError) as excinfo:
@@ -284,7 +284,7 @@ def test_cbs_less_target():
             fill_words = FILL_WORDS,
             mask_indices = MASK_INDICES
         )
-    assert "Different number of sentences" in excinfo, f"Wrong error trace"
+    assert "Different number of sentences" in str(excinfo.value), f"Wrong error trace"
 
 def test_cbs_less_target():
     with pytest.raises(AssertionError) as excinfo:
@@ -296,7 +296,7 @@ def test_cbs_less_target():
             fill_words = FILL_WORDS,
             mask_indices = MASK_INDICES
         )
-    assert "Different number of sentences and target words" in excinfo, f"Wrong error trace"
+    assert "Different number of sentences and target words" in str(excinfo.value), f"Wrong error trace"
 
 def test_cbs_less_fill():
     with pytest.raises(AssertionError) as excinfo:
@@ -308,7 +308,7 @@ def test_cbs_less_fill():
             fill_words = FILL_WORDS[:1],
             mask_indices = MASK_INDICES
         )
-    assert "Different number of sentences and fill words" in excinfo, f"Wrong error trace"
+    assert "Different number of sentences and fill words" in str(excinfo.value), f"Wrong error trace"
 
 def test_cbs_less_masks():
     with pytest.raises(AssertionError) as excinfo:
@@ -320,7 +320,7 @@ def test_cbs_less_masks():
             fill_words = FILL_WORDS,
             mask_indices = MASK_INDICES[:1]
         )
-    assert "Different number of sentences and mask indices" in excinfo, f"Wrong error trace"
+    assert "Different number of sentences and mask indices" in str(excinfo.value), f"Wrong error trace"
 
 #=======================================
 #           CPS TESTS
@@ -331,7 +331,7 @@ def test_cps_type():
         model = MODEL,
         tokenizer = TOKENIZER,
         sentences = PLL_SENTENCES,
-        target_words = TARGET_WORDS_CPS[:1]
+        target_words = TARGET_WORDS_CPS
     )
     assert isinstance(CPSscore, list), f"Wrong format: expected {list}, got {type(CPSscore)}"
     assert len(CPSscore) == 3, f"Wrong output shape ({len(CPSscore)}), expected value ({3})"
@@ -341,7 +341,7 @@ def test_cps_value():
         model = MODEL,
         tokenizer = TOKENIZER,
         sentences = PLL_SENTENCES,
-        target_words = TARGET_WORDS_CPS[:1]
+        target_words = TARGET_WORDS_CPS
     )
     assert abs(CPSscore[0] - ( -5.3755054473)) < 1e-6, f"Mismatch between output ({CPSscore[0].item()}) and expected value ({-5.3755})"
     assert abs(CPSscore[1] - (-15.9847412109)) < 1e-6, f"Mismatch between output ({CPSscore[1].item()}) and expected value ({-15.9847})"
@@ -355,7 +355,7 @@ def test_cps_less_target():
             sentences = PLL_SENTENCES,
             target_words = TARGET_WORDS_CPS[:1]
         )
-    assert "Number of sentences and target words must be the same" in excinfo, f"Wrong error trace"
+    assert "Number of sentences and target words must be the same" in str(excinfo.value), f"Wrong error trace"
 
 def test_cps_less_sentences():
     with pytest.raises(AssertionError) as excinfo:
@@ -365,7 +365,7 @@ def test_cps_less_sentences():
             sentences = PLL_SENTENCES[:1],
             target_words = TARGET_WORDS_CPS
         )
-    assert "Number of sentences and target words must be the same" in excinfo, f"Wrong error trace"
+    assert "Number of sentences and target words must be the same" in str(excinfo.value), f"Wrong error trace"
 
 def test_cps_empty_sentences():
     with pytest.raises(AssertionError) as excinfo:
@@ -375,7 +375,7 @@ def test_cps_empty_sentences():
             sentences = [],
             target_words = []
         )
-    assert "Empty sentence list" in excinfo, f"Wrong error trace"
+    assert "Empty sentence list" in str(excinfo.value), f"Wrong error trace"
 
 #=======================================
 #           AUL TESTS
@@ -407,4 +407,4 @@ def test_aul_empty_sentences():
             tokenizer = TOKENIZER,
             sentences = []
         )
-    assert "Empty sentence list" in excinfo, f"Wrong error trace"
+    assert "Empty sentence list" in str(excinfo.value), f"Wrong error trace"

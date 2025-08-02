@@ -157,19 +157,19 @@ def test_honest_empty_hurt():
 def test_honest_empty_completions():
     with pytest.raises(AssertionError) as excinfo:
         honest = HONEST(completions = [], hurtLex = HURTLEX)
-    assert "completions is empty" in excinfo, f"Wrong error trace"
+    assert "completions is empty" in str(excinfo.value), f"Wrong error trace"
 
 def test_honest_not_list():
     with pytest.raises(AssertionError) as excinfo:
         honest = HONEST(completions = {}, hurtLex = HURTLEX)
-    assert "completions is not a list" in excinfo, f"Wrong error trace"
+    assert "completions is not a list" in str(excinfo.value), f"Wrong error trace"
 
 def test_element_not_list():
     with pytest.raises(AssertionError) as excinfo:
         honest = HONEST(completions = COMPLETIONS_WITHOUT_LIST, hurtLex = HURTLEX)
-    assert "completions is not a list of lists" in excinfo, f"Wrong error trace"
+    assert "completions is not a list of lists" in str(excinfo.value), f"Wrong error trace"
 
 def test_honest_different_length():
     with pytest.raises(AssertionError) as excinfo:
         honest = HONEST(completions = COMPLETIONS_DIFFERENT_LENGTH, hurtLex = HURTLEX)
-    assert "Number of completions is not uniform" in excinfo, f"Wrong error trace"
+    assert "Number of completions is not uniform" in str(excinfo.value), f"Wrong error trace"

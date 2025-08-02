@@ -50,7 +50,7 @@ DATASETS = [
 REMAINING = [dataset for dataset in DATASETS if dataset not in IMPLEMENTED]
 
 CONFIGURATIONS = {
-    "BBQ": ["Age", "Disability_Status", "Gender_identity", "Nationality", "Physical_appearance", "Race_ethnicity", "Race_x_gender", "Race_x_SES", "Religion", "SES", "Sexual_orientation", "all"],
+    "BBQ": ["Age", "Disability_status", "Gender_identity", "Nationality", "Physical_appearance", "Race_ethnicity", "Race_x_gender", "Race_x_SES", "Religion", "SES", "Sexual_orientation", "all"],
     "BEC-Pro": ["english", "german", "all"],
     "BOLD": ["prompts", "wikipedia", "all"],
     "BUG": ["balanced", "full", "gold", "all"],
@@ -64,11 +64,13 @@ CONFIGURATIONS = {
     "StereoSet": ["word", "sentence", "all"],
     "TrustGPT": ["process", "load", "all", "benchmarks"],
     "UnQover": ["questions", "answers", "annotations"],
-    "WinoBias": ["pairs", "WinoBias"],
+    "WinoBias": ["WinoBias"],
     "WinoBias+": [""],
     "WinoQueer": ["sentences", "templates", "annotations", "all"],
     "Winogender": [""],
 }
+
+SINGLE_CONFIGURATION = ["CrowS-Pairs", "GAP", "WinoBias+", "Winogender"]
 
 #======================================
 #                TESTS
@@ -96,7 +98,13 @@ def test_format(dataset, config, format):
     result = BiasDataLoader(dataset = dataset, config = config, format = format)
     assert isinstance(result, dict), f"Wrong format for {dataset}, {config}: found {type(result)} expected {dict}"
     for key in result:
-        assert isinstance(result[key], CLASS_DICT[format]), f"Wrong format for dataset {dataset} key {key}: found {type(result[key])}, expected {CLASS_DICT[format]}"
+        if isinstance(result[key], dict):
+            for subkey in result[key].keys():
+                assert isinstance(result[key][subkey], CLASS_DICT[format]), f"Wrong format for dataset {dataset} key {key} subkey {subkey}: found {type(result[key][subkey])}, expected {CLASS_DICT[format]}"
+        elif "README" in key:
+            assert isinstance(result[key], str), f"Wrong format for dataset {dataset} key {key}: found {type(result[key])}, expected str"
+        else:
+            assert isinstance(result[key], CLASS_DICT[format]), f"Wrong format for dataset {dataset} key {key}: found {type(result[key])}, expected {CLASS_DICT[format]}"
 
 # Columns
 
@@ -119,7 +127,7 @@ TEST_CASES_COLUMNS = list(COLUMNS.keys())
 @pytest.mark.parametrize("dataset", TEST_CASES_COLUMNS)
 def test_columns(dataset):
     result = BiasDataLoader(dataset = dataset, config = 'all', format = 'raw')
-    data = result[list(dataset.keys())[0]]
+    data = result[list(result.keys())[0]]
     assert len(COLUMNS[dataset]) == len(data.columns), f"Different number of columns: found {len(data.columns)} expected {len(COLUMNS[dataset])}"
     for column in COLUMNS[dataset]:
         assert column in data.columns, f"Missing column {column}"
@@ -143,7 +151,7 @@ TEST_CASES_ROWS = list(ROWS.keys())
 def test_row_number(dataset):
     result = BiasDataLoader(dataset = dataset, config = 'all', format = 'raw')
     for key in result:
-        if isinstance(result[key], pd.Dataframe):
+        if isinstance(result[key], pd.DataFrame):
             assert len(result[key].index) == ROWS[dataset][key], f"Different number of columns: found {len(result[key].index)}, expected {ROWS[dataset][key]}"
         elif isinstance(result[key], list):
             assert len(result[key]) == ROWS[dataset][key], f"Different number of columns: found {len(result[key])}, expected {ROWS[dataset][key]}"

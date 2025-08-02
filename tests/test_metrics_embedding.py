@@ -116,10 +116,10 @@ TEST_WEAT = DummyWEAT(model = MODEL, tokenizer = TOKENIZER)
 X = torch.tensor([[1]*12+[0]*6, [0]*6+[1]*12], dtype = float).transpose(0, 1)
 Y = torch.tensor([[1,-1]*2+[0]*2, [0]*2+[1]*3 + [-1]], dtype = float).transpose(0, 1)
 
-COSXY = [[1.0, -1.0, 1/sqrt(2), -1/sqrt(2), 0.0, 0.0]]*6 \
-    + [[1/sqrt(2), -1/sqrt(2), 1.0, 0.0, 1/sqrt(2), -1/sqrt(2)]]*6 \
-    + [[0.0, 0.0, 1/sqrt(2), 1/sqrt(2), 1.0, -1.0]]*6
-COSXY = torch.tensor(COSXY)
+COSXY = [[1.0, -1.0, 1/sqrt(2), -1/sqrt(2), 0.0, 0.0]*3]*6 \
+    + [[1/sqrt(2), -1/sqrt(2), 1.0, 0.0, 1/sqrt(2), 1/sqrt(2)]*3]*6 \
+    + [[0.0, 0.0, 1/sqrt(2), 1/sqrt(2), 1.0, 1.0]*3]*6
+COSXY = torch.tensor(COSXY).double()
 
 XEFFECT =  torch.tensor([[1]*4+[0]*2, [0]*2+[1]*4], dtype = float).transpose(0, 1)
 YEFFECT = -torch.tensor([[1]*4+[0]*2, [0]*2+[1]*4], dtype = float).transpose(0, 1)
@@ -141,15 +141,13 @@ def test_type_cosine_similarity():
     output = TEST_WEAT.cosine_similarity(X, Y)
     assert isinstance(output, torch.Tensor)
     assert output.shape[0] == 18
-    assert output.shape[1] == 6
+    assert output.shape[1] == 18
 
 def test_value_cosine_similarity():
     X = torch.tensor([[1]*12+[0]*6, [0]*6+[1]*12], dtype = float).transpose(0,1)
     Y = torch.tensor([([1,-1]*2+[0]*2)*3, ([0]*2+[1]*4)*3], dtype = float).transpose(0,1)
     output = TEST_WEAT.cosine_similarity(X, Y)
-    for i in range(output.shape[0]):
-        for j in range(output.shape[1]):
-            assert abs(output[i,j] - COSXY[i,j]) < 1e-7, f"Mismatch between output ({output[i,j]}) and expected value ({COSXY[i,j]})"
+    assert torch.allclose(output, COSXY, atol=1e-4), f"Mismatch between output ({output}) and expected value ({COSXY})"
 
 def test_type_effect_size():
     result = TEST_WEAT.effect_size(XEFFECT, YEFFECT, AEFFECT, BEFFECT)

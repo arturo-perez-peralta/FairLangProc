@@ -34,7 +34,7 @@ TEST_CASES_OUTPUT = [
 ]
 
 PAIRS = [('actor', 'actress'), ('son', 'daughter'), ('father', 'mother'), ('he', 'she')]
-
+PAIRS_DICT = {key: value for key, value in PAIRS}
 
 
 
@@ -63,7 +63,8 @@ def get_model(base_model, tokenizer, debias):
             tokenizer = tokenizer,
             word_pairs = PAIRS,
             n_components = 1,
-            n_labels = NUM_LABELS
+            n_labels = NUM_LABELS,
+            device = torch.device("cpu")
         )
     
     elif debias == "ear":
@@ -77,8 +78,8 @@ def get_model(base_model, tokenizer, debias):
         selective_unfreezing(model, LAYERS)
 
     elif debias == "adele":
-        DebiasAdapter = DebiasAdapter(model = base_model)
-        model = DebiasAdapter.get_model()
+        adapter = DebiasAdapter(model = base_model)
+        model = adapter.get_model()
 
     elif debias == "diff":
         tokens_male = [words[0] for words in PAIRS]
@@ -109,13 +110,13 @@ def get_model(base_model, tokenizer, debias):
 #==================================
 
 def test_cda_bidirectional():
-    result = CDA(batch = BATCH, pairs = PAIRS, bidirectional = True)
+    result = CDA(batch = BATCH, pairs = PAIRS_DICT, bidirectional = True)
     assert isinstance(result, dict), f"Wrong type: expected {dict}, got {type(result)}"
     assert len(result['sentence']) == 5, f"Expected 5 sentences, got {len(result['sentence'])}"
     assert len(result['label']) == 5, f"Expected 5 labels, got {len(result['label'])}"
 
 def test_cda_no_bidirectional():
-    result = CDA(batch = BATCH, pairs = PAIRS, bidirectional = False)
+    result = CDA(batch = BATCH, pairs = PAIRS_DICT, bidirectional = False)
     assert isinstance(result, dict), f"Wrong type: expected {dict}, got {type(result)}"
     assert len(result['sentence']) == 3, f"Expected 3 sentences, got {len(result['sentence'])}"
     assert len(result['label']) == 3, f"Expected 3 labels, got {len(result['label'])}"
@@ -141,7 +142,7 @@ def test_blind_model_output_shape():
         per_device_eval_batch_size=1,
         num_train_epochs=1,
         logging_steps=1,
-        no_cuda=True
+        use_cpu=True
     )
 
     # Instantiate trainer
