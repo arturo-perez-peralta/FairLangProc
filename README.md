@@ -1,5 +1,7 @@
 # Fair Language Processing (FairLangProc)
 
+![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)
+
 The Fair Language Processing package is a extensible open-source Python library containing techniques developed by the
 research community to help detect and mitigate bias in Natural Language Processing throughout the AI application lifecycle.
 
