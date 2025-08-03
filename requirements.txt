@@ -1,7 +1,16 @@
+# Data analysis
+#-----------------------
 pandas>=2.2.3
 scikit-learn>=1.6.1
+
+# Deep learning
+#------------------------
 torch>=2.6.0
 transformers>=4.47.1
 datasets>=3.4.1
 adapter-transformers>=1.1.0
+accelerate>=0.26.0
+
+# Testing
+#------------------------
 pytest>=8.4.1
