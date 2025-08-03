@@ -12,6 +12,7 @@ The FairLangProc package includes:
 1) Data sets to test for biases in NLP models.
 2) Metrics based on different philosophies to quantified said biases. 
 3) Algorithms to mitigate biases.
+
 It has been created with the intention of encouraging the use of bias mitigation strategies in the NLP community, and with the hope of democratizing these tools for the ever-increasing set of NLP practitioners. We invite you to use it and improve it.
 
 * **Companion paper**: TBA
