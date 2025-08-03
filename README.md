@@ -1,5 +1,11 @@
 # Fair Language Processing (FairLangProc)
 
+![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)
+[![PyPI version](https://img.shields.io/pypi/v/FairLangProc.svg)](https://pypi.org/project/FairLangProc/)
+[![Docs](https://readthedocs.org/projects/fairlangproc/badge/?version=latest)](https://fairlangproc.readthedocs.io/en/latest/)
+![Python 3.10](https://img.shields.io/badge/python-3.10-blue.svg)
+[![Tests](https://github.com/arturo-perez-peralta/FairLangProc/actions/workflows/test.yml/badge.svg)](https://github.com/arturo-perez-peralta/FairLangProc/actions/workflows/test.yml)
+
 The Fair Language Processing package is a extensible open-source Python library containing techniques developed by the
 research community to help detect and mitigate bias in Natural Language Processing throughout the AI application lifecycle.
 
@@ -7,9 +13,13 @@ The FairLangProc package includes:
 1) Data sets to test for biases in NLP models.
 2) Metrics based on different philosophies to quantified said biases. 
 3) Algorithms to mitigate biases.
+
 It has been created with the intention of encouraging the use of bias mitigation strategies in the NLP community, and with the hope of democratizing these tools for the ever-increasing set of NLP practitioners. We invite you to use it and improve it.
 
-The companion paper provides a comprehensive introduction to the concepts and capabilities, with all code available in [notebooks](./notebooks). Furthermore, we are working torwards a comprehensive [documentation](https://fairlangproc.readthedocs.io/en/latest/).
+* **Companion paper**: TBA
+* **Source code**: [https://github.com/arturo-perez-peralta/FairLangProc/tree/main/FairLangProc](https://github.com/arturo-perez-peralta/FairLangProc/tree/main/FairLangProc).
+* **Notebooks with examples**: [https://github.com/arturo-perez-peralta/FairLangProc/tree/main/notebooks](https://github.com/arturo-perez-peralta/FairLangProc/tree/main/notebooks).
+* **Documentation**: [https://fairlangproc.readthedocs.io/en/latest/](https://fairlangproc.readthedocs.io/en/latest/).
 
 We have developed the package with extensibility in mind. This library is still in development. We encourage your contributions.
 
@@ -77,3 +87,8 @@ git clone https://github.com/arturo-perez-peralta/FairLangProc
 ## Using FairLangProc
 
 The `notebooks` directory contains a diverse collection of jupyter notebooks that showcase how to use the different processors, metrics and data sets. If you'd like to run the examples requiring , download the data sets now and place them in a folder named `Fair-LLM-Benchmarks` inside the 'FairLangProc/datsets' path or simply clone the repository from [Gallegos et al](https://github.com/i-gallegos/Fair-LLM-Benchmark).
+
+## Credits
+
+For attribution in academic contexts, please use the bibtex entry below:
+TBA
