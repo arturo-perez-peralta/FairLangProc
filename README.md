@@ -68,13 +68,22 @@ We have developed the package with extensibility in mind. This library is still 
 
 ### Python
 
-Has been tested and ran with Python 3.13. Compatibility with older versions is possible and expected, although no tests have been run to check the possible configurations.
-
 To install the latest stable version from PyPI, run:
 
 ```bash
 pip install FairLangProc
 ```
+
+Has been tested and ran with both Python 3.13 and Python 3.10. Compatibility with older versions is possible and expected, although we are still testing older configurations. The minimum tested versions of the requirements are:
+
+* pandas>=2.2.3
+* scikit-learn>=1.6.1
+* torch>=2.6.0
+* transformers>=4.47.1
+* datasets>=3.4.1
+* adapter-transformers>=1.1.0
+* accelerate>=0.26.0
+* pytest>=8.4.1
 
 ### Manual installation
 
