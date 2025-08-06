@@ -16,7 +16,7 @@ The FairLangProc package includes:
 
 It has been created with the intention of encouraging the use of bias mitigation strategies in the NLP community, and with the hope of democratizing these tools for the ever-increasing set of NLP practitioners. We invite you to use it and improve it.
 
-* **Companion paper**: TBA
+* **Companion paper**: [https://arxiv.org/abs/2508.03677](https://arxiv.org/abs/2508.03677).
 * **Source code**: [https://github.com/arturo-perez-peralta/FairLangProc/tree/main/FairLangProc](https://github.com/arturo-perez-peralta/FairLangProc/tree/main/FairLangProc).
 * **Notebooks with examples**: [https://github.com/arturo-perez-peralta/FairLangProc/tree/main/notebooks](https://github.com/arturo-perez-peralta/FairLangProc/tree/main/notebooks).
 * **Documentation**: [https://fairlangproc.readthedocs.io/en/latest/](https://fairlangproc.readthedocs.io/en/latest/).
@@ -91,4 +91,15 @@ The `notebooks` directory contains a diverse collection of jupyter notebooks tha
 ## Credits
 
 For attribution in academic contexts, please use the bibtex entry below:
-TBA
+```
+@misc{pérezperalta2025fairlangprocpythonpackagefairness,
+      title={FairLangProc: A Python package for fairness in NLP}, 
+      author={Arturo Pérez-Peralta and Sandra Benítez-Peña and Rosa E. Lillo},
+      year={2025},
+      eprint={2508.03677},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL},
+      url={https://arxiv.org/abs/2508.03677}, 
+}
+```
+We thank Víctor Agulló for his inputs on many different questions that arose during the making of the package as well as for his contributions on different parts of the code, specially those related to the `BiasDataLoader` method.
