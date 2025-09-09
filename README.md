@@ -5,7 +5,6 @@
 [![Docs](https://readthedocs.org/projects/fairlangproc/badge/?version=latest)](https://fairlangproc.readthedocs.io/en/latest/)
 ![Python 3.10](https://img.shields.io/badge/python-3.10-blue.svg)
 [![Tests](https://github.com/arturo-perez-peralta/FairLangProc/actions/workflows/test.yml/badge.svg)](https://github.com/arturo-perez-peralta/FairLangProc/actions/workflows/test.yml)
-[![codecov](https://codecov.io/gh/arturo-perez-peralta/FairLangProc/branch/main/graph/badge.svg)](https://codecov.io/gh/arturo-perez-peralta/FairLangProc)
 
 The Fair Language Processing package is a extensible open-source Python library containing techniques developed by the
 research community to help detect and mitigate bias in Natural Language Processing throughout the AI application lifecycle.
@@ -17,7 +16,7 @@ The FairLangProc package includes:
 
 It has been created with the intention of encouraging the use of bias mitigation strategies in the NLP community, and with the hope of democratizing these tools for the ever-increasing set of NLP practitioners. We invite you to use it and improve it.
 
-* **Companion paper**: TBA
+* **Companion paper**: [https://arxiv.org/abs/2508.03677](https://arxiv.org/abs/2508.03677).
 * **Source code**: [https://github.com/arturo-perez-peralta/FairLangProc/tree/main/FairLangProc](https://github.com/arturo-perez-peralta/FairLangProc/tree/main/FairLangProc).
 * **Notebooks with examples**: [https://github.com/arturo-perez-peralta/FairLangProc/tree/main/notebooks](https://github.com/arturo-perez-peralta/FairLangProc/tree/main/notebooks).
 * **Documentation**: [https://fairlangproc.readthedocs.io/en/latest/](https://fairlangproc.readthedocs.io/en/latest/).
@@ -69,13 +68,22 @@ We have developed the package with extensibility in mind. This library is still 
 
 ### Python
 
-Has been tested and ran with Python 3.13. Compatibility with older versions is possible and expected, although no tests have been run to check the possible configurations.
-
 To install the latest stable version from PyPI, run:
 
 ```bash
 pip install FairLangProc
 ```
+
+Has been tested and ran with both Python 3.13 and Python 3.10. Compatibility with older versions is possible and expected, although we are still testing older configurations. The minimum tested versions of the requirements are:
+
+* pandas>=2.2.3
+* scikit-learn>=1.6.1
+* torch>=2.6.0
+* transformers>=4.47.1
+* datasets>=3.4.1
+* adapter-transformers>=1.1.0
+* accelerate>=0.26.0
+* pytest>=8.4.1
 
 ### Manual installation
 
@@ -92,4 +100,15 @@ The `notebooks` directory contains a diverse collection of jupyter notebooks tha
 ## Credits
 
 For attribution in academic contexts, please use the bibtex entry below:
-TBA
+```
+@misc{pérezperalta2025fairlangprocpythonpackagefairness,
+      title={FairLangProc: A Python package for fairness in NLP}, 
+      author={Arturo Pérez-Peralta and Sandra Benítez-Peña and Rosa E. Lillo},
+      year={2025},
+      eprint={2508.03677},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL},
+      url={https://arxiv.org/abs/2508.03677}, 
+}
+```
+We thank Víctor Agulló for his inputs on many different questions that arose during the making of the package as well as for his contributions on different parts of the code, specially those related to the `BiasDataLoader` method.
