@@ -5,3 +5,4 @@ tmp*.ipynb
 RunDemoEAT.py
 results/
 FairnessDatasets.py
+RunClassification*
