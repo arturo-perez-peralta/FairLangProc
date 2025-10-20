@@ -6,3 +6,4 @@ RunDemoEAT.py
 results/
 FairnessDatasets.py
 RunClassification*
+notebooks/datasets
