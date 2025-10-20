@@ -97,6 +97,19 @@ git clone https://github.com/arturo-perez-peralta/FairLangProc
 
 The `notebooks` directory contains a diverse collection of jupyter notebooks that showcase how to use the different processors, metrics and data sets. If you'd like to run the examples requiring , download the data sets now and place them in a folder named `Fair-LLM-Benchmarks` inside the 'FairLangProc/datsets' path or simply clone the repository from [Gallegos et al](https://github.com/i-gallegos/Fair-LLM-Benchmark).
 
+### Using the `BiasDataLoader`
+
+In order to run the `BiasDataLoader` first you need to download the datasets from the repository from I. Gallegos [https://github.com/i-gallegos/Fair-LLM-Benchmark](https://github.com/i-gallegos/Fair-LLM-Benchmark). In order to do this you first need to find
+the path of the package. This can be done with the following Python command:
+```bash
+python -c "import FairLangProc; print(FairLangProc.__file__)" 
+```
+
+Now you only need to download the datasets:
+```bash
+git clone https://github.com/i-gallegos/Fair-LLM-Benchmark [absolute path to your Python packages folder]/FairLangProc/datasets
+```
+
 ## Credits
 
 For attribution in academic contexts, please use the bibtex entry below:
