@@ -1,0 +1,76 @@
+{
+  "german": {
+    "csv_file": "german.data",
+    "separator": " ",
+    "columns": [
+      "checking_status", "duration", "credit_history", "purpose", "credit_amount",
+      "savings_status", "employment", "installment_commitment", "personal_status",
+      "other_parties", "residence_since", "property_magnitude", "age", "other_payment_plans",
+      "housing", "existing_credits", "job", "num_dependents", "own_telephone",
+      "foreign_worker", "target"
+    ],
+    "mappings": {
+      "checking_status": {
+        "A11": "less than 0 DM", "A12": "between 0 DM and 200 DM", "A13": "over 200 DM", "A14": "no checking account"
+      },
+      "credit_history": {
+        "A30": "no previous credits", "A31": "all previous credits paid back duly",
+        "A32": "existing credits paid back duly so far", "A33": "some delays in the past",
+        "A34": "critical account or other credits existing"
+      },
+      "purpose": {
+        "A40": "a new car", "A41": "a used car", "A42": "furniture or equipment",
+        "A43": "a radio or television", "A44": "domestic appliances",
+        "A45": "home repairs", "A46": "education", "A47": "a vacation",
+        "A48": "retraining", "A49": "a business", "A410": "other purposes"
+      },
+      "savings_status": {
+        "A61": "less than 100 DM", "A62": "between 100 DM and 500 DM",
+        "A63": "between 500 and 1000 DM", "A64": "over 1000 DM", "A65": "no savings account"
+      },
+      "employment": {
+        "A71": "unemployed", "A72": "employed for less than 1 year",
+        "A73": "employed for 1–4 years", "A74": "employed for 4–7 years",
+        "A75": "employed for more than 7 years"
+      },
+      "personal_status": {
+        "A91": ["male", "divorced or separated"],
+        "A92": ["female", "divorced, separated, or married"],
+        "A93": ["male", "single"],
+        "A94": ["male", "married or widowed"],
+        "A95": ["female", "single"]
+      },
+      "other_parties": {"A101": "none", "A102": "a co-applicant", "A103": "a guarantor"},
+      "property_magnitude": {
+        "A121": "real estate", "A122": "life insurance",
+        "A123": "a car or other asset", "A124": "no tangible property"
+      },
+      "other_payment_plans": {"A141": "none", "A142": "through a bank", "A143": "through stores"},
+      "housing": {"A151": "rented", "A152": "owned", "A153": "living with parents"},
+      "job": {
+        "A171": "unskilled and non-resident",
+        "A172": "unskilled but resident",
+        "A173": "skilled employee or official",
+        "A174": "management or self-employed"
+      },
+      "own_telephone": {"A191": "no", "A192": "yes"},
+      "foreign_worker": {"A201": "yes", "A202": "no"}
+    }
+  },
+  "adult": {
+    "csv_file": "adult.data",
+    "separator": ",",
+    "columns": [
+      "age", "workclass", "fnlwgt", "education", "education_num",
+      "marital_status", "occupation", "relationship", "race", "sex",
+      "capital_gain", "capital_loss", "hours_per_week", "native_country", "income"
+    ],
+    "mappings": null
+  },
+  "compas": {
+    "csv_file": "compas.csv",
+    "separator": ",",
+    "columns": null,
+    "mappings": null
+  }
+}

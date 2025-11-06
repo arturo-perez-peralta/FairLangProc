@@ -1,0 +1,31 @@
+{
+  "k_folds": 5,
+  "output_path_base": "../output",
+  "local_path_setup": true,
+
+  "models_to_run": [
+    "bert-base-uncased"
+  ],
+
+  "tasks_to_run": [
+    "stsb"
+  ],
+
+  "debias_methods_to_run": [
+    "diff"
+  ],
+
+  "all_available_options": {
+    "models": [
+      "bert-base-uncased",
+      "deepseek-ai/deepseek-llm-7b-base",
+      "huggyllama/llama-7b"
+    ],
+    "tasks": [
+      "cola", "sst2", "mrpc", "stsb", "wnli", "rte", "qnli", "mnli", "qqp"
+    ],
+    "debias_methods": [
+      "none", "cda", "blind", "embedding", "ear", "adele", "selective", "eat", "diff"
+    ]
+  }
+}

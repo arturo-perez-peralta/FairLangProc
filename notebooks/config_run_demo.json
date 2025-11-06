@@ -1,0 +1,19 @@
+{
+  "notebook_to_run": "DemoDebiasing.ipynb",
+  "base_output_dir": "notebooks/outputs",
+  "models": [
+    "bert-base-uncased"
+  ],
+  "tasks": [
+    "stsb"
+  ],
+  "debias_methods": [
+    "diff"
+  ],
+  "skip_conditions": [
+    {
+      "DEBIAS": "blind",
+      "TASK": "stsb"
+    }
+  ]
+}

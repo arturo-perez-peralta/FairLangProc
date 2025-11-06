@@ -1,0 +1,89 @@
+{
+  "MODEL_NAME": "bert-base-uncased",
+  "EVAL_OR_TEST": "eval",
+  "average": true,
+  "dashed": true,
+  "MODELS": [
+    "bert-base-uncased",
+    "deepseek-ai/deepseek-llm-7b-base",
+    "huggyllama/llama-7b"
+  ],
+  "TASKS": [
+    "cola",
+    "sst2",
+    "mrpc",
+    "stsb",
+    "qqp",
+    "mnli",
+    "qnli",
+    "rte",
+    "wnli"
+  ],
+  "TASK_LABELS": {
+    "cola": 2,
+    "sst2": 2,
+    "mrpc": 2,
+    "qqp": 2,
+    "stsb": 1,
+    "mnli": 3,
+    "qnli": 2,
+    "rte": 2,
+    "wnli": 2
+  },
+  "DEBIAS_METHODS": [
+    "none",
+    "cda",
+    "blind",
+    "embedding",
+    "ear",
+    "adele",
+    "selective",
+    "eat",
+    "diff"
+  ],
+  "TASK_METRICS": {
+    "cola": "eval_matthews_correlation",
+    "sst2": "eval_accuracy",
+    "mrpc": "eval_f1",
+    "qqp": "eval_f1",
+    "stsb": "eval_pearson",
+    "mnli": "eval_accuracy",
+    "qnli": "eval_accuracy",
+    "rte": "eval_accuracy",
+    "wnli": "eval_accuracy"
+  },
+  "CDA_METHOD": {
+    "none": false,
+    "cda": true,
+    "blind": false,
+    "embedding": false,
+    "ear": false,
+    "adele": true,
+    "selective": true,
+    "eat": false,
+    "diff": false
+  },
+  "TITLE_DICT": {
+    "mnli": "MNLI",
+    "qqp": "QQP",
+    "qnli": "QNLI",
+    "sst2": "SST-2",
+    "cola": "CoLA",
+    "stsb": "STS-B",
+    "mrpc": "MRPC",
+    "rte": "RTE",
+    "wnli": "WNLI",
+    "Average": "Average"
+  },
+  "debias_names": {
+    "none": "none",
+    "cda": "cda",
+    "blind": "blind",
+    "embedding": "emb",
+    "ear": "ear",
+    "adele": "adele",
+    "selective": "sel",
+    "eat": "eat",
+    "diff": "diff"
+  }
+}
