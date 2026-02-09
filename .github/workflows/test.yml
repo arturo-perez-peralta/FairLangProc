@@ -14,10 +14,6 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v3
 
-      - name: Clone dataset repo
-        run: |
-          git clone https://github.com/i-gallegos/Fair-LLM-Benchmark FairLangProc/datasets/Fair-LLM-Benchmark
-
       - name: Set up Python 3.10
         uses: actions/setup-python@v4
         with:

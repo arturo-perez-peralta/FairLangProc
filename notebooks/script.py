@@ -331,8 +331,8 @@ for prompt in corpus:
     input_ids = tokenizer.encode(prompt, return_tensors="pt")
     outputs = model.generate(
         input_ids,
-        max_length=30,
-        num_return_sequences=3,
+        max_length=15,
+        num_return_sequences=2,
         do_sample=True,
         early_stopping=True
     )
