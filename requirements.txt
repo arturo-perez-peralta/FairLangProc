@@ -10,6 +10,7 @@ transformers>=4.47.1
 datasets>=3.4.1
 adapter-transformers>=1.1.0
 accelerate>=0.26.0
+evaluate>=0.4.6
 
 # Testing
 #------------------------
