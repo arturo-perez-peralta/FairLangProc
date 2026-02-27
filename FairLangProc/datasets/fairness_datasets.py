@@ -198,6 +198,8 @@ class FairLLMBenchmarkLoader:
             return files
         
         for item in folder_path.iterdir():
+            if item.name == '__init__.py' or item.name == '__pycache__' or item.suffix == '.pyc':
+                continue
             if item.is_dir():
                 files[item.name] = self._read_folder(item)
             else:
