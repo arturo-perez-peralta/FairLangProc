@@ -280,7 +280,7 @@ class FairLLMBenchmarkLoader:
         
         # Check if we need to run the Python processing script
         if config in ('process', 'all'):
-            python_files = list(path.glob('*.py'))
+            python_files = [f for f in path.glob('*.py') if f.name != '__init__.py']
             if python_files:
                 try:
                     logger.info("Running Bias-NLI processing script...")
@@ -312,6 +312,8 @@ class FairLLMBenchmarkLoader:
             prompts_path = path / 'prompts'
             if prompts_path.exists():
                 for item in prompts_path.iterdir():
+                    if item.name.startswith('.') or item.name == '__pycache__' or item.suffix in ['.py', '.pyc']:
+                        continue
                     if item.suffix == '.json':
                         print(item.stem)
             print('all, prompts, wikipedia')
@@ -344,6 +346,8 @@ class FairLLMBenchmarkLoader:
             print('Available BUG datasets:')
             if path.exists():
                 for item in path.iterdir():
+                    if item.name.startswith('.') or item.name == '__pycache__' or item.suffix in ['.py', '.pyc']:
+                        continue
                     print(item.name)
             print('all')
             return None
@@ -622,6 +626,8 @@ class FairLLMBenchmarkLoader:
         if config == 'all':
             # Also load any other files in the directory
             for item in path.iterdir():
+                if item.name.startswith('.') or item.name == '__pycache__' or item.suffix in ['.py', '.pyc']:
+                    continue
                 if item.is_file() and item.name not in [f['name'] for f in data_dict.values() if isinstance(f, dict) and 'name' in f]:
                     data_dict[item.stem] = self._read_file(item)
         
@@ -685,6 +691,8 @@ class FairLLMBenchmarkLoader:
         # Load all other files if 'all' is specified
         if config == 'all':
             for item in path.iterdir():
+                if item.name.startswith('.') or item.name == '__pycache__' or item.suffix in ['.py', '.pyc']:
+                    continue
                 if item.is_file() and item.stem not in data_dict:
                     data_dict[item.stem] = self._read_file(item)
         
@@ -738,6 +746,8 @@ class FairLLMBenchmarkLoader:
         # If no specific splits found, try to load all files
         if not data_dict:
             for item in path.iterdir():
+                if item.name.startswith('.') or item.name == '__pycache__' or item.suffix in ['.py', '.pyc']:
+                    continue
                 if item.is_file():
                     data_dict[item.stem] = self._read_file(item)
         
@@ -782,6 +792,8 @@ class FairLLMBenchmarkLoader:
         # Load all files if 'all' specified or no specific files found
         if config == 'all' or not data_dict:
             for item in path.iterdir():
+                if item.name.startswith('.') or item.name == '__pycache__' or item.suffix in ['.py', '.pyc']:
+                    continue
                 if item.is_file() and item.stem not in data_dict:
                     data_dict[item.stem] = self._read_file(item)
         
@@ -801,7 +813,7 @@ class FairLLMBenchmarkLoader:
         
         # Check if we need to run the Python processing script
         if config in ('process', 'all'):
-            python_files = list(path.glob('*.py'))
+            python_files = [f for f in path.glob('*.py') if f.name != '__init__.py']
             if python_files:
                 try:
                     logger.info("Running TrustGPT processing script...")
@@ -829,6 +841,8 @@ class FairLLMBenchmarkLoader:
             
             # Load any other data files
             for item in path.iterdir():
+                if item.name.startswith('.') or item.name == '__pycache__' or item.suffix in ['.py', '.pyc']:
+                    continue
                 if item.is_file() and item.suffix in ['.json', '.jsonl', '.csv', '.tsv']:
                     data_dict[item.stem] = self._read_file(item)
             
@@ -877,6 +891,8 @@ class FairLLMBenchmarkLoader:
         # Load all files if 'all' specified or no specific files found
         if config == 'all' or not data_dict:
             for item in path.iterdir():
+                if item.name.startswith('.') or item.name == '__pycache__' or item.suffix in ['.py', '.pyc']:
+                    continue
                 if item.is_file() and item.stem not in data_dict:
                     data_dict[item.stem] = self._read_file(item)
         
@@ -923,6 +939,8 @@ class FairLLMBenchmarkLoader:
         # Load all files if 'all' specified or no specific files found
         if config == 'all' or not data_dict:
             for item in path.iterdir():
+                if item.name.startswith('.') or item.name == '__pycache__' or item.suffix in ['.py', '.pyc']:
+                    continue
                 if item.is_file() and item.stem not in data_dict:
                     data_dict[item.stem] = self._read_file(item)
         
@@ -1048,6 +1066,8 @@ class FairLLMBenchmarkLoader:
                 logger.info("Loading all available files...")
                 
                 for item in path.iterdir():
+                    if item.name.startswith('.') or item.name == '__pycache__' or item.suffix in ['.py', '.pyc']:
+                        continue
                     if item.is_file() and item.stem not in data_dict:
                         # Skip very large files unless specifically requested
                         if item.stat().st_size > 100 * 1024 * 1024:  # 100MB threshold
@@ -1122,7 +1142,7 @@ class FairLLMBenchmarkLoader:
             logger.error(f"Dataset path not found: {path}")
             return
         
-        python_files = list(path.glob('*.py'))
+        python_files = [f for f in path.glob('*.py') if f.name != '__init__.py']
         
         if not python_files:
             logger.error(f"No Python files found in {path}")
