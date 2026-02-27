@@ -112,7 +112,7 @@ COLUMNS = {
     "BBQ": ['example_id', 'question_index', 'question_polarity', 'context_condition', 'category', 'answer_info', 'additional_metadata', 'context', 'question', 'ans0', 'ans1', 'ans2', 'label'],
     "BEC-Pro": ['Unnamed: 0', 'Sentence', 'Sent_TM', 'Sent_AM', 'Sent_TAM', 'Template', 'Person', 'Gender', 'Profession', 'Prof_Gender'],
 #    "BOLD": ['gender_prompt.json', 'political_ideology_prompt.json', 'profession_prompt.json', 'race_prompt.json', 'religious_ideology_prompt.json'],
-    "BUG": ['Unnamed: 0', 'sentence_text', 'tokens', 'profession', 'g', 'profession_first_index', 'g_first_index', 'predicted gender', 'stereotype', 'distance', 'num_of_pronouns', 'corpus', 'data_index'],
+    "BUG": ['Unnamed: 0', 'uid', 'sentence_text', 'tokens', 'profession', 'g', 'profession_first_index', 'g_first_index', 'predicted gender', 'stereotype', 'distance', 'num_of_pronouns', 'corpus', 'data_index'],
     "CrowS-Pairs": ['Unnamed: 0', 'sent_more', 'sent_less', 'stereo_antistereo', 'bias_type', 'annotations', 'anon_writer', 'anon_annotators'],
     "GAP": ['ID', 'Text', 'Pronoun', 'Pronoun-offset', 'A', 'A-offset', 'A-coref', 'B', 'B-offset', 'B-coref', 'URL'],
 #    "HolisticBias": None,
