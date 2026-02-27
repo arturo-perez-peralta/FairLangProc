@@ -29,6 +29,9 @@ if LOCAL:
         if "__file__" in globals() else os.path.abspath("..")
     sys.path.insert(0, ROOT_PATH)
 
+import gc
+import torch
+
 #=========================================================
 #                   FAIRNESS DATASETS
 #=========================================================
@@ -118,6 +121,10 @@ weatVal = weatClass.metric(
     )
 print(weatVal)
 
+del model, tokenizer, weatClass
+gc.collect()
+torch.cuda.empty_cache()
+
 #---------------------------------------------------------
 #                   Probability based
 #---------------------------------------------------------
@@ -203,6 +210,10 @@ CBSscore = CBS(
 print(LPBSscore)
 print(CBSscore)
 
+del model, tokenizer
+gc.collect()
+torch.cuda.empty_cache()
+
 
 #                   Pseudo-loglikelihood
 #---------------------------------------------------------
@@ -253,6 +264,9 @@ AULScore = AUL(
 print(CPSscore)
 print(AULScore)
 
+del model, tokenizer
+gc.collect()
+torch.cuda.empty_cache()
 
 #---------------------------------------------------------
 #                   Generated text
@@ -347,6 +361,10 @@ honestScore = HONEST(
 # Print metric
 print(honestScore)
 
+del model, tokenizer
+gc.collect()
+torch.cuda.empty_cache()
+
 
 #=========================================================
 #                   FAIRNESS PROCESSORS
@@ -405,8 +423,8 @@ def get_bert():
         )
 
 TOKENIZER = AutoTokenizer.from_pretrained('bert-base-uncased')
-BERT = get_bert()
-HIDDEN_DIM_BERT = BERT.config.hidden_size
+HIDDEN_DIM_BERT = get_bert().config.hidden_size
+
 
 #                   Processing the data
 #---------------------------------------------------------
@@ -429,17 +447,17 @@ dataset.set_format(
     )
 
 # Train test split
-train_dataset = dataset["train"]
-val_dataset = dataset["test"]
+train_dataset = dataset["train"].select(range(min(100, len(dataset["train"]))))
+val_dataset = dataset["test"].select(range(min(100, len(dataset["test"]))))
 
 # Trainer configuration
 training_args = TrainingArguments(
-    output_dir="./results",
+    output_dir="./checkpoints",
     eval_strategy="epoch",
     save_strategy="epoch",
     learning_rate=1e-5,
-    per_device_train_batch_size=32,
-    per_device_eval_batch_size=32,
+    per_device_train_batch_size=8,
+    per_device_eval_batch_size=8,
     num_train_epochs=1,
     fp16=True,
     save_safetensors=False, 
@@ -452,6 +470,7 @@ training_args = TrainingArguments(
 #                   Base model
 #---------------------------------------------------------
 
+BERT = get_bert()
 trainer = Trainer(
     model=BERT,
     args=training_args,
@@ -466,6 +485,10 @@ trainer = Trainer(
 trainer.train()
 results = trainer.evaluate()
 print(results)
+
+del trainer, BERT
+gc.collect()
+torch.cuda.empty_cache()
 
 
 #---------------------------------------------------------
@@ -502,16 +525,19 @@ gendered_pairs = [
 
 # Run CDA
 cda_train = Dataset.from_dict(
-        CDA(imdb['train'][:], pairs = dict(gendered_pairs))
+        CDA(imdb['train'].select(range(min(100, len(imdb['train']))))[:], pairs = dict(gendered_pairs))
 )
 train_CDA = cda_train.map(tokenize_function, batched=True)
 train_CDA.set_format(
     type="torch", columns=["input_ids", "attention_mask", "label"]
 )
+train_CDA = train_CDA.select(range(min(100, len(train_CDA))))
+
+text_key = 'text'
 
 # Check differences
-print(f'Lenght of original train data set: {len(train_dataset['text'])}')
-print(f'Lenght of CDA augmented train data set: {len(cda_train['text'])}')
+print(f'Lenght of original train data set: {len(train_dataset[text_key])}')
+print(f'Lenght of CDA augmented train data set: {len(cda_train[text_key])}')
 
 # Train model
 CDAModel = get_bert()
@@ -531,6 +557,9 @@ trainer.train()
 results = trainer.evaluate()
 print(results)
 
+del trainer, CDAModel
+gc.collect()
+torch.cuda.empty_cache()
 
 #                   BLIND debiasing
 #---------------------------------------------------------
@@ -589,6 +618,9 @@ trainer.train()
 results = trainer.evaluate()
 print(results)
 
+del trainer, BLINDModel, BLINDClassifier
+gc.collect()
+torch.cuda.empty_cache()
 
 #                   Projection-based debiasing
 #---------------------------------------------------------
@@ -652,6 +684,9 @@ trainer.train()
 results = trainer.evaluate()
 print(results)
 
+del trainer, EmbedModel, model
+gc.collect()
+torch.cuda.empty_cache()
 
 
 #---------------------------------------------------------
@@ -675,11 +710,11 @@ from adapters import AdapterTrainer
 from FairLangProc.algorithms.inprocessors import DebiasAdapter
 
 # Train model
-DebiasAdapter = DebiasAdapter(
+DebiasAdapterInst = DebiasAdapter(
     model = get_bert(),
     adapter_config = "seq_bn"
     )
-AdeleModel = DebiasAdapter.get_model()
+AdeleModel = DebiasAdapterInst.get_model()
 
 trainer = AdapterTrainer(
     model=AdeleModel,
@@ -695,6 +730,10 @@ trainer = AdapterTrainer(
 trainer.train()
 results = trainer.evaluate()
 print(results)
+
+del trainer, AdeleModel, DebiasAdapterInst
+gc.collect()
+torch.cuda.empty_cache()
 
 
 #                   Selective updating
@@ -727,6 +766,10 @@ trainer = Trainer(
 trainer.train()
 results = trainer.evaluate()
 print(results)
+
+del trainer, FrozenBert
+gc.collect()
+torch.cuda.empty_cache()
 
 
 #                   Regularizers
@@ -761,6 +804,9 @@ trainer.train()
 results = trainer.evaluate()
 print(results)
 
+del trainer, EARRegularizer, model
+gc.collect()
+torch.cuda.empty_cache()
 
 #---------------------------------------------------------
 #                   Intra-processors
@@ -857,6 +903,10 @@ trainer.train()
 results = trainer.evaluate()
 print(results)
 
+del trainer, ModularDebiasingBERT, original_model
+gc.collect()
+torch.cuda.empty_cache()
+
 
 #                   Entropy Attention Temperature scaling
 #----------------------------------------------------------------------
@@ -869,7 +919,7 @@ print(results)
 from FairLangProc.algorithms.intraprocessors import add_EAT_hook
 
 # Initialize parameters
-EATBert = BERT
+EATBert = get_bert()
 beta = 1.5
 
 # Add EAT scaling
@@ -888,6 +938,10 @@ trainer = Trainer(
 )
 results = trainer.evaluate()
 print(results)
+
+del trainer, EATBert
+gc.collect()
+torch.cuda.empty_cache()
 
 
 #=========================================================
@@ -910,7 +964,7 @@ import torch.nn as nn
 from torch.optim import AdamW
 
 # Check if CUDA is available and set device
-device = torch.device("cuda")
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 # huggging face
 from transformers import (
@@ -997,7 +1051,7 @@ CDA_METHOD = {
     "diff": False
 }
 
-BATCH_SIZE = 16
+BATCH_SIZE = 8
 WEIGHT_DECAY = 0.1
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -1083,10 +1137,13 @@ for (TASK, DEBIAS) in zip(TASKS, DEBIAS_METHODS):
             LAST_CHECKPOINT_PATH = RESULTS_PATH + CHECKPOINTS[-1]
             original_model = AutoModelForSequenceClassification.from_pretrained(LAST_CHECKPOINT_PATH)
         except:
-            RESULTS_PATH = f'output/{TASK}-none-{MODEL_NAME}/'
-            CHECKPOINTS = [direction for direction in os.listdir(RESULTS_PATH) if direction.startswith('checkpoint')]
-            LAST_CHECKPOINT_PATH = RESULTS_PATH + CHECKPOINTS[-1]
-            original_model = AutoModelForSequenceClassification.from_pretrained(LAST_CHECKPOINT_PATH)
+            try:
+                RESULTS_PATH = f'output/{TASK}-none-{MODEL_NAME}/'
+                CHECKPOINTS = [direction for direction in os.listdir(RESULTS_PATH) if direction.startswith('checkpoint')]
+                LAST_CHECKPOINT_PATH = RESULTS_PATH + CHECKPOINTS[-1]
+                original_model = AutoModelForSequenceClassification.from_pretrained(LAST_CHECKPOINT_PATH)
+            except:
+                original_model = AutoModelForSequenceClassification.from_pretrained(MODEL_NAME, num_labels=num_labels, problem_type=problem_type)
     else:
         original_model = AutoModelForSequenceClassification.from_pretrained(MODEL_NAME, num_labels=num_labels, problem_type=problem_type)
 
@@ -1149,8 +1206,8 @@ for (TASK, DEBIAS) in zip(TASKS, DEBIAS_METHODS):
 
     # ADELE requires applying the bottleneck adapter
     if DEBIAS == "adele":
-        DebiasAdapter = DebiasAdapter(model = original_model)
-        model = DebiasAdapter.get_model()
+        DebiasAdapterInst = DebiasAdapter(model = original_model)
+        model = DebiasAdapterInst.get_model()
 
 
     # EAR regularization initalization is straightforward
@@ -1268,6 +1325,9 @@ for (TASK, DEBIAS) in zip(TASKS, DEBIAS_METHODS):
 
     # Dataset
     dataset = load_dataset("glue", TASK)
+    
+    for split in dataset.keys():
+        dataset[split] = dataset[split].select(range(min(100, len(dataset[split]))))
 
     # Perform CDA if the model requires it
     if CDA_METHOD[DEBIAS] and TASK != 'mnli':
@@ -1329,20 +1389,20 @@ for (TASK, DEBIAS) in zip(TASKS, DEBIAS_METHODS):
 
     # BLIND and ADELE use special trainers
     if DEBIAS == 'adele':
-        trainer = AdapterTrainer
+        trainer_cls = AdapterTrainer
     elif DEBIAS == 'blind':
-        trainer = BLINDBERTTrainer
+        trainer_cls = BLINDBERTTrainer
     else:
-        trainer = Trainer
+        trainer_cls = Trainer
 
     # The sheer size of QQP and MNLI makes this approach preferable
     if TASK in ('qqp', 'mnli'):
-        BATCH_SIZE = 32
+        BATCH_SIZE = 8
         EVAL_STRATEGY = "steps"
-        EVAL_STEPS = 1000
-        SAVE_STEPS = 1000
+        EVAL_STEPS = 50
+        SAVE_STEPS = 50
     else:
-        BATCH_SIZE = 16
+        BATCH_SIZE = 8
         EVAL_STRATEGY = "epoch"
         EVAL_STEPS = None
         SAVE_STEPS = None
@@ -1357,7 +1417,7 @@ for (TASK, DEBIAS) in zip(TASKS, DEBIAS_METHODS):
         learning_rate=2e-5,
         per_device_train_batch_size=BATCH_SIZE,
         per_device_eval_batch_size=BATCH_SIZE,
-        num_train_epochs=3,
+        num_train_epochs=1,
         eval_strategy=EVAL_STRATEGY,
         eval_steps=EVAL_STEPS,
         save_strategy=SAVE_STRATEGY,
@@ -1372,7 +1432,7 @@ for (TASK, DEBIAS) in zip(TASKS, DEBIAS_METHODS):
 
     # We need to insert the BLIND optimizer if we are dealing with BLIND
     if DEBIAS == 'blind':
-        trainer = trainer(
+        trainer = trainer_cls(
             blind_optimizer= lambda x: AdamW(x, lr=1e-5, weight_decay=WEIGHT_DECAY),
             model=model,
             args=training_args,
@@ -1385,7 +1445,7 @@ for (TASK, DEBIAS) in zip(TASKS, DEBIAS_METHODS):
             optimizers=(AdamW(model.parameters(), lr=1e-5, weight_decay=WEIGHT_DECAY), None)
         )
     else:
-        trainer = trainer(
+        trainer = trainer_cls(
             model=model,
             args=training_args,
             train_dataset=tokenized_datasets["train"],
@@ -1456,12 +1516,17 @@ for (TASK, DEBIAS) in zip(TASKS, DEBIAS_METHODS):
     print(bias_results)
 
     # Save results
+    os.makedirs(f"output/{TASK}-{DEBIAS}-{MODEL_NAME.replace('/', '-')}", exist_ok=True)
     if TASK == 'mnli':
-        with open(f"{TASK}-{DEBIAS}-{MODEL_NAME.replace('/', '-')}/results.json", "w") as f:
+        with open(f"output/{TASK}-{DEBIAS}-{MODEL_NAME.replace('/', '-')}/results.json", "w") as f:
             json.dump({"eval_matched": eval_results_match, "eval_mismatched": eval_results_mismd, "bias": bias_results}, f, indent=4)
     else:
-        with open(f"{TASK}-{DEBIAS}-{MODEL_NAME.replace('/', '-')}/results.json", "w") as f:
+        with open(f"output/{TASK}-{DEBIAS}-{MODEL_NAME.replace('/', '-')}/results.json", "w") as f:
             json.dump({"eval": eval_results, "bias": bias_results}, f, indent=4)
+
+    del original_model, model, trainer, weat
+    gc.collect()
+    torch.cuda.empty_cache()
 
 #                   Print the results
 #---------------------------------------------------------
@@ -1500,7 +1565,7 @@ if average:
 # For each task and debias method store them in the table variables and print them as they are read
 for task in TASKS:
     for debias in DEBIAS_METHODS:
-        path = f"{task}-{debias}-{MODEL_NAME.replace('/', '-')}/results.json"
+        path = f"output/{task}-{debias}-{MODEL_NAME.replace('/', '-')}/results.json"
         try:
             with open(path, "r") as f:
                 resultsDict = json.load(f)
