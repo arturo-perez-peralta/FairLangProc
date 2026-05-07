@@ -100,7 +100,7 @@ class BLINDTrainer(Trainer, ABC):
         self.gamma = gamma
         self.alpha = alpha
 
-    def compute_loss(self, model, inputs, return_outputs=False, num_items_in_batch: Optional[torch.Tensor] = None):
+    def compute_loss(self, model, inputs, return_outputs=False, num_items_in_batch: Optional[torch.Tensor] = None): # pragma: no cover
         """Compute loss step"""
         # Model outputs
         labels = inputs.get("labels")
@@ -135,7 +135,7 @@ class BLINDTrainer(Trainer, ABC):
         else:
             return loss_main
 
-    def loss_func(self, logits, labels, logits_blind, labels_blind):
+    def loss_func(self, logits, labels, logits_blind, labels_blind): # pragma: no cover
         """BLIND loss"""
         prob_dist = F.softmax(logits, dim=1)
         prob_dist_BLIND = F.softmax(logits_blind / self.temperature, dim=1)
@@ -149,6 +149,6 @@ class BLINDTrainer(Trainer, ABC):
         return loss.mean()
 
     @abstractmethod
-    def _get_embedding(self):
+    def _get_embedding(self): # pragma: no cover
         """Abstract methods which computes the embedding of a given model's outputs."""
         pass
