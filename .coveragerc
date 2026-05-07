@@ -2,9 +2,8 @@
 source = FairLangProc
 
 omit =
-    tests/*
-    setup.py
     */__init__.py
+    FairLangProc/datasets/Fair-LLM-Benchmark
 
 [report]
 exclude_lines =
