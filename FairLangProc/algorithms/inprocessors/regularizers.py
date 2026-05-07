@@ -22,7 +22,7 @@ TokenizerType = TypeVar("TokenizerType", bound="PreTrainedTokenizer")
 #              Embedding based Regularizer
 #===================================================================================
 
-class EmbeddingBasedRegularizer(nn.Module, ABC):
+class EmbeddingBasedRegularizer(nn.Module, ABC): # pragma: no cover
     """
     Class for adding a regularizer based on the embeddings of counterfactual pairs.
     Requires the implementation of the _get_embedding method
