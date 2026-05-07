@@ -129,9 +129,11 @@ TEST_CASES_COLUMNS = list(COLUMNS.keys())
 
 @pytest.mark.parametrize("dataset", TEST_CASES_COLUMNS)
 def test_columns(dataset):
-    result = BiasDataLoader(dataset = dataset, config = 'all', format = 'raw')
+    config_to_use = CONFIGURATIONS[dataset][0]
+    
+    result = BiasDataLoader(dataset = dataset, config = config_to_use, format = 'raw')
     data = result[list(result.keys())[0]]
-
+    
     if isinstance(data, dict):
         data = data[list(data.keys())[0]]
     
