@@ -1,0 +1,7 @@
+[run]
+source = FairLangProc
+
+omit =
+    tests/*
+    setup.py
+    */__init__.py
