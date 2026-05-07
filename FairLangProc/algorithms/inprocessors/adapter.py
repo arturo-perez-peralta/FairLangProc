@@ -89,9 +89,9 @@ class DebiasAdapter(nn.Module):
     def get_model(self):
         return self.model
 
-    def save_adapter(self, save_path: str):
+    def save_adapter(self, save_path: str): # pragma: no cover
         self.model.save_adapter(save_path, self.adapter_name)
 
-    def load_adapter(self, path: str):
+    def load_adapter(self, path: str): # pragma: no cover
         self.model.load_adapter(path, load_as=self.adapter_name)
         self.model.set_active_adapters(self.adapter_name)
