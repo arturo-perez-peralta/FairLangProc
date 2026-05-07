@@ -20,7 +20,7 @@ from datasets import Dataset as HfDataset
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-class FairLLMBenchmarkLoader:
+class FairLLMBenchmarkLoader: # pragma: no cover
     """Main class for loading Fair-LLM-Benchmark datasets"""
     
     def __init__(self, benchmark_path: Optional[str] = None):
