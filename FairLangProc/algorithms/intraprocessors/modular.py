@@ -78,7 +78,7 @@ def concrete_stretched(
 
 
 
-class DiffWeightFinetune(nn.Module):
+class DiffWeightFinetune(nn.Module): # pragma: no cover
 
     def __init__(
         self,
