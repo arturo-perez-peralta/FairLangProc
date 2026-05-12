@@ -6,6 +6,7 @@
 ![Python 3.10](https://img.shields.io/badge/python-3.10-blue.svg)
 [![Tests](https://github.com/arturo-perez-peralta/FairLangProc/actions/workflows/test.yml/badge.svg)](https://github.com/arturo-perez-peralta/FairLangProc/actions/workflows/test.yml)
 [![codecov](https://codecov.io/github/arturo-perez-peralta/fairlangproc/graph/badge.svg?token=HV4W5VAK3L)](https://codecov.io/github/arturo-perez-peralta/fairlangproc)
+[![PyPI Downloads](https://static.pepy.tech/personalized-badge/fairlangproc?period=total&units=INTERNATIONAL_SYSTEM&left_color=BLACK&right_color=GREEN&left_text=downloads)](https://pepy.tech/projects/fairlangproc)
 
 The Fair Language Processing package is a extensible open-source Python library containing techniques developed by the
 research community to help detect and mitigate bias in Natural Language Processing throughout the AI application lifecycle.
