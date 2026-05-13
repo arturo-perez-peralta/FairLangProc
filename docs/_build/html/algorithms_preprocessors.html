@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>4.1.1. Pre-processing &#8212; FairLangProc 0.1.9 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="_static/basic.css?v=686e5160" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=712fa57f" />
+    <script src="_static/documentation_options.js?v=8618f531"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="4.1.2. In-processing" href="algorithms_inprocessors.html" />
+    <link rel="prev" title="4. Algorithms" href="algorithms.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="pre-processing">
+<h1><span class="section-number">4.1.1. </span>Pre-processing<a class="headerlink" href="#pre-processing" title="Link to this heading">¶</a></h1>
+<p>Pre-processors are fairness processors that modify the model inputs.</p>
+<p>The supported methods are:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#cda"><span class="std std-ref">Counterfactual Data Augmentation (CDA)</span></a> <a class="reference external" href="https://arxiv.org/abs/2010.06032">(Webster et al. 2020)</a>.</p></li>
+<li><p><a class="reference internal" href="#emb"><span class="std std-ref">Projection based debiasing</span></a> <a class="reference external" href="https://arxiv.org/abs/1607.06520">(Bolukbasi et al., 2023)</a>.</p></li>
+<li><p><a class="reference internal" href="#blind"><span class="std std-ref">Bias removaL wIth No Demographics (BLIND)</span></a> <a class="reference external" href="https://aclanthology.org/2023.acl-long.490/">(Orgad et al., 2023)</a>.</p></li>
+</ul>
+<section id="counterfactual-data-augmentation-cda">
+<span id="cda"></span><h2><span class="section-number">4.1.1.1. </span>Counterfactual Data Augmentation (CDA)<a class="headerlink" href="#counterfactual-data-augmentation-cda" title="Link to this heading">¶</a></h2>
+<p>Data augmentation is the process of curating or upsampling the dataset to obtain a more representative distribution to train the model on.
+In particular, Counterfactual Data Augmentation (CDA) <a class="reference external" href="https://arxiv.org/abs/2010.06032">(Webster et al. 2020)</a> consists of flipping words with demographic information
+while preserving semantic correctness. This procedure can be one-sided and discard the original sentence or two-sided to consider both the original and its
+augmented version.</p>
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">FairLangProc.algorithms.preprocessors.augmentation.</span></span><span class="sig-name descname"><span class="pre">CDA</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">batch</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><span class="pre">dict</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">pairs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">columns</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bidirectional</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><span class="pre">dict</span></a></span></span><a class="reference internal" href="_modules/FairLangProc/algorithms/preprocessors/augmentation.html#CDA"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Perform CDA on a batch of training instances.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>batch</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><em>dict</em></a>) – Batch of training instances</p></li>
+<li><p><strong>pairs</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><em>dict</em></a>) – Dictionary of counterfactual pairs</p></li>
+<li><p><strong>columns</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em>]</em>) – List of columns on which CDA should be performed. If none, applies CDA to all columns.</p></li>
+<li><p><strong>bidirectional</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><em>bool</em></a>) – If true, applies bidirectional CDA (preserves original training instance).
+If false, deletes original training instance.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>output</strong> (<em>dict</em>) – Augmented training instance.</p></li>
+<li><p><strong>modified</strong> (<em>dict</em>) – Whether or not the training instance was augmented.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">FairLangProc.algorithms.preprocessors</span><span class="w"> </span><span class="kn">import</span> <span class="n">CDA</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gendered_pairs</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;he&#39;</span><span class="p">,</span> <span class="s1">&#39;she&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;him&#39;</span><span class="p">,</span> <span class="s1">&#39;her&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;his&#39;</span><span class="p">,</span> <span class="s1">&#39;hers&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;actor&#39;</span><span class="p">,</span> <span class="s1">&#39;actress&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;priest&#39;</span><span class="p">,</span> <span class="s1">&#39;nun&#39;</span><span class="p">),</span>
+<span class="gp">... </span><span class="p">(</span><span class="s1">&#39;father&#39;</span><span class="p">,</span> <span class="s1">&#39;mother&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;dad&#39;</span><span class="p">,</span> <span class="s1">&#39;mom&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;daddy&#39;</span><span class="p">,</span> <span class="s1">&#39;mommy&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;waiter&#39;</span><span class="p">,</span> <span class="s1">&#39;waitress&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;James&#39;</span><span class="p">,</span> <span class="s1">&#39;Jane&#39;</span><span class="p">)]</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cda_train</span> <span class="o">=</span> <span class="n">Dataset</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">CDA</span><span class="p">(</span><span class="n">imdb</span><span class="p">[</span><span class="s1">&#39;train&#39;</span><span class="p">][:],</span> <span class="n">pairs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">gendered_pairs</span><span class="p">)))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">train_CDA</span> <span class="o">=</span> <span class="n">cda_train</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">tokenize_function</span><span class="p">,</span> <span class="n">batched</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">train_CDA</span><span class="o">.</span><span class="n">set_format</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s2">&quot;torch&quot;</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;input_ids&quot;</span><span class="p">,</span> <span class="s2">&quot;attention_mask&quot;</span><span class="p">,</span> <span class="s2">&quot;label&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+<section id="projection-based-debiasing">
+<span id="emb"></span><h2><span class="section-number">4.1.1.2. </span>Projection-based debiasing<a class="headerlink" href="#projection-based-debiasing" title="Link to this heading">¶</a></h2>
+<p>Projection-based debiasing methods <a class="reference external" href="https://arxiv.org/abs/1607.06520">(Bolukbasi et al., 2023)</a> operate on latent space, looking to identify a bias subspace given by an
+orthogonal basis, <span class="math notranslate nohighlight">\(\{v_i\}_{i=1}^{n_{bias}}\)</span>. Then, the hidden representation of any input can be debiased by removing its projection onto this space, formally</p>
+<div class="math notranslate nohighlight">
+\[h_{proj} = h - \sum_{i = 1}^{n_{bias} } \langle h, v_i \rangle \, v_i.\]</div>
+<p>This can be done either at the word or sentence level. In either case the bias subspace is generally identified through PCA,
+and usually its dimension is one, resulting in the construction of a bias direction.</p>
+</section>
+<section id="blind-debiasing">
+<span id="blind"></span><h2><span class="section-number">4.1.1.3. </span>BLIND debiasing<a class="headerlink" href="#blind-debiasing" title="Link to this heading">¶</a></h2>
+<p>BLIND <a class="reference external" href="https://aclanthology.org/2023.acl-long.490/">(Orgad et al., 2023)</a> is a debiasing procedure based on a complementary classifier
+<span class="math notranslate nohighlight">\(g_{B} : \mathbb{R}^{d_L} \longrightarrow \mathbb{R}\)</span> with parameters <span class="math notranslate nohighlight">\(\theta_{B}\)</span>, that takes the hidden representation vector
+as inputs and outputs the success probability of the model head for the downstream task. This probability is then used as a weight for said observation
+whose magnitude is controlled through a hyper-parameter <span class="math notranslate nohighlight">\(\gamma \geq 0\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[\mathcal{L}_{BLIND} = \left(1 - \sigma \left( g_{B}(h; \theta_{B} ) \right) \right)^{\gamma} \mathcal{L}^{task}(\hat{y}, y).\]</div>
+<p>The term <span class="math notranslate nohighlight">\(\sigma(g_{B}(h;\theta_B))\)</span> represents the model success probability for the downstream task:
+the bigger it is the less weight the observation has, while the smaller it is the more weight it carries.
+This forces the model to pay special attention to observations with low probability of success during training.
+Note that when <span class="math notranslate nohighlight">\(\gamma = 0\)</span> the original loss function is restored, while <span class="math notranslate nohighlight">\(\gamma &gt;&gt; 1\)</span> exacerbates the effect of the reweighting.</p>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">FairLangProc</a></h1>
+
+
+
+
+
+
+<p>
+<iframe src="https://ghbtns.com/github-btn.html?user=arturo-perez-peralta&repo=FairLangProc&type=watch&count=true&size=large&v=2"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">1. Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="datasets.html">2. Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="metrics.html">3. Metrics</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="algorithms.html">4. Algorithms</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="algorithms.html#supported-processors">4.1. Supported processors</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials.html">5. Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="citation.html">6. Citation and bibliography</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="algorithms.html"><span class="section-number">4. </span>Algorithms</a><ul>
+      <li>Previous: <a href="algorithms.html" title="previous chapter"><span class="section-number">4. </span>Algorithms</a></li>
+      <li>Next: <a href="algorithms_inprocessors.html" title="next chapter"><span class="section-number">4.1.2. </span>In-processing</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2025, Arturo Perez-Peralta.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.1.3</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+      |
+      <a href="_sources/algorithms_preprocessors.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+    <a href="https://github.com/arturo-perez-peralta/FairLangProc" class="github">
+        <img src="_static/github-banner.svg" alt="Fork me on GitHub" class="github"/>
+    </a>
+    
+
+    
+  </body>
+</html>

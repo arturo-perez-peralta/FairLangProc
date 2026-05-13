@@ -1,0 +1,57 @@
+\babel@toc {english}{}\relax 
+\contentsline {chapter}{\numberline {1}Getting Started}{3}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Why FairLangProc?}{3}{section.1.1}%
+\contentsline {section}{\numberline {1.2}Overview}{4}{section.1.2}%
+\contentsline {section}{\numberline {1.3}Installation}{4}{section.1.3}%
+\contentsline {subsection}{\numberline {1.3.1}Prerequisites}{4}{subsection.1.3.1}%
+\contentsline {subsection}{\numberline {1.3.2}Install from PyPI}{5}{subsection.1.3.2}%
+\contentsline {subsection}{\numberline {1.3.3}Install from source}{5}{subsection.1.3.3}%
+\contentsline {section}{\numberline {1.4}Quick Start}{5}{section.1.4}%
+\contentsline {section}{\numberline {1.5}Further Reading}{5}{section.1.5}%
+\contentsline {chapter}{\numberline {2}Datasets}{7}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Overview}{7}{section.2.1}%
+\contentsline {section}{\numberline {2.2}API Reference and usage examples}{7}{section.2.2}%
+\contentsline {chapter}{\numberline {3}Metrics}{9}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Supported Metrics}{9}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Embedding Metrics}{9}{section.3.2}%
+\contentsline {subsection}{\numberline {3.2.1}WEAT}{9}{subsection.3.2.1}%
+\contentsline {section}{\numberline {3.3}Probability Metrics}{11}{section.3.3}%
+\contentsline {subsection}{\numberline {3.3.1}LPBS}{11}{subsection.3.3.1}%
+\contentsline {subsection}{\numberline {3.3.2}CBS}{12}{subsection.3.3.2}%
+\contentsline {subsection}{\numberline {3.3.3}CPS}{13}{subsection.3.3.3}%
+\contentsline {subsection}{\numberline {3.3.4}AUL}{13}{subsection.3.3.4}%
+\contentsline {section}{\numberline {3.4}Generated Text Metrics}{14}{section.3.4}%
+\contentsline {subsection}{\numberline {3.4.1}Demographic Representation}{14}{subsection.3.4.1}%
+\contentsline {subsection}{\numberline {3.4.2}Stereotypical Association}{15}{subsection.3.4.2}%
+\contentsline {subsection}{\numberline {3.4.3}HONEST}{16}{subsection.3.4.3}%
+\contentsline {chapter}{\numberline {4}Algorithms}{17}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Supported processors}{17}{section.4.1}%
+\contentsline {subsection}{\numberline {4.1.1}Pre\sphinxhyphen {}processing}{17}{subsection.4.1.1}%
+\contentsline {subsubsection}{Counterfactual Data Augmentation (CDA)}{18}{subsubsection*.3}%
+\contentsline {subsubsection}{Projection\sphinxhyphen {}based debiasing}{18}{subsubsection*.4}%
+\contentsline {subsubsection}{BLIND debiasing}{19}{subsubsection*.5}%
+\contentsline {subsection}{\numberline {4.1.2}In\sphinxhyphen {}processing}{19}{subsection.4.1.2}%
+\contentsline {subsubsection}{ADELE}{19}{subsubsection*.6}%
+\contentsline {subsubsection}{Embedding based regularizer}{20}{subsubsection*.7}%
+\contentsline {subsubsection}{EAR}{21}{subsubsection*.8}%
+\contentsline {subsubsection}{Selective unfreezing}{22}{subsubsection*.9}%
+\contentsline {subsection}{\numberline {4.1.3}Intra\sphinxhyphen {}processing}{23}{subsection.4.1.3}%
+\contentsline {subsubsection}{MoDDiffy}{23}{subsubsection*.10}%
+\contentsline {subsubsection}{EAT}{26}{subsubsection*.11}%
+\contentsline {chapter}{\numberline {5}Tutorials}{27}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Datasets}{27}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Metrics}{27}{section.5.2}%
+\contentsline {section}{\numberline {5.3}Bias Mitigation}{27}{section.5.3}%
+\contentsline {section}{\numberline {5.4}End\sphinxhyphen {}to\sphinxhyphen {}End Workflow}{28}{section.5.4}%
+\contentsline {section}{\numberline {5.5}Notebook Index}{28}{section.5.5}%
+\contentsline {section}{\numberline {5.6}Requirements}{28}{section.5.6}%
+\contentsline {chapter}{\numberline {6}Citation and bibliography}{29}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Citation}{29}{section.6.1}%
+\contentsline {subsection}{\numberline {6.1.1}BibTeX}{29}{subsection.6.1.1}%
+\contentsline {subsection}{\numberline {6.1.2}APA Style}{29}{subsection.6.1.2}%
+\contentsline {subsection}{\numberline {6.1.3}IEEE Style}{29}{subsection.6.1.3}%
+\contentsline {subsection}{\numberline {6.1.4}MLA Style}{29}{subsection.6.1.4}%
+\contentsline {section}{\numberline {6.2}Related Publications}{29}{section.6.2}%
+\contentsline {subsection}{\numberline {6.2.1}Datasets}{30}{subsection.6.2.1}%
+\contentsline {subsection}{\numberline {6.2.2}Metrics}{30}{subsection.6.2.2}%
+\contentsline {subsection}{\numberline {6.2.3}Algorithms}{31}{subsection.6.2.3}%

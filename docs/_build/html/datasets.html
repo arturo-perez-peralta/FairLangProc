@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>2. Datasets &#8212; FairLangProc 0.1.9 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="_static/basic.css?v=686e5160" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=712fa57f" />
+    <script src="_static/documentation_options.js?v=8618f531"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="3. Metrics" href="metrics.html" />
+    <link rel="prev" title="1. Getting Started" href="getting_started.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="datasets">
+<h1><span class="section-number">2. </span>Datasets<a class="headerlink" href="#datasets" title="Link to this heading">¶</a></h1>
+<p>The FairLangProc datasets module provides access to standard benchmarks for evaluating gender, racial, religious, and other social biases in NLP models.</p>
+<section id="overview">
+<h2><span class="section-number">2.1. </span>Overview<a class="headerlink" href="#overview" title="Link to this heading">¶</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">BiasDataLoader</span></code> is the main entry point for loading bias evaluation datasets.
+It supports multiple output formats and dataset configurations.</p>
+<table class="docutils align-default" id="id1">
+<caption><span class="caption-text">Supported Benchmark Datasets</span><a class="headerlink" href="#id1" title="Link to this table">¶</a></caption>
+<colgroup>
+<col style="width: 20.0%" />
+<col style="width: 15.0%" />
+<col style="width: 35.0%" />
+<col style="width: 30.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Data Set</p></th>
+<th class="head"><p>Size</p></th>
+<th class="head"><p>Bias target</p></th>
+<th class="head"><p>Reference</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>BBQ</p></td>
+<td><p>58,492</p></td>
+<td><p>Gender, race, religion,…</p></td>
+<td><p><a class="reference external" href="https://arxiv.org/abs/2110.08193">(Parrish et al., 2021)</a></p></td>
+</tr>
+<tr class="row-odd"><td><p>BEC-Pro</p></td>
+<td><p>5,400</p></td>
+<td><p>Gender</p></td>
+<td><p><a class="reference external" href="https://arxiv.org/abs/2010.14534">(Bartl et al., 2020)</a></p></td>
+</tr>
+<tr class="row-even"><td><p>BOLD</p></td>
+<td><p>23,679</p></td>
+<td><p>Gender, race, religion,…</p></td>
+<td><p><a class="reference external" href="https://doi.org/10.1145/3442188.3445924">(Dhamala et al., 2021)</a></p></td>
+</tr>
+<tr class="row-odd"><td><p>BUG</p></td>
+<td><p>108,419</p></td>
+<td><p>Gender</p></td>
+<td><p><a class="reference external" href="https://arxiv.org/abs/2109.03858">(Levy et al., 2021)</a></p></td>
+</tr>
+<tr class="row-even"><td><p>Crow-SPairs</p></td>
+<td><p>1,508</p></td>
+<td><p>Age, disability, gender, nationality,…</p></td>
+<td><p><a class="reference external" href="https://aclanthology.org/2020.emnlp-main.154/">(Nangia et al., 2020)</a></p></td>
+</tr>
+<tr class="row-odd"><td><p>GAP</p></td>
+<td><p>8,908</p></td>
+<td><p>Gender</p></td>
+<td><p><a class="reference external" href="https://aclanthology.org/Q18-1029">(Webster et al., 2018)</a></p></td>
+</tr>
+<tr class="row-even"><td><p>HolisticBias</p></td>
+<td><p>460,000</p></td>
+<td><p>Age, disability, gender, nationality,…</p></td>
+<td><p><a class="reference external" href="https://arxiv.org/abs/2205.09209">(Smith et al., 2022)</a></p></td>
+</tr>
+<tr class="row-odd"><td><p>HONEST</p></td>
+<td><p>420</p></td>
+<td><p>Gender</p></td>
+<td><p><a class="reference external" href="https://aclanthology.org/2021.naacl-main.191/">(Nozza et al., 2021)</a></p></td>
+</tr>
+<tr class="row-even"><td><p>StereoSet</p></td>
+<td><p>16,995</p></td>
+<td><p>Gender, race, religion,…</p></td>
+<td><p><a class="reference external" href="https://arxiv.org/abs/2004.09456">(Nadeem et al., 2020)</a></p></td>
+</tr>
+<tr class="row-odd"><td><p>UnQover</p></td>
+<td><p>30</p></td>
+<td><p>Gender, nationality, race,…</p></td>
+<td><p><a class="reference external" href="https://arxiv.org/abs/2010.02428">(Li et al., 2020)</a></p></td>
+</tr>
+<tr class="row-even"><td><p>WinoBias+</p></td>
+<td><p>1,367</p></td>
+<td><p>Gender</p></td>
+<td><p><a class="reference external" href="https://arxiv.org/abs/2109.06105">(Vanmassenhove et al., 2021)</a></p></td>
+</tr>
+<tr class="row-odd"><td><p>WinoBias</p></td>
+<td><p>3,160</p></td>
+<td><p>Gender</p></td>
+<td><p><a class="reference external" href="https://arxiv.org/abs/1804.06876">(Zhao et al., 2018)</a></p></td>
+</tr>
+<tr class="row-even"><td><p>WinoGender</p></td>
+<td><p>720</p></td>
+<td><p>Gender</p></td>
+<td><p><a class="reference external" href="https://arxiv.org/abs/1804.09301">(Rudinger et al., 2018)</a></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="api-reference-and-usage-examples">
+<h2><span class="section-number">2.2. </span>API Reference and usage examples<a class="headerlink" href="#api-reference-and-usage-examples" title="Link to this heading">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">FairLangProc.datasets.fairness_datasets.</span></span><span class="sig-name descname"><span class="pre">BiasDataLoader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'hf'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">benchmark_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v3.0.3)"><span class="pre">pandas.DataFrame</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.14)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.pytorch.org/docs/stable/data.html#torch.utils.data.Dataset" title="(in PyTorch v2.11)"><span class="pre">Dataset</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">datasets.Dataset</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="_modules/FairLangProc/datasets/fairness_datasets.html#BiasDataLoader"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Load specified bias evaluation dataset.</p>
+<p>Requires downloading the Fair-LLM-Benchmark repository (<a class="reference external" href="https://github.com/i-gallegos/Fair-LLM-Benchmark">https://github.com/i-gallegos/Fair-LLM-Benchmark</a> ,
+credits to Isabel O. Gallegos et al).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – name of the dataset.</p></li>
+<li><p><strong>config</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – dataset configuration if applicable.</p></li>
+<li><p><strong>format</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – output format - ‘raw’, ‘hf’ (hugging face), or ‘pt’ (pytorch).</p></li>
+<li><p><strong>benchmark_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – path where the Fair-LLM-Benchmark resides. If none, it looks for it
+in FairLangProc/FairLangProc/datasets/Fair-LLM-Benchmark</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>dataDict</strong> – Dictionary with datasets in the appropriate format.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)">dict</a></p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">FairLangProc.datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">BiasDataLoader</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">BiasDataLoader</span><span class="p">()</span>
+<span class="go">Available datasets:</span>
+<span class="go">====================</span>
+<span class="go">BBQ</span>
+<span class="go">BEC-Pro</span>
+<span class="go">BOLD</span>
+<span class="go">BUG</span>
+<span class="go">CrowS-Pairs</span>
+<span class="go">GAP</span>
+<span class="go">HolisticBias</span>
+<span class="go">StereoSet</span>
+<span class="go">WinoBias+</span>
+<span class="go">WinoBias</span>
+<span class="go">Winogender</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">BiasDataLoader</span><span class="p">(</span><span class="n">dataset</span> <span class="o">=</span> <span class="s1">&#39;BBQ&#39;</span><span class="p">)</span>
+<span class="go">Available configurations:</span>
+<span class="go">====================</span>
+<span class="go">Age</span>
+<span class="go">Disability_Status</span>
+<span class="go">Gender_identity</span>
+<span class="go">Nationality</span>
+<span class="go">Physical_appearance</span>
+<span class="go">Race_ethnicity</span>
+<span class="go">Race_x_gender</span>
+<span class="go">Race_x_SES</span>
+<span class="go">Religion</span>
+<span class="go">SES</span>
+<span class="go">Sexual_orientation</span>
+<span class="go">all</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ageBBQ</span> <span class="o">=</span> <span class="n">BiasDataLoader</span><span class="p">(</span><span class="n">dataset</span> <span class="o">=</span> <span class="s1">&#39;BBQ&#39;</span><span class="p">,</span> <span class="n">config</span> <span class="o">=</span> <span class="s1">&#39;Age&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="tutorials.html"><span class="doc">Tutorials</span></a> - Interactive Jupyter notebooks <cite>(DemoDatasets.ipynb) &lt;https://github.com/arturo-perez-peralta/FairLangProc/blob/main/notebooks/DemoDatasets.ipynb&gt;</cite> demonstrating dataset usage</p></li>
+</ul>
+</div>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">FairLangProc</a></h1>
+
+
+
+
+
+
+<p>
+<iframe src="https://ghbtns.com/github-btn.html?user=arturo-perez-peralta&repo=FairLangProc&type=watch&count=true&size=large&v=2"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">1. Getting Started</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">2. Datasets</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#overview">2.1. Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#api-reference-and-usage-examples">2.2. API Reference and usage examples</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="metrics.html">3. Metrics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="algorithms.html">4. Algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials.html">5. Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="citation.html">6. Citation and bibliography</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="getting_started.html" title="previous chapter"><span class="section-number">1. </span>Getting Started</a></li>
+      <li>Next: <a href="metrics.html" title="next chapter"><span class="section-number">3. </span>Metrics</a></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2025, Arturo Perez-Peralta.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.1.3</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+      |
+      <a href="_sources/datasets.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+    <a href="https://github.com/arturo-perez-peralta/FairLangProc" class="github">
+        <img src="_static/github-banner.svg" alt="Fork me on GitHub" class="github"/>
+    </a>
+    
+
+    
+  </body>
+</html>

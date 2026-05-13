@@ -13,7 +13,7 @@ The supported methods are:
 .. _ADELE:
 
 ADELE
----------------------------------------------------
+-----
 
 The ADELE procedure `(Lauscher et al., 2021) <https://arxiv.org/abs/2109.03646>`_ is based on the adapter framework.
 A single adapter module is included to each transformer layer after the feed-forward sub-layer, where the outputs are compressed to a bottleneck dimension
@@ -34,7 +34,8 @@ forcing the model to discard all irrelevant information.
 .. _embreg:
 
 Embedding based regularizer
---------------------------------------------------------
+---------------------------
+
 
 Embedding based regularizers `(Liu et al., 2020) <https://arxiv.org/abs/1910.10486>`_ are based on the distance between the embeddings of counterfactual pairs given by $A$,
 
@@ -48,9 +49,9 @@ Embedding based regularizers `(Liu et al., 2020) <https://arxiv.org/abs/1910.104
 .. _EAR:
 
 EAR
---------------------------------------------------------
+---
 
-EAR `(Attanasio et al., 2022) https://arxiv.org/abs/2203.09192`_ tries to maximize the entropy of the attention weights to encourage attention to the broader context
+EAR `(Attanasio et al., 2022) <https://arxiv.org/abs/2203.09192>`_ tries to maximize the entropy of the attention weights to encourage attention to the broader context
 of the input,
 
 .. math::
@@ -65,9 +66,9 @@ where :math:`\text{entropy}_l(\cdot)` denotes the entropy of the l-th layer.
 .. _selective:
 
 Selective unfreezing
----------------------------------------------------------------
+--------------------
 
-Selective unfreezing `(Gira et al., 2024) https://aclanthology.org/2022.ltedi-1.8/`_ aims to circumvent catastrophic forgetting during fine-tuning 
+Selective unfreezing `(Gira et al., 2024) <https://aclanthology.org/2022.ltedi-1.8/>`_ aims to circumvent catastrophic forgetting during fine-tuning
 by freezing a big amount of the model parameters, which also helps lessening computational expenses.
 
 .. autofunction:: FairLangProc.algorithms.inprocessors.selective_updating.selective_unfreezing
