@@ -137,6 +137,7 @@ Load a dataset for bias evaluation:
 Measure bias using common metrics:
 
 .. code-block:: python
+
    from FairLangProc.metrics import CBS
 
    model = AutoModelForMaskedLM.from_pretrained('bert-base-uncased')
@@ -158,6 +159,7 @@ Measure bias using common metrics:
 Mitigate bias with an algorithm:
 
 .. code-block:: python
+  
    from transformers import BertForSequenceClassification
    from FairLangProc.algorithms.inprocessors import EARModel
 

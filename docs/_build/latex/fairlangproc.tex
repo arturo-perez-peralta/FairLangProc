@@ -435,8 +435,40 @@ Load a dataset for bias evaluation:
 \sphinxAtStartPar
 Measure bias using common metrics:
 
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{FairLangProc}\PYG{n+nn}{.}\PYG{n+nn}{metrics}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{CBS}
+
+\PYG{n}{model} \PYG{o}{=} \PYG{n}{AutoModelForMaskedLM}\PYG{o}{.}\PYG{n}{from\PYGZus{}pretrained}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{bert\PYGZhy{}base\PYGZhy{}uncased}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{)}
+\PYG{n}{tokenizer} \PYG{o}{=} \PYG{n}{AutoTokenizer}\PYG{o}{.}\PYG{n}{from\PYGZus{}pretrained}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{bert\PYGZhy{}base\PYGZhy{}uncased}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{)}
+\PYG{n}{target\PYGZus{}words} \PYG{o}{=} \PYG{p}{[}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{John}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Mamadouk}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Liu}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}\PYG{p}{,} \PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{white}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{black}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{asian}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}\PYG{p}{,} \PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{white}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{black}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{asian}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}\PYG{p}{]}
+\PYG{n}{sentences} \PYG{o}{=} \PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{[MASK] is a [MASK]}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{The [MASK] kid got [MASK] results}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{The [MASK] kid wanted to be a [MASK]}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{]}
+\PYG{n}{fill\PYGZus{}words} \PYG{o}{=} \PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{engineer}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{outstanding}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{doctor}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{]}
+\PYG{n}{mask\PYGZus{}indices} \PYG{o}{=} \PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{]}
+
+\PYG{n}{CBSscore} \PYG{o}{=} \PYG{n}{CBS}\PYG{p}{(}
+    \PYG{n}{model} \PYG{o}{=} \PYG{n}{model}\PYG{p}{,}
+    \PYG{n}{tokenizer} \PYG{o}{=} \PYG{n}{tokenizer}\PYG{p}{,}
+    \PYG{n}{sentences} \PYG{o}{=} \PYG{n}{sentences}\PYG{p}{,}
+    \PYG{n}{target\PYGZus{}words} \PYG{o}{=} \PYG{n}{target\PYGZus{}words}\PYG{p}{,}
+    \PYG{n}{fill\PYGZus{}words} \PYG{o}{=} \PYG{n}{fill\PYGZus{}words}\PYG{p}{,}
+    \PYG{n}{mask\PYGZus{}indices} \PYG{o}{=} \PYG{n}{mask\PYGZus{}indices}
+\PYG{p}{)}
+\end{sphinxVerbatim}
+
 \sphinxAtStartPar
 Mitigate bias with an algorithm:
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{transformers}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{BertForSequenceClassification}
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{FairLangProc}\PYG{n+nn}{.}\PYG{n+nn}{algorithms}\PYG{n+nn}{.}\PYG{n+nn}{inprocessors}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{EARModel}
+
+\PYG{n}{model} \PYG{o}{=} \PYG{n}{BertForSequenceClassification}\PYG{o}{.}\PYG{n}{from\PYGZus{}pretrained}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{bert\PYGZhy{}base\PYGZhy{}uncased}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{num\PYGZus{}labels}\PYG{o}{=}\PYG{l+m+mi}{2}\PYG{p}{)}
+
+\PYG{n}{EARRegularizer} \PYG{o}{=} \PYG{n}{EARModel}\PYG{p}{(}
+   \PYG{n}{model} \PYG{o}{=} \PYG{n}{model}\PYG{p}{,}
+   \PYG{n}{ear\PYGZus{}reg\PYGZus{}strength} \PYG{o}{=} \PYG{l+m+mf}{0.01}
+\PYG{p}{)}
+\end{sphinxVerbatim}
 
 
 \section{Further Reading}
